@@ -1,5 +1,9 @@
-Create the repo on gitlab.  (log in, create it in either your space or snac's space, and then copy the URL for cloning via ssh (git@gitlab.iath...)
+Create the repo on gitlab.  (log in, create it in either your space or snac's space, and then copy the URL for 
+cloning via ssh 
 
+```
+git@gitlab.iath...
+````
 On your already cloned github repo (working directory), add gitlab as a remote:
 
 ```
