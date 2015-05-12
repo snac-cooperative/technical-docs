@@ -1,3 +1,23 @@
+
+Create an ssh key specifically and only for gitlab, on the local (non-gitlab) machine:
+```
+ssh-keygen -t rsa -f gitlab
+```
+
+Add a stanza for gitlab to your ~/.ssh/config file:
+
+```
+Host gitlab gitlab.iath.virginia.edu
+user git
+Hostname gitlab.iath.virginia.edu
+IdentityFile ~/.ssh/gitlab
+EscapeChar none
+```
+
+Note that the key file name in the -f arg is "gitlab" which matches the IdentityFile line in the config file. 
+The default ssh-keygen directory is ~/.ssh/
+
+
 Create the repo on gitlab.  (log in, create it in either your space or snac's space, and then copy the URL for 
 cloning via ssh 
 
