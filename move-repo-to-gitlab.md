@@ -14,7 +14,11 @@ Push every local branch to gitlab
 git push gitlab --all
 ```
 You might have to change your upstream on a branch if you want to track gitlab instead of github:
-'git branch --set-upstream-to=gitlab/master (or whatever other gitlab branch you want to track)  This sets the current checked-out branch's upstream to whatever is passed.
+```
+git branch --set-upstream-to=gitlab/master
+```
+(or whatever other gitlab branch you want to track)  
+This sets the current checked-out branch's upstream to whatever is passed.
 
 Now, when you push/pull/fetch, you can choose what you want to do:
 ```
