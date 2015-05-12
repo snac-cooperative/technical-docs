@@ -2,10 +2,10 @@ Create the repo on gitlab.  (log in, create it in either your space or snac's sp
 
 On your already cloned github repo (working directory), add gitlab as a remote:
 
-`git remote add gitlab git@gitlab.iath... (copied from earlier)
+```git remote add gitlab git@gitlab.iath... (copied from earlier)
 
 Push every local branch to gitlab
-`git push gitlab --all
+'''git push gitlab --all
 
 You might have to change your upstream on a branch if you want to track gitlab instead of github:
 'git branch --set-upstream-to=gitlab/master (or whatever other gitlab branch you want to track)  This sets the current checked-out branch's upstream to whatever is passed.
