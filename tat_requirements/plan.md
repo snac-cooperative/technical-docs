@@ -17,7 +17,19 @@ Overview
 Code we write
 ----
 
+- identitiy reconciliation (architect Robbie)
 
+- workflow manager (architect Tom)
+
+  - exists, needs tests, needs requirements
+  
+- SQL schema (Robbie)
+
+  - exists, needs tests, needs requirements
+
+- CPF to SQL parser (Robbie)
+
+  - exists, needs tests, needs requirements
 
 Code we use off the shelf
 ---
