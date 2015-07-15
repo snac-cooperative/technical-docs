@@ -17,7 +17,9 @@ Overview
 Code we write
 ----
 
-- identitiy reconciliation (architect Robbie)
+- Identitiy Reconciliation (aka IR) (architect Robbie)
+
+ - needs docs wrangled
 
 - workflow manager (architect Tom)
 
@@ -30,6 +32,25 @@ Code we write
 - CPF to SQL parser (Robbie)
 
   - exists, needs tests, needs requirements
+  
+- Name string parser
+
+- Date parser
+
+- coding style, class template (architect Robbie)
+
 
 Code we use off the shelf
 ---
+
+- gitlab for docs, code version management, issue tracking(?)
+
+- github public code repository?
+
+- test framework, need to choose one
+
+- authentication
+
+- reports, probably Jasper
+
+- PHP, Postgres, Linux, Apache httpd, etc.
