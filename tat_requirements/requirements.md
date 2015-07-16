@@ -1,3 +1,82 @@
+List of requirements
+---
+
+- authentication
+
+  - user creation
+  - authentication
+  - account maintenance
+
+- authorization
+
+  - user/group/other (ugo) with read/write (rw) privilige system, typical for Linux
+  - admin tool for group privs
+  - create/edit/delete groups
+  - create privs matched to API functionality
+
+- search/discover cpf data; need a list of filters/facets
+
+  - dashboard
+
+- edit cpf data
+
+  - edit UI
+  - per field data validation
+  - record validation
+  - user message system in UI
+  - workflow
+  - dashboard for workspace, task list
+
+- split merged records, know that some record consists of merged records
+
+  - split UI
+  - workflow
+  - ARK assign, deprecate (generally: manage ARKs)
+  - dashboard
+
+- merge records
+
+  - Identity Reconciliation (IR)
+  - search/view merge candidates
+  - workflow
+  - dashboard
+  - manage ARKs
+
+- algorithmically determine merge candidates
+
+  - IR
+  - name-string parser
+  - date parser
+  - architecture of identity, expandable design
+  - authority and controlled vocabulary management
+
+- web UI/web application
+
+  - Linux, Apache httpd, PostgreSQL (aka Postgres)
+  - HTML, CSS, JavaScript
+  - workflow
+
+- workflows
+
+  - may want wild-west non-locking edits
+  - may want locked, moderated workflow
+  - ability to issue reminders
+  - integrated email notification
+  - "watched" records (might be reporting, and not specifically workflow)
+  - 
+  
+- reporting
+
+- helpdesk
+
+- issue tracking
+
+- test driven development
+
+- data integrity testing
+
+
+
 Maintenance Functionality (All authors)
 ---------------------------------------
 

@@ -14,9 +14,21 @@ Rachael Hu, User Experience Design Manager, California Digital Library
 
 Ray R. Larson, U.C. Berkeley - School of Information
 
+Robbie Hott
+
 (other authors add yourselves here)
 
 ### Discussion items:
+
+The order of files is:
+
+plan (external, broad view roadmap)
+
+introduction
+
+co-op background
+
+requirements
 
 What are .c and .r files in the merged data?
 
