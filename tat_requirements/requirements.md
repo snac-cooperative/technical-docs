@@ -78,7 +78,6 @@ only sufficient detail to disambiguate items.
   - ability to issue reminders
   - integrated email notification
   - "watched" records (might be reporting, and not specifically work flow)
-  - 
   
 - reporting
 

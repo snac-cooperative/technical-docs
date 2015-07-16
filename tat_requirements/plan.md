@@ -5,19 +5,19 @@ Big questions
 - how is gitlab backed up?
 
 
-Overview
+Overview and order of work
 ---
 
 
-- create tech documents, filling in as much prose as possible
+1. create tech documents, filling in as much prose as possible
 
-- create prototype software to test tech requirements, iterate updating requirements and prototype
+1. create prototype software to test tech requirements, iterate updating requirements and prototype
 
-- create tests for test driven development, and validate prototype
+1. create tests for test driven development, and validate prototype
 
-- refactor or rewrite prototype to match requirements
+1. refactor or rewrite prototype to match requirements
 
-- create version 1 of software
+1. create version 1 of software
 
 
 Code we write
