@@ -1,6 +1,10 @@
 List of requirements
 ---
 
+This is the definitive list of all requirements. Anything the application needs to do must be in this
+list. Each item and group of items is explained in detail later in the document. Being a "list", this includes
+only sufficient detail to disambiguate items.
+
 - authentication
 
   - user creation
@@ -9,7 +13,7 @@ List of requirements
 
 - authorization
 
-  - user/group/other (ugo) with read/write (rw) privilige system, typical for Linux
+  - user/group/other (ugo) with read/write (rw) privilege system, typical for Linux
   - admin tool for group privs
   - create/edit/delete groups
   - create privs matched to API functionality
@@ -18,19 +22,30 @@ List of requirements
 
   - dashboard
 
+- dashboard
+
+  - search history
+    - clear history
+    - search history
+  - work status
+    - change sort order (maybe version 2)
+  - system/work flow messages 
+  - account settings
+  - social media features
+
 - edit cpf data
 
   - edit UI
   - per field data validation
   - record validation
   - user message system in UI
-  - workflow
+  - work flow
   - dashboard for workspace, task list
 
 - split merged records, know that some record consists of merged records
 
   - split UI
-  - workflow
+  - work flow
   - ARK assign, deprecate (generally: manage ARKs)
   - dashboard
 
@@ -38,7 +53,7 @@ List of requirements
 
   - Identity Reconciliation (IR)
   - search/view merge candidates
-  - workflow
+  - work flow
   - dashboard
   - manage ARKs
 
@@ -54,20 +69,20 @@ List of requirements
 
   - Linux, Apache httpd, PostgreSQL (aka Postgres)
   - HTML, CSS, JavaScript
-  - workflow
+  - work flow
 
-- workflows
+- work flows
 
   - may want wild-west non-locking edits
-  - may want locked, moderated workflow
+  - may want locked, moderated work flow
   - ability to issue reminders
   - integrated email notification
-  - "watched" records (might be reporting, and not specifically workflow)
+  - "watched" records (might be reporting, and not specifically work flow)
   - 
   
 - reporting
 
-- helpdesk
+- help desk
 
 - issue tracking
 
@@ -75,6 +90,30 @@ List of requirements
 
 - data integrity testing
 
+
+List of Application Programmer Interfaces (APIs)
+----
+
+The following include both direct programming language intefaces, and REST interfaces. We need to determine
+which (REST/direct) is available for each. Modifying data should probably go through authorization and should
+probably be subject to work flow, and that implies that the work flow has a REST interface, and this is the
+only public interface.
+
+- Identity Reconciliation (IR) (direct)
+
+- work flow manager (REST)
+
+- name string parser (direct)
+
+- date parser (direct)
+
+- data validation (direct)
+
+- web UI messages (direct)
+
+- work flow messages (REST?)
+
+- record watching (REST?)
 
 
 Maintenance Functionality (All authors)
@@ -97,14 +136,14 @@ institution-affiliated experts with a vested interest in the data. In
 the future, the maintenance function may be opened to highly qualified
 (perhaps amateur) content experts. The software must therefore support
 policies such as vetting and moderation so that we avoid the pitfalls of
-unregulated crowdsourcing.
+unregulated crowd sourcing.
 
 The system will require changes to be reviewed by a moderator before
 becoming part of the production system. Administrative policy may
 streamline these requirement, but the software functionality needs to
 exist at the most granular level for which we can imagine reasonable
 business logic. For the sake of security and general peace of mind,
-every change to the system must be captured (ala versioning) in an audit
+every change to the system must be captured (aka versioning) in an audit
 trail, and there are no destructive changes. For example, there is no
 “delete” per se, because the delete feature only hides descriptions from
 public view. Updated descriptions will be subject to version control so
