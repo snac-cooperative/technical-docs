@@ -1,13 +1,13 @@
 
 These documents are organized in the following order:
 
-The [plan](plan.md) gives the big overview.
+[plan.md](plan.md) gives the big overview.
 
-Introduction covers the current state and background.
+[introduction.md](introduction.md) covers the current state and gives some historical background.
 
-Co-op background covers broad expectations for the co-op software.
+[co-op_background.md](co-op_background.md) covers broad expectations for the co-op software.
 
-Requirements are the technical requirements.
+[requirements.md](requirements.md) are the technical requirements.
 
 
 
