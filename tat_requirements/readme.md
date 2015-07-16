@@ -1,5 +1,7 @@
 
-The plan gives the big overview.
+These documents are organized in the following order:
+
+The [plan](plan.md) gives the big overview.
 
 Introduction covers the current state and background.
 
