@@ -2,7 +2,9 @@
 Big questions
 ---
 
-- how is gitlab backed up?
+- (solved) how is gitlab backed up?
+
+  - Shayne backs up the whole gitlab VM.
 
 
 Overview and order of work
@@ -31,6 +33,10 @@ Code we write
 
   - exists, needs tests, needs requirements
   
+  - needs to be integrated into an index.php script that also checks authentication
+  
+  - can the workflow also support the login.php authentication? (Yes).
+  
 - SQL schema (Robbie)
 
   - exists, needs tests, needs requirements
@@ -40,6 +46,8 @@ Code we write
   - exists, needs tests, needs requirements
   
 - Name string parser
+
+    - 
 
 - Date parser
 
