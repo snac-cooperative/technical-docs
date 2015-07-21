@@ -47,9 +47,11 @@ Code we write
   
 - Name string parser
 
-    - 
+    - Can we find a grammar-based parser for PHP? Should we use a standalone parser?
 
 - Date parser
+
+  - Can this use the same parser engine as the name string parser?
 
 - coding style, class template (architect Robbie)
 
@@ -68,3 +70,5 @@ Code we use off the shelf
 - reports, probably Jasper
 
 - PHP, Postgres, Linux, Apache httpd, etc.
+
+- language modules
