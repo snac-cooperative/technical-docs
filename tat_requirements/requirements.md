@@ -8,7 +8,8 @@ Requirements from Rachael's spreadsheet
   - We need to manage base HREF stubs that are combined with persistent IDs to form working URLs. Ideally, all
     the URLs could be composed via a format string (printf), so we could just store the ID, HREF stub, and
     format string and be done with it. However, some URLs have interesting issues that require code and thus
-    exceed the abilities of normal format strings.
+    exceed the abilities of normal format strings. We can certainly roll out an early version with format
+    strings, and add some clever functions later as necessary.
 
 - Do we need any additional requirements for related name linking?
 
@@ -25,9 +26,10 @@ Requirements from Rachael's spreadsheet
   
 - We need to sanity check any links we create, especially links back into SNAC.
 
-- Don't forget the X-to-CPF field mapping
+- Don't forget the X-to-CPF field mapping documentation, and this ties in to the "CPF data contributor's"
+  guide (below)
 
-- We need the "CPF data contributors" guide.
+- We need the "CPF data contributor's" guide.
 
 - What authority work will we be doing?
 
