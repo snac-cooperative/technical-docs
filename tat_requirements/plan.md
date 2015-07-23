@@ -66,6 +66,10 @@ Code we use off the shelf
 - test framework, need to choose one
 
 - authentication
+  - session management, especially as applies to authentication tokens, cookies and something which prevents
+    XSS (cross-site scripting) attacks
+    
+- JavaScript UI component tools, JQuery; what others?
 
 - reports, probably Jasper
 
