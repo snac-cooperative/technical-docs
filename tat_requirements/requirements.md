@@ -1,3 +1,69 @@
+Requirements from Rachael's spreadsheet
+---
+
+- Programmers contribute some time to help with technology side of the gap analysis of institutional capability
+
+- We need a concrete plan for persistent IDs.
+
+  - We need to manage base HREF stubs that are combined with persistent IDs to form working URLs. Ideally, all
+    the URLs could be composed via a format string (printf), so we could just store the ID, HREF stub, and
+    format string and be done with it. However, some URLs have interesting issues that require code and thus
+    exceed the abilities of normal format strings.
+
+- Do we need any additional requirements for related name linking?
+
+- Clarify: the co-op version 1 is not going to support bulk data ingest
+
+- Clarify: the co-op version 1 is not going to support bi-directional data exchange and update
+
+- Do we need full delete? For example, a CPF contains something illegal and must be fully deleted. How do we
+  delete from backups? Are either of these even required by policy?
+  
+- Are we assuming that data from the web browser has been sanity checked before hitting the server? Does the
+  server need to cache edit data prior to writing the data to the cpf database? For example, what if someone
+  enters "19th century" in a date field? It isn't valid, but we need to save their work.
+  
+- We need to sanity check any links we create, especially links back into SNAC.
+
+- Don't forget the X-to-CPF field mapping
+
+- We need the "CPF data contributors" guide.
+
+- What authority work will we be doing?
+
+- What authority data from other sources do we cache locally?
+
+- Create detailed functional requirements for controlled vocabularies, and a detailed implementation
+  specification.
+  
+- Clarify: versioning is per-record, not per-field. 
+
+- Need a watch/notification API. It needs a canonical name. Is there an off-the-shelf event monitor that will
+  easily integrate with the web REST API and work flow manager?
+  
+- Clarify: Are we integrating SNAC and ArchiveSpace in co-op version 1? Will ArchiveSpace have to use our REST API?
+
+- How is embargo implemented at the database level? What are the requirements for embargo?
+
+- Clarify / verify: Technical review vs content review is handled by a combination of roles and work flow.
+
+- Reports: Where are we keeping the Big List of All Reports? 
+
+- Clarify: row 43, (unclear) Consider implementing inked data standard for relationship links
+  instead of having to download an entire document of links, as it is configured now.
+  
+- Search: need the Big List of Search Facets, and someone needs to verify that Elastic Search can do facets.
+
+- Does co-op version 1 have a timeline visualization? Does it have a "sort by timeline"? What does it mean to
+  sort by timeline?
+  
+- Clarify: What is a context widget? - row 52, Continue to develop and refine context widget. (technical
+  requirements unclear)
+  
+- Clarify: we need requirements for citations, and details about where they integrate with the rest of the
+  system.
+
+
 List of requirements
 ---
 
