@@ -64,10 +64,10 @@ Code we write<a name="code-we-write"></a>
   
   - add features to support embargo
   
-  - (maybe, discuss) change vocabulary.sql from insert to copy. It would be smaller and faster, although in reality as soon as
+  - *maybe, discuss* change vocabulary.sql from insert to copy. It would be smaller and faster, although in reality as soon as
     it is in the database, the text file will never be touched again.
     
-- <a name="tags"></a>(discuss) can/should we create a tag system to deal with ad-hoc requirements later in the project? The tags
+- <a name="tags"></a> *discuss* can/should we create a tag system to deal with ad-hoc requirements later in the project? The tags
   are very similar to vocabulary entryies in that the tag values are controlled. The difference being a weaker
   moderation of tags and more readiness to create new tags (types). The tag table would consist of tag, value
   and is essentially a name-value system. If we create tags, should we try to enforce some data typing, that
