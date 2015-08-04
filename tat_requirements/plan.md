@@ -6,8 +6,17 @@ Big questions
 
   - Shayne backs up the whole gitlab VM.
 
-- controlled vocabulary hierarchy?
+- We need a complete description of controlled vocabulary hierarchy. It seems pretty clear that some
+  controlled vocabularies need to have n sub-vocabularies. And some subclasses can probably appear with
+  several super-classes. 'Periodicals' appears in around 400 subjects. It also appears that the order of sub
+  and super is not well defined. In some cases 'Periodicals' is the final subject, and in other cases the
+  first subject. Curiously, topical subject bears a strong resemblence to the "tags" suggested below in [Code we write].
+  
 ```
+INSERT INTO vocabulary (type, value) values ( 'subject', 'American literature--19th century--Periodicals' );
+INSERT INTO vocabulary (type, value) values ( 'subject', 'American literature--20th century--Periodicals' );
+INSERT INTO vocabulary (type, value) values ( 'subject', 'Periodicals' );
+INSERT INTO vocabulary (type, value) values ( 'subject', 'Periodicals--19th century' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Periodicals' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Pictorial works' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Societies, etc.' );
@@ -20,13 +29,7 @@ Overview and order of work
 
 
 1. create tech documents, filling in as much prose as possible
-   - how do we deal with vocabulary hierarchy? 
-```
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Periodicals' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Pictorial works' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Societies, etc.' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Study and teaching' );
-```
+
 1. create prototype software to test tech requirements, iterate updating requirements and prototype
 
 1. create tests for test driven development, and validate prototype
