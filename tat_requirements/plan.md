@@ -7,7 +7,7 @@ Big questions
   - Shayne backs up the whole gitlab VM.
 
 - We need a complete description of controlled vocabulary hierarchy. This ties in with, and is similar
-  (perhaps computationally transformaable to) a tagging system. [Tag system](#tag-system).
+  (perhaps computationally transformaable to) a tagging system. [Tag system](#controlled-vocabularies-and-tag-system).
   
 
 Overview and order of work
@@ -53,7 +53,7 @@ Code we write<a name="code-we-write"></a>
   - *maybe, discuss* change vocabulary.sql from insert to copy. It would be smaller and faster, although in reality as soon as
     it is in the database, the text file will never be touched again.
     
-- discuss; Can/should we create a tag system to deal with ad-hoc requirements later in the project? [Tag system](#tag-system)
+- discuss; Can/should we create a tag system to deal with ad-hoc requirements later in the project? [Tag system](#controlled-vocabularies-and-tag-system)
 
 - CPF to SQL parser (Robbie)
 
@@ -78,7 +78,7 @@ Code we write<a name="code-we-write"></a>
 - coding style, class template (architect Robbie)
 
 
-<a name="tag-system"></a>Controlled vocabularies and tag system 
+Controlled vocabularies and tag system 
 ---
 
 The tags are very similar to vocabulary entryies in that the tag values are controlled. The difference being a
