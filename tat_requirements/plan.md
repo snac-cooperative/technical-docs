@@ -78,8 +78,8 @@ Code we write<a name="code-we-write"></a>
 - coding style, class template (architect Robbie)
 
 
-Controlled vocabularies and tag system 
----[tag-system]
+Controlled vocabularies and tag system [#tag-system]
+---
 
 The tags are very similar to vocabulary entryies in that the tag values are controlled. The difference being a
 weaker moderation of tags and more readiness to create new tags (types). The tag table would consist of tag,
