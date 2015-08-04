@@ -6,23 +6,9 @@ Big questions
 
   - Shayne backs up the whole gitlab VM.
 
-- We need a complete description of controlled vocabulary hierarchy. It seems pretty clear that some
-  controlled vocabularies need to have n sub-vocabularies. And some subclasses can probably appear with
-  several super-classes. 'Periodicals' appears in around 400 subjects. It also appears that the order of sub
-  and super is not well defined. In some cases 'Periodicals' is the final subject, and in other cases the
-  first subject. Curiously, topical subject bears a strong resemblence to the "tags" suggested below in [Tags](#tag-system).
+- We need a complete description of controlled vocabulary hierarchy. This ties in with, and is similar
+  (perhaps computationally transformaable to) a tagging system. [Tag system](#tag-system).
   
-```
-INSERT INTO vocabulary (type, value) values ( 'subject', 'American literature--19th century--Periodicals' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'American literature--20th century--Periodicals' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'Periodicals' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'Periodicals--19th century' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Periodicals' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Pictorial works' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Societies, etc.' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Study and teaching' );
-```
-
 
 Overview and order of work
 ---
@@ -67,7 +53,7 @@ Code we write<a name="code-we-write"></a>
   - *maybe, discuss* change vocabulary.sql from insert to copy. It would be smaller and faster, although in reality as soon as
     it is in the database, the text file will never be touched again.
     
-- discuss; Can/should we create a tag system to deal with ad-hoc requirements later in the project? [Tags](#tag-system)
+- discuss; Can/should we create a tag system to deal with ad-hoc requirements later in the project? [Tag system](#tag-system)
 
 - CPF to SQL parser (Robbie)
 
@@ -92,13 +78,31 @@ Code we write<a name="code-we-write"></a>
 - coding style, class template (architect Robbie)
 
 
-Tag system
+Controlled vocabularies and tag system (#tag-system)
 ---
 
 The tags are very similar to vocabulary entryies in that the tag values are controlled. The difference being a
 weaker moderation of tags and more readiness to create new tags (types). The tag table would consist of tag,
 value and is essentially a name-value system. If we create tags, should we try to enforce some data typing,
 that is: string, int, date, float, etc.?
+
+
+It seems pretty clear that some controlled vocabularies need to have n sub-vocabularies. And some subclasses
+can probably appear with several super-classes. 'Periodicals' appears in around 400 subjects. It also appears
+that the order of sub and super is not well defined. In some cases 'Periodicals' is the final subject, and in
+other cases the first subject. Curiously, topical subject bears a strong resemblence to the "tags" suggested
+below in
+  
+```
+INSERT INTO vocabulary (type, value) values ( 'subject', 'American literature--19th century--Periodicals' );
+INSERT INTO vocabulary (type, value) values ( 'subject', 'American literature--20th century--Periodicals' );
+INSERT INTO vocabulary (type, value) values ( 'subject', 'Periodicals' );
+INSERT INTO vocabulary (type, value) values ( 'subject', 'Periodicals--19th century' );
+INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Periodicals' );
+INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Pictorial works' );
+INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Societies, etc.' );
+INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Study and teaching' );
+```
 
 
 Code we use off the shelf
