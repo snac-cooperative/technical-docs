@@ -67,11 +67,7 @@ Code we write<a name="code-we-write"></a>
   - *maybe, discuss* change vocabulary.sql from insert to copy. It would be smaller and faster, although in reality as soon as
     it is in the database, the text file will never be touched again.
     
-- ###tag-system### discuss; Can/should we create a tag system to deal with ad-hoc requirements later in the project? The tags
-  are very similar to vocabulary entryies in that the tag values are controlled. The difference being a weaker
-  moderation of tags and more readiness to create new tags (types). The tag table would consist of tag, value
-  and is essentially a name-value system. If we create tags, should we try to enforce some data typing, that
-  is: string, int, date, float, etc.?
+- discuss; Can/should we create a tag system to deal with ad-hoc requirements later in the project? [Tags](#tag-system)
 
 - CPF to SQL parser (Robbie)
 
@@ -94,6 +90,15 @@ Code we write<a name="code-we-write"></a>
 - CPF record merge, combine fields, deprecate old ARKs, mint new ARK
 
 - coding style, class template (architect Robbie)
+
+
+Tag system
+---
+
+The tags are very similar to vocabulary entryies in that the tag values are controlled. The difference being a
+weaker moderation of tags and more readiness to create new tags (types). The tag table would consist of tag,
+value and is essentially a name-value system. If we create tags, should we try to enforce some data typing,
+that is: string, int, date, float, etc.?
 
 
 Code we use off the shelf
