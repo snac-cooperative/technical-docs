@@ -4,6 +4,11 @@ Documentation is best created as files (preferrably markdown format) in the repo
 
 The currently-being-revised TAT requirements are found in the [tat_requirements](tat_requirements).
 
+---
+
+
+Notes to merge with other requirements
+---
 
 Note for TAT functional requirements: need to have UI widget for search of very long fields, such as the Joseph Henry cpfRelations
 that contain some 22K entries. Also need to list all fields which migh have large numbers of values. In fact, part of the meta data for
