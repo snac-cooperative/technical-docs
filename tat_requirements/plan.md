@@ -7,7 +7,6 @@ Big questions
   - Shayne backs up the whole gitlab VM.
 
 - controlled vocabulary hierarchy?
-
 ```
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Periodicals' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Pictorial works' );
@@ -23,16 +22,12 @@ Overview and order of work
 1. create tech documents, filling in as much prose as possible
 
     - how do we deal with vocabulary hierarchy? 
-
 ```
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Periodicals' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Pictorial works' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Societies, etc.' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Study and teaching' );
 ```
-
-
-
 1. create prototype software to test tech requirements, iterate updating requirements and prototype
 
 1. create tests for test driven development, and validate prototype
