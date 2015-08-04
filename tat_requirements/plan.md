@@ -6,15 +6,7 @@ Big questions
 
   - Shayne backs up the whole gitlab VM.
 
-
-Overview and order of work
----
-
-
-1. create tech documents, filling in as much prose as possible
-
-    - how do we deal with vocabulary hierarchy? 
-    
+- controlled vocabulary hierarchy?
 
 '''
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Periodicals' );
@@ -23,6 +15,14 @@ INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Societ
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Study and teaching' );
 '''
 
+
+Overview and order of work
+---
+
+
+1. create tech documents, filling in as much prose as possible
+
+    - how do we deal with vocabulary hierarchy? 
 
 1. create prototype software to test tech requirements, iterate updating requirements and prototype
 
