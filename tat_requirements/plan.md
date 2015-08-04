@@ -10,7 +10,7 @@ Big questions
   controlled vocabularies need to have n sub-vocabularies. And some subclasses can probably appear with
   several super-classes. 'Periodicals' appears in around 400 subjects. It also appears that the order of sub
   and super is not well defined. In some cases 'Periodicals' is the final subject, and in other cases the
-  first subject. Curiously, topical subject bears a strong resemblence to the "tags" suggested below in [Code we write]().
+  first subject. Curiously, topical subject bears a strong resemblence to the "tags" suggested below in [Code we write](#code-we-write).
   
 ```
 INSERT INTO vocabulary (type, value) values ( 'subject', 'American literature--19th century--Periodicals' );
@@ -39,7 +39,7 @@ Overview and order of work
 1. create version 1 of software
 
 
-Code we write
+Code we write<a name="code-we-write"></a>
 ----
 
 - Identitiy Reconciliation (aka IR) (architect Robbie)
