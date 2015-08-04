@@ -15,12 +15,14 @@ Overview and order of work
 
     - how do we deal with vocabulary hierarchy? 
     
+
 '''
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Periodicals' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Pictorial works' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Societies, etc.' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Study and teaching' );
 '''
+
 
 1. create prototype software to test tech requirements, iterate updating requirements and prototype
 
