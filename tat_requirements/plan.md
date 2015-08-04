@@ -20,8 +20,7 @@ Overview and order of work
 
 
 1. create tech documents, filling in as much prose as possible
-
-    - how do we deal with vocabulary hierarchy? 
+   - how do we deal with vocabulary hierarchy? 
 ```
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Periodicals' );
 INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Pictorial works' );
