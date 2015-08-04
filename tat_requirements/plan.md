@@ -7,7 +7,7 @@ Big questions
   - Shayne backs up the whole gitlab VM.
 
 - We need a complete description of controlled vocabulary hierarchy. This ties in with, and is similar
-  (perhaps computationally transformaable to) a tagging system. [Tag system](#controlled-vocabularies-and-tag-system).
+  (perhaps computationally transformaable to) a tagging system. See [Tag system](#controlled-vocabularies-and-tag-system).
   
 
 Overview and order of work
@@ -15,8 +15,11 @@ Overview and order of work
 
 
 1. create tech documents, filling in as much prose as possible
+   - currenly on-going
 
 1. create prototype software to test tech requirements, iterate updating requirements and prototype
+   - Work flow engine is working and has both a command-line and web interface
+   - We have a SQL database schema
 
 1. create tests for test driven development, and validate prototype
 
@@ -25,7 +28,7 @@ Overview and order of work
 1. create version 1 of software
 
 
-Code we write<a name="code-we-write"></a>
+Code we write
 ----
 
 - Identitiy Reconciliation (aka IR) (architect Robbie)
@@ -40,7 +43,7 @@ Code we write<a name="code-we-write"></a>
   
   - can the workflow also support the login.php authentication? (Yes).
   
-- SQL schema (Robbie)
+- SQL schema (Robbie, Tom)
 
   - exists, needs tests, needs requirements
   
@@ -76,6 +79,11 @@ Code we write<a name="code-we-write"></a>
 - CPF record merge, combine fields, deprecate old ARKs, mint new ARK
 
 - coding style, class template (architect Robbie)
+
+- We need to have UI edit/chooser widget for search and select of large numbers of options, such as the Joseph
+  Henry cpfRelations that contain some 22K entries. Also need to list all fields which might have large numbers
+  of values. In fact, part of the meta data for every field is "number of possible entries/reapeat values" or
+  whatever that's called. From a software architecture perspective, the answer is 0, 1, infinite.
 
 
 Controlled vocabularies and tag system 
