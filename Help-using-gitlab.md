@@ -28,9 +28,11 @@ modified files back to the Gitlab repository.
 
 Important: the URL to "clone" a repository can be found on each project's main page. It will be an SSH URL beginning with "git..." or an HTTP URL beginning with "http..."
 
-[git@gitlab.iath.virginia.edu:snac/Documentation.git](git@gitlab.iath.virginia.edu:snac/Documentation.git)
+```
+git@gitlab.iath.virginia.edu:snac/Documentation.git
 
 http://gitlab.iath.virginia.edu/snac/Documentation.git
+```
 
 Do this: Go to the Gitlab home by clicking the logo (some kind of animal) in the upper left corner. On the
 home page click "snac / Documentation". Notice the two buttons at the top center of the page "SSH" and
