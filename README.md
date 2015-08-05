@@ -17,7 +17,7 @@ LaTex and other formats.
 
 #### How to use gitlab and markdown
 
-[Help using gitlab](Help-using-gitlab)
+[Help using gitlab](Help-using-gitlab.md)
 
 
 ---
