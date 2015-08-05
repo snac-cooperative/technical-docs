@@ -26,9 +26,9 @@ to edit files, but usually people work on their local computers.
 It is a more efficient work flow to work on files locally on your own computer, and use git tools to push the
 modified files back to the Gitlab repository. 
 
-Important: the URL to "clone" a repository can be found on each project's main page. It will be an ssh URL beginning with "git..." or an HTTP URL beginning with "http..."
+Important: the URL to "clone" a repository can be found on each project's main page. It will be an SSH URL beginning with "git..." or an HTTP URL beginning with "http..."
 
-git@gitlab.iath.virginia.edu:snac/Documentation.git
+[](git@gitlab.iath.virginia.edu:snac/Documentation.git)
 
 http://gitlab.iath.virginia.edu/snac/Documentation.git
 
