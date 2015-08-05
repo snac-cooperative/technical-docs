@@ -15,23 +15,9 @@ limited set of conventions to denote headers, lists, URLs and so on. When upload
 markdown files are rendered into nicely styled HTML. Tools are available to convert markdown into .doc, .pdf,
 LaTex and other formats.
 
-Fundamentals of markdown:
+#### How to use gitlab and markdown
 
-https://help.github.com/articles/markdown-basics/
-
-#### More about markdown
-
-Github extensions to standard markdown:
-
-https://help.github.com/articles/github-flavored-markdown/
-
-Standard markdown notes:
-
-https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
-
-Git graphical client for Mac and Windows:
-
-https://www.sourcetreeapp.com/
+(Help-using-gitlab)
 
 
 ---
