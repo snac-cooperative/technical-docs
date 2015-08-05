@@ -3,7 +3,7 @@
 The currently-being-revised TAT requirements are found in the [tat_requirements](tat_requirements).
 
 Ideally we will all create documentation in markdown format (.md files). You may create and edit files from
-the web interface here on gitlab. You can also upload any file type using standard git commands, or use a Git
+the web interface here on gitlab, or download files and edit locally. You can also upload any file type using standard git commands, or use a Git
 graphical client (see below). Choose a relevant directory for your docs, or create a new directory as
 necessary.
 
