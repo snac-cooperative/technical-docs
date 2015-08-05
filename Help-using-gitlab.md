@@ -1,4 +1,6 @@
 
+### Info about Markdown
+
 You can edit markdown files from the Gitlab web site. From the Gitlab home page, click a project on the right
 side. On the project home page, click "Files" in the left navigation bar. Click a .md file. Click the "Edit"
 button on the right side. Update the text and when finished, enter a commit message below, and click the
@@ -16,6 +18,10 @@ https://help.github.com/articles/github-flavored-markdown/
 #### Standard markdown notes:
 https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
 
+### Working locally and version control
+
+The Git technology was created to track revisions to many files. Gitlab provides a web site with some ability
+to edit files, but usually people work on their local computers.
 
 It is a more efficient work flow to work on files locally on your own computer, and use git tools to push the
 modified files back to the Gitlab repository. 
