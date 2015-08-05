@@ -1,10 +1,20 @@
 # Documentation
 
-Please create documentation in markdown format (.md files). Choose a relevant directory, or create a new directory as necessary.
+The currently-being-revised TAT requirements are found in the [tat_requirements](tat_requirements).
+
+Ideally we will all create documentation in markdown format (.md files). You may create and edit files from
+the web interface here on gitlab. You can also upload any file type using standard git commands, or use a Git
+graphical client (see below). Choose a relevant directory for your docs, or create a new directory as
+necessary.
+
+Markdown files are simple text files, which makes them easy to edit and universally portable. Markdown has a
+limited set of conventions to denote headers, lists, URLs and so on. When uploaded to gitlab or github,
+markdown files are rendered into nicely styled HTML. Tools are available to convert markdown into .doc, .pdf,
+LaTex and other formats.
+
+Fundamentals of markdown:
 
 https://help.github.com/articles/markdown-basics/
-
-The currently-being-revised TAT requirements are found in the [tat_requirements](tat_requirements).
 
 #### More about markdown
 
