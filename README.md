@@ -1,8 +1,25 @@
 # Documentation
 
-Documentation is best created as files (preferrably markdown format) in the repository, and in a relevant directory.
+Please create documentation in markdown format (.md files). Choose a relevant directory, or create a new directory as necessary.
+
+https://help.github.com/articles/markdown-basics/
 
 The currently-being-revised TAT requirements are found in the [tat_requirements](tat_requirements).
+
+#### More about markdown
+
+Github extensions to standard markdown:
+
+https://help.github.com/articles/github-flavored-markdown/
+
+Standard markdown notes:
+
+https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+
+Git graphical client for Mac and Windows:
+
+https://www.sourcetreeapp.com/
+
 
 ---
 
