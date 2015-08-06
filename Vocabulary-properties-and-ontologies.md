@@ -2,44 +2,46 @@
 ### Introduction
 
 
-There are two related yet distinct issues: controlled vocabularies and ontologies. The vocabularies are a list
-of properties and can easily be accommodated in a single SQL table. Policies need to be developed for create,
-update, and delete of property entries. It might also be sensible to design the properties with multilingual
-labels, that is multiple labels where each label is specific to a specified language. All properties for all
-vocabularies are (probably) equivalent, thus there is only a single extensive list of properties. Each
-property has a unique id, and needs a definition. By and large, the property table is simply a dictionary-like
-entity with labels and definitions.
+There are two related yet distinct issues: controlled vocabularies and ontologies. (Or Markov matrices instead
+of the ontologies; described below.) The vocabularies are a list of properties and can easily be accommodated
+in a single SQL table. Policies need to be developed for create, update, and delete of property entries. It
+might also be sensible to design the properties with multilingual labels (and definitions). By multilingual I
+mean: multiple labels where each label is specific to a specific language, but the labels all have the same
+meaning. All properties for all vocabularies probably have identical data structure, thus there is only a
+single extensive list of properties. Each property has a unique id, and needs a definition. By and large, the
+property table is simply a dictionary-like structure with labels and definitions.
+
+Properties do vary by type, where type examples are: topical subject, gender, function, etc.
 
 ### Property domain
 
 
-By design, each property has a domain which is made explicit by the definition. The Wikipedia clarifies this
-issue since some terms only result in a disambiguation page. My "automotive" example may not be good, but the
-"belt" example holds up quite well.
+By design, each property has an explicit definition. The Wikipedia clarifies this issue since some (ambiguous)
+terms only result in a disambiguation page.
 
-
-The properties "automotive" and "automobile" are closely related, and in common use it is reasonable to use
-them interchangeably in some many situations. "automotive" + "seat belt" and "automobile" + "seat belt" differ
-in subtle ways. The difference is subtle enough to guarantee that some database records will be code on way,
-and some another way. If there are any errors where one or the other term was used, then due to amibiguity, any
+The properties "automotive" and "automobile" are closely related, and in common use they are interchangeable
+in many situations. "automotive" + "seat belt" and "automobile" + "seat belt" differ in subtle ways. The
+difference is subtle enough to guarantee that some database identity records will be coded one way, and some
+another way. If there are any errors where one or the other term was used, then due to amibiguity, any
 reasoning about these closely related terms is likely be erroneous.
 
-"seat belts" are "webbing designed to retain an occupant or object in a seat". There is no single property
-"automotive--seat belts", but the separate ability to create subject lists allows for "automotive" + "seat
-belt", as well as "roller coaster" + "seat belt" and "aircraft" + "seat belt".
+Wikipedia has both "automotive" and "automobile", but "lap belt" redirects to "seat belt", which seems
+sensible. The term "seat belt" could be defined as "webbing designed to retain an occupant or object in a
+seat". There is no single property "automotive--seat belts", but the separate ability to create subject lists
+allows for "automotive" + "seat belt", as well as "roller coaster" + "seat belt" and "aircraft" + "seat belt".
 
-The curatorial question: Is a seat belt simply a complex list of "belt" and "seat". I think not. The word
-"belt" is (in English) applied to clothing, machinery belts, and webbing. Arguably, "seat belt" is simply
+Curatorial question: Is a seat belt simply a complex term of "belt" and "seat". I think not. The word "belt"
+is (in English) applied to clothing, machinery belts, webbing, and others. Arguably, "seat belt" is simply
 Enlish-centric, where the word "belt" has multiple different meanings some of which could just as well be rope
-or chain. Perhaps the guiding curatorial policy is "avoid confusion" while attempting to be broad. Properties
-which might naturally have multiple meanings should be avoided. Thus, we avoid the property "belt", which
-isn't so much broadly inclusive as it is describing mutually exclusive things. The word "automotive" is broad
-and inclusive. Thus properties for "belt (mechanical)", "seat belt", "belt (clothing)" make sense. The
-definitions would be explicit, and adding "(clothing)" merely disambiguates the label.
+or chain. Perhaps the guiding curatorial policy is "avoid confusion" while attempting to be broad and language
+agnostic. Properties which might naturally have multiple meanings should be avoided. Thus, we avoid the
+property "belt", which isn't so much broadly inclusive as it describes mutually exclusive things. The word
+"automotive" is broad and inclusive. Thus properties for "belt (mechanical)", "seat belt", "belt (clothing)"
+make sense. The definitions would be explicit, and adding "(clothing)" merely disambiguates the label.
 
 In Spanish, a "fan belt" is "correa del ventilador", not "cinturon del ventilador". The Spanish word
 "cinturon" is a clothing belt. This difference between languages clarifies what are properties, and what words
-are simply conflations specific to English (or any language). My translations may be a bit clumsy, so I hope
+are simply usages specific to English (or any language). My translations may be a bit clumsy, so I hope
 the conclusion is clear:
 
 ```
@@ -49,34 +51,37 @@ correa de transmisión == belt (mechanical)
 
 Even Spanish has issues with belt. The word "correa" by itself is "strap". 
 
+It is reasonable to have a property "airplane" as well as "aircraft"? It is (again demonstrated by the
+Wikipedia), but at the same time there is some burden on archivists to choose "jet (aircraft)" + "seat belt"
+when speaking of a Boeing 747, and "aircraft" + "glider (aircraft)" + "seat belt" when refering to a glider,
+although I'm not convinced that aircraft + glider adds useful facets of information. It doesn't hurt to add
+the extra "aircraft".
 
-It is reasonable to have a property "airplane" as well as "aircraft"? Perhaps, and there is some burden on
-archivists to choose "jet (aircraft)" + "seat belt" when speaking of a Boeing 747, and "aircraft" + "glider" +
-"seat belt" when refering to a glider, although I'm not convinced that glider seat belts adds useful facets of
-information. 
+When using an ontoloty, the ontology needs to clarify sub-classes where "jet (aircraft)" and "glider" are more
+specific examples of "aircraft". In fact, using a broad category is superfluous (but not really harmful) when
+the narrow property is supplied.
 
-The ontology needs to clarify sub-classes where "jet (aircraft)" and "glider" are more specific
-examples of "aircraft". In fact, using a broad category is superfluous when the narrow property is supplied.
-
-It would be just as useful to search/analaysis to have a separate topical subject "gliders". In fact, from a
-computational point of view, there is probably no difference between complex lists of topical subjects and
-lists of singleton topical subjects. These are equivalent:
+It would be just as useful to search/analaysis to have a separate topical subject "glider (aircraft)" as
+compared to subject being a list of 1 to n elements. In fact, from a computational point of view, there is
+probably no difference between subject as a list of properties and a list of singleton subjects. These are
+equivalent:
 
 ```
 subject: Aircraft
 subject: Seat belts
-subject: Gliders (aircraft)
+subject: glider (aircraft)
 ```
 ```
-subject: Aircraft + Seat belts + Gliders (aircraft)
+subject: Aircraft + Seat belts + glider (aircraft)
 ```
 
-In fact, the first example is more clear and easier to analyze. If this is true, then we could apply a
-universal rule: There are no complex properties, although multiple properties are allowed (and encouraged)
+In fact, the first example appears to be more clear and easier to analyze. If this is true, then we could
+apply a universal rule: There are no complex properties, although multiple properties are allowed (and
+encouraged).
 
 
 Properties are not themselves complex. "automotive" is broad, and if the added specificity of "parts" is
-desired then a second topic "parts" (Parts: components of a large entity) needs to be used. Component lists
+desired then a second topic "parts" (Parts: components of a larger entity) needs to be used. Component lists
 are in the domain of ontologies, not properties. There is no single property "automotive--parts", or
 "automotive--paintings", and this needs to be enforced by database design, user interface and policy.
 
@@ -89,7 +94,7 @@ idea. The data should be as well-constructed as possible. When searching for sub
 reasonable to either parse the place name, or have the user explicitly choose a place name.
 
 Consider what happens if (and I'm opposed to this) all CPF entities were imported into the property
-table. That would be denormalization and data duplication, and would only end in tears. 
+table. That would be denormalization, data duplication, and would only end in tears.
 
 
 ### Use Markov models instead of an ontology
