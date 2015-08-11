@@ -2,96 +2,68 @@
 ### Introduction
 
 
-There are two related yet distinct issues: controlled vocabularies and ontologies. (Or Markov matrices instead
-of the ontologies; described below.) The vocabularies are a list of properties and can easily be accommodated
-in a single SQL table. Policies need to be developed for create, update, and delete of property entries. It
-might also be sensible to design the properties with multilingual labels (and definitions). By multilingual I
-mean: multiple labels where each label is specific to a specific language, but the labels all have the same
-meaning. All properties for all vocabularies probably have identical data structure, thus there is only a
-single extensive list of properties. Each property has a unique id, and needs a definition. By and large, the
-property table is simply a dictionary-like structure with labels and definitions.
+For our purposes the simplest controlled vocabulary is a flat (non-hierarchal) list of terms.
 
-Properties do vary by type, where type examples are: topical subject, gender, function, etc.
+An ontology is a heirarchy of controlled vocabulary terms that explicitly encodes both relatedness and category.
+
+Using the example of subject (aka "topical subject"), either technology allows us to make assertions about the
+data and relations between identities. 
+
+- Ontolgies allow explict assertions, and stronger assertions
+
+- Both technologies are weak if a subject is missing, that is, the identity was not marked up (to use XML-speak)
+
+- More extensive is better, but the extent of ontology or vocabulary is limited by resources
+
+- Ontologies are difficult to create and maintain
+
+- Flat vocabularies are less difficult to create and maintain (perhaps much less difficult)
+
+- Both vocabularies have an implicit definition for each term; however, two different editors may understand
+  somewhat different implied defintions
+
+- A single explicit definition can be added to each term (although I haven't seen this; it may only exist in
+  fields outside the archival world)
+
+- Explicit definition (see below) vocabularies are difficult to create and maintain
+
+- Flat vocabulary can be done with a single database table
+
+- An ontology requires at least 2 database tables, perhaps 3
+
+- Policies need to be developed for create, update, and delete
+
+- Policy complexity is greater for an ontology
+
+- Using computers, an identity may have multiple subjects of either ontology, or flat vocabulary
+
+It might also be sensible to design the properties with multilingual vocabulary terms. By multilingual I mean:
+multiple terms for each unique ID where each term is specific to a specific language, and all terms with the
+same ID share a definition. 
+
+Each term has a unique id, and a definition (implied or explicit). This is a simple dictionary. Explicit
+definition would improve the vocabulary, but takes more work.
+
+The flat vocabulary has a single "type" for each term, where type examples are: topical subject, gender,
+function, etc. In an ontology, the "type" is handled by the ontology structure, which is explicit, but
+discovering the type requires tree-traversal.
 
 ### Property domain
 
 
-By design, each property has an explicit definition. The Wikipedia clarifies this issue since some (ambiguous)
-terms only result in a disambiguation page.
+Intellectually each property has a definition. Technically, dding an explicit definition only required an
+additional field. Explicit definitions are (almost?) trivial technically, but are challenging
+intellectually. The Wikipedia clarifies this issue since ambiguous terms lead to a disambiguation
+page. Wikipedia "definition" is the article.
 
-The properties "automotive" and "automobile" are closely related, and in common use they are interchangeable
-in many situations. "automotive" + "seat belt" and "automobile" + "seat belt" differ in subtle ways. The
-difference is subtle enough to guarantee that some database identity records will be coded one way, and some
-another way. If there are any errors where one or the other term was used, then due to amibiguity, any
-reasoning about these closely related terms is likely be erroneous.
-
-Wikipedia has both "automotive" and "automobile", but "lap belt" redirects to "seat belt", which seems
-sensible. The term "seat belt" could be defined as "webbing designed to retain an occupant or object in a
-seat". There is no single property "automotive--seat belts", but the separate ability to create subject lists
-allows for "automotive" + "seat belt", as well as "roller coaster" + "seat belt" and "aircraft" + "seat belt".
-
-Curatorial question: Is a seat belt simply a complex term of "belt" and "seat". I think not. The word "belt"
-is (in English) applied to clothing, machinery belts, webbing, and others. Arguably, "seat belt" is simply
-Enlish-centric, where the word "belt" has multiple different meanings some of which could just as well be rope
-or chain. Perhaps the guiding curatorial policy is "avoid confusion" while attempting to be broad and language
-agnostic. Properties which might naturally have multiple meanings should be avoided. Thus, we avoid the
-property "belt", which isn't so much broadly inclusive as it describes mutually exclusive things. The word
-"automotive" is broad and inclusive. Thus properties for "belt (mechanical)", "seat belt", "belt (clothing)"
-make sense. The definitions would be explicit, and adding "(clothing)" merely disambiguates the label.
-
-In Spanish, a "fan belt" is "correa del ventilador", not "cinturon del ventilador". The Spanish word
-"cinturon" is a clothing belt. This difference between languages clarifies what are properties, and what words
-are simply usages specific to English (or any language). My translations may be a bit clumsy, so I hope
-the conclusion is clear:
-
-```
-cinturon == belt (clothing)
-correa de transmisión == belt (mechanical)
-```
-
-Even Spanish has issues with belt. The word "correa" by itself is "strap". 
-
-It is reasonable to have a property "airplane" as well as "aircraft"? It is (again demonstrated by the
-Wikipedia), but at the same time there is some burden on archivists to choose "jet (aircraft)" + "seat belt"
-when speaking of a Boeing 747, and "aircraft" + "glider (aircraft)" + "seat belt" when refering to a glider,
-although I'm not convinced that aircraft + glider adds useful facets of information. It doesn't hurt to add
-the extra "aircraft".
-
-When using an ontoloty, the ontology needs to clarify sub-classes where "jet (aircraft)" and "glider" are more
-specific examples of "aircraft". In fact, using a broad category is superfluous (but not really harmful) when
-the narrow property is supplied.
-
-It would be just as useful to search/analaysis to have a separate topical subject "glider (aircraft)" as
-compared to subject being a list of 1 to n elements. In fact, from a computational point of view, there is
-probably no difference between subject as a list of properties and a list of singleton subjects. These are
-equivalent:
-
-```
-subject: Aircraft
-subject: Seat belts
-subject: glider (aircraft)
-```
-```
-subject: Aircraft + Seat belts + glider (aircraft)
-```
-
-In fact, the first example appears to be more clear and easier to analyze. If this is true, then we could
-apply a universal rule: There are no complex properties, although multiple properties are allowed (and
-encouraged).
-
-
-Properties are not themselves complex. "automotive" is broad, and if the added specificity of "parts" is
-desired then a second topic "parts" (Parts: components of a larger entity) needs to be used. Component lists
-are in the domain of ontologies, not properties. There is no single property "automotive--parts", or
-"automotive--paintings", and this needs to be enforced by database design, user interface and policy.
 
 ### Proper entities are not properties
 
-The ontology linkage handles issues such as "automobiles" + "detroit". There is no property "detroit",
-although there is a CPF entity for "Detroit, MI USA". It is possible to conflate CPF entities in the user
-interface to enable the construction of a topical subject "automobiles" + "detroit", although that is a bad
-idea. The data should be as well-constructed as possible. When searching for subject and place, it is
-reasonable to either parse the place name, or have the user explicitly choose a place name.
+There is no property "detroit", although there is a CPF entity for "Detroit, MI USA", complete with a field
+for the corresponding geonames ID. It is technically possible to conflate CPF entities in the user interface
+to enable the construction of a topical subject "detroit", although that intellectually sub-optimal. The data
+should be as well-constructed as possible. A search for subject + place is not a search for subject +
+subject(placename).
 
 Consider what happens if (and I'm opposed to this) all CPF entities were imported into the property
 table. That would be denormalization, data duplication, and would only end in tears.
@@ -99,20 +71,21 @@ table. That would be denormalization, data duplication, and would only end in te
 
 ### Use Markov models instead of an ontology
 
-Ontologies are difficult to create, and there is little agreement about them, both in structure and
-content. There are several to choose from, the the properties they use are (speaking frankly) a huge
-mess. Linking each aspect of an entity record's properties to the ontology is an onerous task, and fraught
-with error largely because the linking is often a judgement call.
+Ontologies are difficult to create, and there is disagreement about them, both in structure and content. There
+are several to choose from, the the properties they use are somewhat incomplete as confusing. Linking (aka
+markup of) each aspect of an identity record's properties to the ontology is an onerous task, and fraught with
+several types of errors. Linking is often a judgement call.
 
-A technology exists that is easy to implement, powerful, and tractable in real life.
+A technology exists that is easy to implement, powerful, and tractable in real life and works well with flat
+vocabularies.
 
-We can create a Markov matrices of the property terms. Multiplying Markov matrices causes them to converge
-which reveals property relatedness as exists in the data. The effect is quite powerful and obviates the need
-for a hand-created ontology. Missing relations (known to exist, but not discovered by the Markov convergence
-because no records actually contain the desired relation) are easily rectified by either of two methods. The
-first would be to add the correct relations to existing records. The second works by creating non-public
-special records containing related terms and making the special records available to the Markov modeling
-process. The whole Markov solution is only 2 or 3 pages of code, so we can write it and evaluate the
+We can create a Markov matrices of the terms. Multiplying Markov matrices causes them to converge which
+reveals property relatedness as exists in the data. The effect is quite powerful and (almost?) obviates the
+need for a hand-created ontology. Missing relations (known to exist, but not discovered by the Markov
+convergence because no records actually contain the desired relation) are easily rectified by either of two
+methods. The first would be to add the correct relations to existing records. The second works by creating
+non-public special records containing related terms and making the special records available to the Markov
+modeling process. The whole Markov solution is only 2 or 3 pages of code, so we can write it and evaluate the
 effectiveness.
 
 See: Everything is miscellaneous.
@@ -126,40 +99,41 @@ http://www.youtube.com/watch?v=x3wOhXsjPYM
 
 ### Ontology uses property, but is a separate problem
 
-The alternative to the Markov relation discovery is an ontology that relates properties both in relatedness,
-and as a hierarchy from broad to narrow. As far as I can tell, such a network does not yet exist, and it would
-be time consuming to create since it has to be done by hand, by humans. There are existing ontologies, but to
-use them we would be forced to use their property lists, and (sadly) the property lists I've seen are both
-incomplete and poorly constructed.
+The alternative to the Markov relation discovery is an ontology that relates terms both in relatedness,
+and as a hierarchy from broad to narrow. There are existing ontologies with varying levels of detail.
 
-When describing two very different things, some properties would be the same. For example the topical subject
-of a publisher, and of a work of art. The publisher creates books of automobiles, especially cars which have
-been artistically painted. The work of art is a painting of an automobile. 
+When describing two very different things, some flat terms would be the same. For example the topical
+subject of a publisher, and of a painting (a work of art). The publisher creates books of automobiles,
+especially cars which have been artistically painted. The work of art is a painting of an automobile. In this
+example, both publisher and painting have two subjects, and both are identical.
 
 ```
 Publisher subject:Automobiles subject:Painting (fine art)
 Painting subject:Automobiles subject:Painting (fine art)
 ```
 
-The underlying properties are the same in both branches of the ontology, but the ontological relationship is
-quite different because one is a corporate body, and the other is an object. It is not the domain of a
-property to know how it is applied to a database record. Also, the larger context of what is being described
-changes how the description is perceived. In any case, the use of properties is sufficient for search and
-discovery. Data beyond property is necessary to make assertions about the records.
+The underlying terms are the same in both. However, the ontological relationship is quite different
+because one is a corporate body, and the other is an art object. It is not the domain of a flat property to
+know how it is applied to a database record. Also, the larger context of what is being described changes how
+the description is perceived. In any case, the use of a flat vocabulary is sufficient for search and discovery, and
+Markov matrices can discover relatednesss between records. Hierarchy becomes another type of relatedness. In
+the Markov world, both the publisher and the painting have a linkage to "Engineering" because there are
+identities in the database with both "Automobiles" and "Engineering" as subjects.
 
-The example above is limited to properties as topical subject. It seems reasonable to apply additional
-properties "typeOf", still using the same (original, large) list of properties. Types of "publisher (corporateBody)" and
-"painting (object)" seem obvious. Applying both property and type pairs will explicitly categorize any
-database record, even without using an ontology. However, it is unclear how this somewhat loosely coupled
-description will impact being able to reason about database records.
+The example above is limited to terms as topical subject. It seems reasonable to add fields in order to apply
+additional terms (beyond "topical subject") "typeOf" or "isA", while still using the same (original, large)
+list of terms. Types of "publisher (corporateBody)" and "painting (object)" seem obvious. Applying both
+property and type pairs will explicitly categorize any database record, even without using an
+ontology. However, it is unclear how this somewhat loosely coupled description will impact being able to
+reason about database records. This also requires adding fields to the CPF database schema, which carries
+serious baggage.
 
-It also seems resonable to constrain some properties to be used only as certain types. A gender property is
-nonsense in the context of a topical subject. On the other hand, "painting (fine art)" could be both a subject
-and a typeOf. The conservative approach is to limit each property to a single type.
 
 ### Ontology and property interact to create search facets
 
-A search for "aircraft" should turn up "glider (aircraft)" even if the record in question lacks "aircraft" as
-a specific topical subject. In general, a search for a parent property should include all child properties as
-specified by the ontology. Searching for the Spanish term "ropa" will include "cinturon" which has the English
-label "belt (clothing)". 
+In general, a search for a parent property should include all child properties as specified by the
+ontology. Searching for the Spanish term "ropa" (clothes) will include "cinturon" (belt) which has the English
+term "belt (clothing)". This works well as long as the ontology is complete. 
+
+Interestingly, we might be able to apply Markov matrices to identities marked up via ontology, with the same
+sort of relatedness building that occurs with a flat vocabulary list.
