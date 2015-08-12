@@ -2,6 +2,8 @@
 
 The currently-being-revised TAT requirements are found in the [tat_requirements](tat_requirements).
 
+The best place to start is the big, overall [plan](tat_requirements/plan.md).
+
 This is Gitlab, a work-alike clone of the Github web site, but installed locally on a SNAC server. Gitlab is a
 version control system with a suite of project management tools.
 
