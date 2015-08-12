@@ -6,8 +6,9 @@ Big questions
 
   - Shayne backs up the whole gitlab VM.
 
-- We need a complete description of controlled vocabulary hierarchy. This ties in with, and is similar
-  (perhaps computationally transformaable to) a tagging system. See [Tag system](#controlled-vocabularies-and-tag-system).
+- We need a complete understanding of our requirements for controlled vocabulary, ontology, and/or tagging as
+  well as how this relates to search facets. This also impacts our future ability to make assertions about the
+  data, and is somewhat related to semantic net. See [Tag system](#controlled-vocabularies-and-tag-system).
   
 
 Overview and order of work
@@ -89,27 +90,25 @@ Code we write
 Controlled vocabularies and tag system 
 ---
 
-The tags are very similar to vocabulary entryies in that the tag values are controlled. The difference being a
-weaker moderation of tags and more readiness to create new tags (types). The tag table would consist of tag,
-value and is essentially a name-value system. If we create tags, should we try to enforce some data typing,
-that is: string, int, date, float, etc.?
+Tags are simply terms. When inplemented as fixed terms with persistent IDs and some modify/add policy, tags
+become a flat (non-hierarchal) controlled vocabulary.
 
+The difference being a weaker moderation of tags and more readiness to create new tags (types). The tag table
+would consist of tag term and an ID value. Tag systems lack data type, and generally have no policy or less
+restrictive policies about creating new tags
 
-It seems pretty clear that some controlled vocabularies need to have n sub-vocabularies. And some subclasses
-can probably appear with several super-classes. 'Periodicals' appears in around 400 subjects. It also appears
-that the order of sub and super is not well defined. In some cases 'Periodicals' is the final subject, and in
-other cases the first subject. Curiously, topical subject bears a strong resemblence to the "tags" suggested
-below in
+Below are some subject examples. It is unclear if these are each topics, or if "--" is used to join granular
+topics into a topic list. Likewise it is unclear if this list relies on some explicit hierarchy. 
   
 ```
-INSERT INTO vocabulary (type, value) values ( 'subject', 'American literature--19th century--Periodicals' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'American literature--20th century--Periodicals' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'Periodicals' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'Periodicals--19th century' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Periodicals' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Pictorial works' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Societies, etc.' );
-INSERT INTO vocabulary (type, value) values ( 'subject', 'World politics--Study and teaching' );
+American literature--19th century--Periodicals
+American literature--20th century--Periodicals
+Periodicals
+Periodicals--19th century
+World politics--Periodicals
+World politics--Pictorial works
+World politics--Societies, etc.
+World politics--Study and teaching
 ```
 
 
