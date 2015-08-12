@@ -11,9 +11,7 @@
   data, and is somewhat related to semantic net. See [Tag system](#controlled-vocabularies-and-tag-system).
   
 
-Overview and order of work
----
-
+#### Overview and order of work
 
 1. create tech documents, filling in as much prose as possible
    - currenly on-going
@@ -29,8 +27,7 @@ Overview and order of work
 1. create version 1 of software
 
 
-Code we write
-----
+#### Code we write
 
 - Identitiy Reconciliation (aka IR) (architect Robbie)
 
@@ -87,8 +84,7 @@ Code we write
   whatever that's called. From a software architecture perspective, the answer is 0, 1, infinite.
 
 
-Controlled vocabularies and tag system 
----
+#### Controlled vocabularies and tag system 
 
 Tags are simply terms. When inplemented as fixed terms with persistent IDs and some modify/add policy, tags
 become a flat (non-hierarchal) controlled vocabulary.
@@ -112,8 +108,7 @@ World politics--Study and teaching
 ```
 
 
-Code we use off the shelf
----
+#### Code we use off the shelf
 
 - gitlab for docs, code version management, issue tracking(?)
 
