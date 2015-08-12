@@ -6,6 +6,8 @@ side. On the project home page, click "Files" in the left navigation bar. Click 
 button on the right side. Update the text and when finished, enter a commit message below, and click the
 "Commit Changes" button.
 
+You can also edit markdown files locally, using a text editing application such as TextEdit. 
+
 #### Markdown, local complete reference
 http://gitlab.iath.virginia.edu/help/markdown/markdown.md
 
