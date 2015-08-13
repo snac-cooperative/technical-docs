@@ -29,6 +29,19 @@
 
 #### Code we write
 
+- Data validation API
+
+  - rule based system abstracted out of the code
+  - rules are data
+  - change the rules, not the actual application code 
+  - rules for broad classes of data type, or granular rules for individual fields
+  - probably used this to untaint data as well (remove things that are potential security problems)
+  - send all data through this API
+  - every rule includes a message describing what when wrong and suggesting fixes
+  - rules potentially editable by non-programmers
+  - rules are based on co-op data policies, which implies a data policy document, or the rules **can** be the
+    policy documentation.
+
 - Identitiy Reconciliation (aka IR) (architect Robbie)
 
  - needs docs wrangled

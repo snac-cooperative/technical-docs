@@ -1,7 +1,7 @@
 TAT Functional Requirements
 
-Authors
-=======
+#### Authors
+
 
 Tom Laudeman, Technical lead, University of Virginia, Institute for
 Advanced Technology in the Humanities
@@ -16,34 +16,16 @@ Ray R. Larson, U.C. Berkeley - School of Information
 
 Robbie Hott
 
-(other authors add yourselves here)
+#### Organization of documenatation
 
-### Discussion items:
+[Plan](plan.md) (external, broad view roadmap)
 
-The order of files is:
+[Introduction (this document) ](introduction.md)
 
-plan (external, broad view roadmap)
-
-introduction
+[Requirements](requirements.md)
 
 co-op background
 
-requirements
-
-What are .c and .r files in the merged data?
-
-If an .c file is creatorOf (presumably a resourceRelation) where is that
-preserved in the merged data? Check this out vis-a-vis the cpf SQL db.
-
-Edit UI data field validation API
-
-Most data entry needs validation, so we should plan for a validation
-layer that interacts with the UI and with the database. The ideal
-architecture is rule based validation as opposed to some hard coded ad
-hoc system. It would be even better if the rules were saved to the
-database and had a UI of their own, allowing non-programmers to update
-data validation rules (and the concomitant messages show to users when
-there is a validation error).
 
 #### Edit architecture requirements
 
