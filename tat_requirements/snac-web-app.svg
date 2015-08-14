@@ -167,9 +167,9 @@
      </g>
      <g class="com.sun.star.drawing.CustomShape">
       <g id="id12">
-       <path fill="rgb(114,159,207)" stroke="none" d="M 9059,18653 L 7212,18653 7212,17503 10905,17503 10905,18653 9059,18653 Z"/>
-       <path fill="none" stroke="rgb(52,101,164)" d="M 9059,18653 L 7212,18653 7212,17503 10905,17503 10905,18653 9059,18653 Z"/>
-       <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400"><tspan class="TextPosition" x="8331" y="17976"><tspan fill="rgb(0,0,0)" stroke="none">Name </tspan></tspan><tspan class="TextPosition" x="7577" y="18523"><tspan fill="rgb(0,0,0)" stroke="none">string parsing</tspan></tspan></tspan></text>
+       <path fill="rgb(114,159,207)" stroke="none" d="M 9159,18753 L 7312,18753 7312,17603 11005,17603 11005,18753 9159,18753 Z"/>
+       <path fill="none" stroke="rgb(52,101,164)" d="M 9159,18753 L 7312,18753 7312,17603 11005,17603 11005,18753 9159,18753 Z"/>
+       <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400"><tspan class="TextPosition" x="8431" y="18076"><tspan fill="rgb(0,0,0)" stroke="none">Name </tspan></tspan><tspan class="TextPosition" x="7677" y="18623"><tspan fill="rgb(0,0,0)" stroke="none">string parsing</tspan></tspan></tspan></text>
       </g>
      </g>
      <g class="com.sun.star.drawing.CustomShape">
@@ -276,9 +276,9 @@
      </g>
      <g class="com.sun.star.drawing.ConnectorShape">
       <g id="id28">
-       <path fill="none" stroke="rgb(0,0,0)" d="M 8680,16725 L 8871,17116"/>
-       <path fill="rgb(0,0,0)" stroke="none" d="M 8492,16338 L 8554,16808 8824,16677 8492,16338 Z"/>
-       <path fill="rgb(0,0,0)" stroke="none" d="M 9059,17503 L 8997,17033 8727,17164 9059,17503 Z"/>
+       <path fill="none" stroke="rgb(0,0,0)" d="M 8693,16718 L 8958,17223"/>
+       <path fill="rgb(0,0,0)" stroke="none" d="M 8492,16338 L 8569,16806 8835,16666 8492,16338 Z"/>
+       <path fill="rgb(0,0,0)" stroke="none" d="M 9159,17603 L 9082,17135 8816,17275 9159,17603 Z"/>
       </g>
      </g>
      <g class="com.sun.star.drawing.ConnectorShape">
@@ -399,7 +399,7 @@
      </g>
      <g class="com.sun.star.drawing.TextShape">
       <g id="id47">
-       <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400"><tspan class="TextPosition" x="22205" y="1661"><tspan fill="rgb(0,0,0)" stroke="none">unidirectional data</tspan></tspan></tspan></text>
+       <text class="TextShape"><tspan class="TextParagraph" font-family="Liberation Sans, sans-serif" font-size="494px" font-weight="400"><tspan class="TextPosition" x="21805" y="1661"><tspan fill="rgb(0,0,0)" stroke="none">unidirectional data</tspan></tspan></tspan></text>
       </g>
      </g>
      <g class="com.sun.star.drawing.ConnectorShape">
