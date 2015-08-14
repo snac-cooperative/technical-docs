@@ -1,10 +1,6 @@
 
-Text
 
-![SNAC web app API data flow](images/image03.svg)
 
-Text
+![SNAC web app API data flow](images/image02.png)
 
-![test other image](images/image01.jpg)
 
-Text
