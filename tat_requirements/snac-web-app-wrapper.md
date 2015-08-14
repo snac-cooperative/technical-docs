@@ -1,7 +1,7 @@
 
 Text
 
-![SNAC web app API data flow](images/image02.png)
+![SNAC web app API data flow](images/image03.svg)
 
 Text
 
