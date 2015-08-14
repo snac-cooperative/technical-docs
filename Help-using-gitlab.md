@@ -1,4 +1,3 @@
-
 ### Info about Markdown
 
 You can edit markdown files from the Gitlab web site. From the Gitlab home page, click a project on the right
@@ -25,6 +24,30 @@ to edit files, but usually people work on their local computers.
 
 It is a more efficient work flow to work on files locally on your own computer, and use git tools to push the
 modified files back to the Gitlab repository. 
+
+#### SSH key requirements
+
+Generate an ssh key:
+
+Add the key via your gitlab profile settings -> ssh keys.
+'''
+ssh-keygen -t dsa
+'''
+Edit your ~/.ssh/config file to contain a section like the following:
+
+```
+Host gitlab gitlab.iath.virginia.edu
+user git
+Hostname gitlab.iath.virginia.edu
+IdentityFile ~/.ssh/gitlab_id_dsa
+EscapeChar none
+```
+
+To see the ssh key finger print, use the -lf switch:
+'''
+ssh-keygen -lf ~/.ssh/gitlab_id_dsa
+'''
+
 
 Important: the URL to "clone" a repository can be found on each project's main page. It will be an SSH URL beginning with "git..." or an HTTP URL beginning with "http..."
 
@@ -59,4 +82,3 @@ https://confluence.atlassian.com/display/STASH/Creating+SSH+keys#CreatingSSHkeys
 
 #### Mac github, requires 10.9, probably github only.
 https://mac.github.com/
-
