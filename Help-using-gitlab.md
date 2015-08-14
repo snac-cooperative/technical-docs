@@ -29,10 +29,11 @@ modified files back to the Gitlab repository.
 
 Generate an ssh key:
 
-Add the key via your gitlab profile settings -> ssh keys.
 '''
 ssh-keygen -t dsa
 '''
+
+Add the key via your gitlab profile settings -> ssh keys.
 Edit your ~/.ssh/config file to contain a section like the following:
 
 ```
