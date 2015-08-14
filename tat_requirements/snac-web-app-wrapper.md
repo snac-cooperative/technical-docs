@@ -1,7 +1,7 @@
 
 Text
 
-![SNAC web app API data flow](http://gitlab.iath.virginia.edu/snac/Documentation/raw/master/tat_requirements/snac-web-app.svg)
+![SNAC web app API data flow](images/snac-web-app.svg)
 
 Text
 
