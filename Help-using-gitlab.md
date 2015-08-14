@@ -28,10 +28,9 @@ modified files back to the Gitlab repository.
 #### SSH key requirements
 
 Generate an ssh key:
-
-'''
+```
 ssh-keygen -t dsa
-'''
+```
 
 Add the key via your gitlab profile settings -> ssh keys.
 Edit your ~/.ssh/config file to contain a section like the following:
@@ -45,9 +44,9 @@ EscapeChar none
 ```
 
 To see the ssh key finger print, use the -lf switch:
-'''
+```
 ssh-keygen -lf ~/.ssh/gitlab_id_dsa
-'''
+```
 
 
 Important: the URL to "clone" a repository can be found on each project's main page. It will be an SSH URL beginning with "git..." or an HTTP URL beginning with "http..."
