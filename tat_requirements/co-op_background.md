@@ -1,11 +1,245 @@
-Gap analysis
-------------
+
+#### Authors
+
+
+Tom Laudeman, Technical lead, University of Virginia, Institute for
+Advanced Technology in the Humanities
+[twl8n@virginia.edu](mailto:twl8n@virginia.edu)
+
+Brian Tingle, Technical Lead for Digital Special Collections, California
+Digital Library
+
+Rachael Hu, User Experience Design Manager, California Digital Library
+
+Ray R. Larson, U.C. Berkeley - School of Information
+
+Robbie Hott
+
+#### Organization of documenatation
+
+[Plan](plan.md) (external, broad view roadmap)
+
+[Introduction (this document) ](introduction.md)
+
+[Requirements](requirements.md)
+
+co-op background
+
+#### Introduction to SNAC
+
+
+Social Networks and Archival Context (SNAC) is a Mellon-funded project
+to aid end-user researchers in discovering, locating, and using
+distributed historical record descriptions, especially as relates to
+corporate bodies, persons, and families (CPF). These descriptions are
+often in finding aids, and they often exist in electronic format. They
+are distributed across many geographical locations and many networks.
+SNAC brings all this data together in a central system, while retaining
+links to the original descriptions. Critically, SNAC attempts to merge
+descriptions for the same [matching?] CPF identities, linking those
+descriptions to a single authoritative name.
+^[[a]](#cmnt1)^^[[b]](#cmnt2)^
+
+We have an existing system (SNAC one?) and need additional work to get
+to a new system (SNAC 3?), so part of this document is gap analysis. The
+scope of this document is to outline technical specifications and
+requirements for a production system for the Cooperative
+phase^[[c]](#cmnt3)^ of SNAC. This production system will handle
+ingestion, processing, matching/merging, discovery, and dissemination of
+archival descriptions that are submitted and added to the Cooperative.  
+
+#### Evaluation of Existing Technical Architecture
+
+
+##### Overview
+
+
+This section describes the existing technical architecture, and later
+moving on to describe the required functionality for the production
+system for the Cooperative.
+
+Many of the archival records that are ingested in SNAC are Encoded
+Archival Context - Corporate bodies, Persons and Families (EAC-CPF,
+hereafter CPF) records. EAC-CPF is an XML schema endorsed as a standard
+by the Society of American Archivists. We speak of CPF descriptions in
+the sense of a “computer record”: often a single text file and not a
+“record” in the archival sense.
+
+“Linked data” technology related to the Resource Description Framework
+is also employed to manage some controlled vocabularies in the project.
+
+The current system consists of three main components: extraction,
+match/merge, discovery. Extraction consists of extracting data from
+incoming archival description records (primarily EAD, MARC21 and some
+other unique formats), to create CPF descriptions. Match/merge is to
+process the CPF descriptions in search of name matches and to merge
+well-matched descriptions. The resulting data set includes merged
+descriptions and descriptions with no matches (called singletons), all
+in a single database. Discovery is discovery and dissemination of the
+data via a web application.
+
+The production system will have two additional components: maintenance
+and administration. Maintenance includes manual corrections, such as
+correcting data within a description, splitting incorrect merges,
+merging descriptions for the same CPF identity, and description embargo
+(embargo hides descriptions from public view for either technical or
+administrative reasons). Administration is the typical management of
+users, accounts, and reporting on the state of the system.
+
+The first two phases of data processing are extraction, and match/merge.
+A database of descriptions, both merged and unmerged is the end
+result^[[d]](#cmnt4)^. The process of ingesting extracted data and
+merging will continue for the life of the project. An extensive
+web-based search engine lets users discover descriptions.
+
+We use the term “merged” loosely when applied to the automated system
+since the final database may contain descriptions which should be
+merged, but which a computer is unable to reliably determine.  We take a
+conservative approach, preferring to only merge descriptions that a
+computer program can accurately distinguish.^[[e]](#cmnt5)^ Even so,
+some descriptions will have been incorrectly merged, and thus the need
+for a (future) maintenance system that allows manually splitting of
+descriptions, among other things.
+
+Both Extraction and Match/merge are script based, batch processing,
+semi-automatic processes managed entirely by software engineers.
+Discovery and Maintenance are both web applications with extensive
+public user interfaces intended for researchers. Administration is done
+mostly via a non-public web application.
+
+Extraction and match/merge are well developed, although we have some
+planned improvements. Discovery is well developed, but existing features
+are being refined, and adding new features is on-going. Maintenance and
+administration have not yet been created and must be written from the
+ground up.
+
+#### Current State of the System
+
+
+CPF description generation is done at the University of Virginia’s
+Institute for Advanced Technology in the Humanities (IATH). IATH handles
+the CPF data extraction and hosts servers for data processing and the
+SNAC prototype web site. Data processing, XTF indexing (for the
+discovery interface), and web hosting take place on a Linux server with
+24 CPUs and 94 GB of RAM connected to a 1Gbit network switch. This
+server is administered by the IATH sysadmin team. \
+
+Collections of archival description computer descriptions in a variety
+of formats are extracted into CPF format XML. This process involves
+writing XSLT scripts that extract and transform input descriptions, and
+create CPF files as output. The current state of the extraction is a
+collection of XSLT scripts supplemented by Perl scripts. The input files
+are XML with large numbers of files in EAD, MARC XML, and British
+Library XML, as well as several smaller data sets.  A large XSLT code
+library is shared among most of the extractions. Each type of extraction
+builds a generic internal data structure, which is serialized as EAC-CPF
+XML output. The XSLT takes into account various descriptive practices in
+the input data, and reformats as necessary to create a single type of
+normative CPF output. The complexity of this task centers around the
+large number of small differences in descriptive practice. Currently
+more than 3 million CPF computer descriptions have been created. The
+XSLT processor is Saxon 9 HE, which is the free “home edition” of Saxon.
+Saxon implements XSLT 2.0. There are a small number of Perl scripts that
+integrate the XSLT into a pipeline, automating tasks such as chunking
+data sets into sizes that won’t exceed computer memory.
+
+The current state of the match/merge is (filled in by Yiming/Ray/Sara,
+initially a one or two paragraph overview with more detail added later
+as necessary).
+
+Overview of Brian’s UI and programming for the SNAC2 XTF discovery tool
+(add this to another item if there is an umbrella section more
+appropriate).
+
+Is XTF the only discovery tool we will offer? Will SNAC be fully indexed
+by Google and Bing?
+
+TK The involvement of the UC Berkeley I School includes the development,
+testing and modification of the matching and merging components of the
+SNAC system. The current system, described in more detail below, takes
+the EAC-CPF records derived from the various source institutions and
+compares the names and associated information (especial dates) to
+identify the records that likely describe the same person,
+
+organization, or family. The process involves not only comparison across
+input records, but also comparison with information from the Virtual
+International Authority File, and approximate matching for these records
+as well.
+
+TK The involvement of CDL includes … (Brian)
+
+TK We have several extant user studies UI/UX … (Rachael, on-going)
+
+TK The results of these studies are … (Rachael, on-going)
+
+TK The technical implications of these studies are … (Rachael, on-going)
+
+The current system uses a fairly loose software development process.
+Source code is primarily maintained on a Linux server which is managed
+by standard practices as relate to hardware, software, network, user
+accounts, back up, and so on. All the data resides on the server. Source
+code is managed by version control systems. The amount of quality
+assurance and testing has been increasing over time, as well as
+documentation, and management aspects such as release process. All tools
+currently used are open source, and the code written for SNAC is open
+source. We have begun to formalize feature request and issue tracking.
+The development process is agile in that there are frequent small
+changes that are committed to the version control, and the code is
+nearly always in a working state.
+
+#### Processing Pipeline
+
+TK Describe algorithmic portions, and add a section for new features.
+
+#### Extraction
+
+
+There are currently several CPF extraction software pipelines: MARC21,
+British Library, Smithsonian Agency History, New York State Archives,
+Smithsonian Joseph Henry, Smithsonian Field Books, and EAD from nearly
+60 institutions.
+
+The first step in adding new records to the SNAC database is to convert
+incoming data into EAC-CPF XML.  One EAC-CPF record is created for each
+successfully extracted reference to an identity from an archival source.
+The processing also allows for some degree of remediation of data
+quality issues and serves to normalize the data into a common format.
+ Scripting data transformation processes is a significant task that
+often requires close communications with data contributors and
+customizations to accommodate local practices of the contributors.
+
+Creating an extraction is a complex process since we must deal with
+variances in local descriptive practice. The MARC21 tools have been made
+available as a web interface and this demonstrates the feasibility of
+moving more of the processing responsibility to data donors. If we are
+optimistic, we hope that EAD-to-CPF extraction and all other types of
+future extractions can be turned into donor-driven tools. Specifically,
+we create the tools and then deploy them as web applications and/or
+desktop applications. Web hosted extraction tools allow us to leverage
+the power of our servers and programmers so that data donors do not need
+a large computing infrastructure in order to participate. In any case,
+data must be validated before ingest into the match/merge processing.
+
+XSLT and perl are the predominate technologies used in the generation of
+the XML documents created by this process.  The code architecture
+focuses on reusability of modular routines to facilitate maintenance of
+the customizations needed accommodate the diversity of data sources.
+
+Code, sample data, and documentation are in Github. The pipeline is
+being run on a server, but the hardware requirements are minimal enough
+that most laptop computers could run the extraction. The system requires
+unix-like features of Linux, MacOS, or cygwin (for MS Windows). The XSTL
+engine is Saxon 9.x HE which is the free, public version of Saxon.
+
+
+#### Gap analysis
+
 
 This is gap analysis between the current and SNAC2-prototype. Perhaps
 this should be in the Required and Planned Functionality below.
 
-Data maintenance
-----------------
+#### Data maintenance
+
 
 A goal of the pilot phase it to demonstrate cooperative maintenance of
 the data resource.  The prototype does not have robust support for
@@ -57,11 +291,13 @@ not be run in a “clustered” mode; must scale up, not scale out
     •    Cheshire II does not have a Open Source Initiative certified
 license
 
-Pilot phase architecture
-------------------------
+#### Pilot phase architecture
 
-Alternative 1^[[h]](#cmnt8)^
-----------------------------
+
+#### Alternative 1^[[h]](#cmnt8)^
+
+(Rewrite this for a web application with SQL database.)
+
 
 The most expeditious way to launch a pilot phase would be to leave the
 basic technical architecture of the prototype in place, and to focus
@@ -120,20 +356,11 @@ to then notify SNAC to harvest links from the participant, and the SNAC
 updates would be based on a “linked data” technology rather than the
 submission of XML files.
 
-Alternative 2
--------------
-
-Pure XML architecture for edits (edit the merged EAC-CPF records, maybe
-with something like xEAC and with the merged files in revision control.
- This might make export from the match/merge challenging)
-
-Alternative 3
--------------
 
 Pure RDF architecture
 
-Current State Conclusion (All, Daniel, Tom)
--------------------------------------------
+#### Current State Conclusion
+
 
 The current systems functions well enough for researchers and other
 stakeholders to see large data sets fully processed. These systems will
@@ -142,257 +369,14 @@ that software develops: robustness, testing and QA, documentation,
 examples, consistent API. Most of the current software will be used in
 the production product.
 
-Required and Planned Functionality (All authors)
-================================================
+#### Required and Planned Functionality (All authors)
+
 
 (We need to break out each item into UI functionality, and API
 functionality.)
 
-Expanded CPF schema requirements
---------------------------------
 
-Provenance and history of each element/attribute.
-
-Unique ID per element of CPF if that element is editable.
-
-Version control on a per-element basis.
-
-Expanded Database Schema
-------------------------
-
-The current database (Postgres) is sufficient for the current project
-only. It will expand, and the expansion will probably be fairly
-dramatic. We need to determine what tables and fields are necessary to
-support additional functions. Each section of this document may need a
-“data” section, or else this database schema section needs to address
-every functional and UI aspect of all APIs that have anything to do with
-the database.
-
-Each field within CPF may (will?) need provenance meta data. Likewise
-many fields in the database may need data for provenance.
-
-The database needs audit trail ability to a fairly granular (field)
-level. Audit is a new table at the very least. It seems likely that
-nearly every table will gain some audit related fields.
-
-Will database records be versioned? How is that handled? Seems like it
-may be done via versioning table and some interesting joins. We need to
-evaluate the various standard methods for database internal versioning.
-
-CPF record has links to a “watch” table so users can watch each record,
-and can watch for certain types of changes. Need UI for the watch
-system. Need an API for the watch system.
-
-Need a user table, group table, probably a group permission table so
-that permissions are hard code with groups. We also want to allow
-several permissions per group. Need UI for user, group, and
-group-permission management.
-
-If we create a generalized workflow system (as opposed to an ad-hoc
-linked set of reports) then we need workflow tables. The tables would
-establish workflow paths, necessary permissions, and would be linked to
-users and groups.
-
-Need fields to deal with delete/embargo. This may be best implemented
-via a trigger or perhaps a view. By making what appear to be simple
-SELECTs through a view, the view can exclude deleted records. We must
-think about how using a view (or trigger) will effect UPDATE and INSERT.
-Ideally the view is transparent. Is there some clever way we can
-restrict access to the original table only via the view?
-
-Need record lock on some types of records. This lock needs to be honored
-by several modules, so like “delete”, lock might best be implemented via
-a view and we \*only\* access the table in question via the view.
-
-If there are different levels of review for different elements in the
-record, then we need extra granularity in the workflow or the edited
-record info to know the type of record edited apropos of workflow
-variations.
-
-If there different reviewers for different parts of the record, then
-workflow data (and workflow configuration) needs to be able to notify
-multiple people, and would have to get multiple reviewer approvals
-before moving to the next phase of the workflow.
-
-Institutional affiliation is probably common enough to want a field in
-the user table, as opposed to creating a group for each institution. The
-group is perhaps more generalized and could behave identical (or almost
-identical) to a field (with controlled vocabulary) in the user table.
-
-Make sure we can write a query (report) to count numbers of records
-based type of edit, institution of the editor, and number of holdings.
-
-If we want to be able to quickly count some CPF element such as outgoing
-links from CPF to a given institution, then we should put those CPF
-values into the SQL database, as meta data for the CPF record.
-
-What is: How many referral links to EAC records that they created?
-
-Be able to count record views, record downloads. Institutional dashboard
-reports need the ability to group-by user, or even filter to a specific
-user.
-
-Reporting needs to help managers verify performance metrics. This
-assumes that all changes have a date/timestamp. Once workflow and
-process decisions are set, performance requirements for users such as
-load/performance (how many updates and changes to records can be handled
-at once), search response time, edit time (outside of review workflow),
-and update times need to be set.
-
-Effort reporting to allow SNAC and participants to communicate to others
-the actual level of effort involved. This sounds like a report with time
-span and numbers of records handled in various ways. SNAC might use this
-when going from pilot into production so that everyone knows what effort
-will be required for X number of records/actions (of whatever action
-type).
-
-Time/activity reporting could allow us to assess viability, utility, and
-efficiency of maintenance system processes.
-
-Similar reports might be generated to evaluate the discovery interface.
-Something akin to how much time was required to access a certain number
-of records. Rachael said: Assess viability of access funtionality-
-performance time, available features, and ease of use.
-
-We could try to report on the amount of training necessary before a new
-user was able to work independently in each of various areas (content
-input, review, etc.)
-
-Introduction to Planned Functionality
--------------------------------------
-
-The current system works, but is somewhat skeletal. It requires careful
-attention from the developers to run the data processing pipelines. It
-lacks administrative controls and reporting. Existing software
-development process follows modern agile practices, but the some
-processes are weak or incomplete. The research tools are somewhat
-rudimentary. It needs infrastructure where domain experts can correct
-and update merged authority descriptions.
-
-The functional requirements below specify in detail all of the
-capabilities of the new [production?] system. A separate section about
-user interface (UI) specifies the visual/functional aspects of the UI
-and includes discussion of the user experience (UX). Some of the
-functional requirements exist only to support actions of the UI, and
-UI-related functions should exist in their own independent API.
-
-Software development, processes, and project management
--------------------------------------------------------
-
-Choices for programming languages, operating system, databases, version
-control, and various related tools and practices are based on extensive
-experience of the developer community, and a complex set of requirements
-for the coding process. Current best practices are agile development
-using practices that allow programmers wide leeway for implementation
-while still keeping the processes manageable.
-
-Test-driven development ideally means automated testing, with careful
-attention to regression testing. It takes some extra time up front to
-write the tests. Each test is small, and corresponds to small sections
-of code where  both code and text can be quickly created. In this way,
-the software is kept in a working state with only brief downtimes during
-feature creation or bug fixes. Large programs are made up of
-intentionally small functions each of which is tested by a small
-automated test.
-
-Regression testing refers to verifying that old bugs do not reappear.
-Every bug fix has a corresponding test, even if the function in question
-did not originally have a test for the bug. Each new bug needs a new
-test. Bugs frequently reappear, especially in complex sections of code.
-
-Source code version control is vital to both development process, and to
-the release process. During development, frequent small changes are
-checked-in to the version control, along with a meaningful comment. The
-history of the code can be tracked. This occasionally helps to
-understand how bugs come into existence. In the Git system, the history
-command is “blame”, a bit of programmer dark humor where the history is
-used to know who to blame for a bug (or any undesirable feature).
-
-Moving code into Quality Assurance (QA) and then into the production
-environment are both integral with source code management. Many version
-control systems allow tagging a release with a name. The collected
-source code files are marked as a named (virtual) collection, and can be
-used to update a QA area. Human testing and review happens in QA. After
-QA we have release. Depending on the nature of the system release can be
-quite complex with many parties needing to be notified, and coordination
-across groups of developers, sysadmin, managers, support staff, and
-customers. Agile development tends towards small, seamless releases on a
-frequent (weekly or monthly) basis where communication is primarily via
-update of electronic documentation. The process needs to assure that
-fixes and new features are documented. The system must have tools to see
-the current version of the system with its change log, as well as
-comparing that to previous releases. All of these are integrated with
-change management.
-
-Bug reporting and feature requests fall (broadly speaking) into the
-category of change management. Typically a small group of senior
-developers and stakeholders review the bug/feature tracking system to
-assign priorities, clarify, and investigate. There are good
-off-the-shelf systems for tracking bugs and feature requests, so we have
-several choices. This process happens almost as frequently as the
-features/bug fix coding work of the developers. That means on-going,
-more or less continuous review of fix/features requests every few days,
-depending on how independent the developers are. Agile applies to
-everyone on the project. Ideal change management is not onerous. As
-tasks are completed, someone (developers) update feature status with “in
-progress”, “completed” and so on. There might be additional status
-updates from QA and release, but SNAC probably isn’t large enough to
-justify anything too complex.
-
-QA and Related Tests for Test-driven Development (Tom, Brian, Ray)
-------------------------------------------------------------------
-
-The data extraction pipelines manage massive amounts of data, and
-visually checking descriptions for bugs would be inefficient if not
-infeasible. The MARC extraction process is verified by just over 100
-quality assurance descriptions. The output produced from each
-description is checked for some specific value that confirms that the
-code is working correctly and historical bugs have not reappeared. The
-EAD extraction has a set of QA files, but the output verification is not
-yet automated. A variety of file counts and measures of various sorts
-are performed to verify that descriptions have all been processed. All
-CPF output is validated against the Relax NG schema. Processing log
-files are checked for a variety of error messages. Settings used for
-each run are recorded in documentation maintained with the output files.
-The source code is stored in a Subversion repository.
-
-Our disaster recovery processes must be carefully documented.
-
-The match/merge process is validated by …
-
-Required new features
----------------------
-
-The majority of new features will be in two areas: the maintenance
-system, and the administration system. None of this code exists. The
-maintenance system has a web UI and a server-based back end that
-interacts with the same database used by the match-merge. The
-maintenance system also requires an authentication system (login) that
-allows us to manage the extensive collaborative efforts. The current
-processing of data is accomplished only on servers at the command line,
-and is handled directly by project programmers. In the new maintenance
-system, that will be driven by content experts via a web site, and
-therefore must expect the issues of authentication and authorization
-inherent in collaborative data manipulation web applications.
-
-The system will require reports. These will cover broad classes of
-issues related to managing resources, usage statistics, administration,
-maintenance, and some reports for end user researchers.
-
-(Fill in prose introducing the other subsystems such as reporting)
-
-One important aspect of the project is long-term viability and
-preservation. We should be able to export all data and metadata in
-standard formats. Part of the API should cover export facilities so that
-over time we can easily add new export features to support emerging
-standards.
-
-The ability to export all the data for preservation purposes also gives
-us the ability to offer bulk data downloads to researchers and
-collaborating peer institutions.
-
-Documentation (all authors)
----------------------------
+#### Documentation
 
 Every aspect of the system requires documentation. Most visible to the
 public is the user interface for discovery. Maintenance will be
