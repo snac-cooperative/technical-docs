@@ -29,6 +29,12 @@ co-op_background.md #### Processing Pipeline
 
 co-op_background.md #### Extraction
 
+co-op_background.md #### Match/Merge
+
+co-op_background.md #### Discovery/Dissemination
+
+co-op_background.md #### Prototype research tool
+
 co-op_background.md #### Gap analysis
 
 co-op_background.md #### Data maintenance
@@ -67,9 +73,4 @@ introduction.md #### Brian’s API docs need to be merged in or otherwise referr
 
 introduction.md #### Not sure where to fit these topics into the requirements. Some of them may not be part of technical requirements:
 
-introduction.md #### Match/Merge
-
-introduction.md #### Discovery/Dissemination
-
-introduction.md #### Prototype research tool
 
