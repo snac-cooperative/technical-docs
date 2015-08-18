@@ -1,4 +1,16 @@
-TAT Functional Requirements
+#### TAT Functional Requirements
+
+Before reading this you should have read:
+
+[Plan](plan.md) (External, broad view roadmap)
+
+[Co-op Background](co-op_background.md)  (Currrent state and background explanations)
+
+[Introduction ](introduction.md) (This document. The technical requirements)
+
+[Requirements](requirements.md) (Tech requirements from Rachael's spreadsheets)
+
+#### Need a section for each proposed API
 
 #### Data background
 
@@ -59,48 +71,41 @@ administration, authorization (data privileges).
 
 #### Expanded CPF schema requirements
 
+- Provenance and history of each element/attribute.
+  - add this to the schema
 
-Provenance and history of each element/attribute.
-
-Unique ID per element of CPF if that element is editable.
-
-Version control on a per-element basis.
-
+- Unique ID per element of CPF if that element is editable.
+  - we have a unique id per record, and only one field of each type per unique id, so this is covered.
+  
+- Version control on a per-element basis.
+  - already done, but Tom wants to consider an alternative implementation
+  
+  
 #### Expanded Database Schema
 
+The database schema has been rewritten to capture all the data in CPF files, as well as meet the various data requirements.
 
-The current database (Postgres) is sufficient for the current project
-only. It will expand, and the expansion will probably be fairly
-dramatic. We need to determine what tables and fields are necessary to
-support additional functions. Each section of this document may need a
-“data” section, or else this database schema section needs to address
-every functional and UI aspect of all APIs that have anything to do with
-the database.
 
-Each field within CPF may (will?) need provenance meta data. Likewise
-many fields in the database may need data for provenance.
+Each field within CPF may (will?) need provenance meta data. Likewise many fields in the database may need
+data for provenance. This has not been done, and the developers need policy on provenance, as well as
+examples. There seems to be little or no mention of provenance in Rachael's UI requirements.
 
-The database needs audit trail ability to a fairly granular (field)
-level. Audit is a new table at the very least. It seems likely that
-nearly every table will gain some audit related fields.
+The new schema has full versions of all records for all time. If not implemented, this is planned. The version
+table records each table name, record id, user id who modified, and time datestamp. No changes were made to
+existing tables, although existing tables may have gotten a field to distinguish old from current
+records. The implementation may change.
 
-Will database records be versioned? How is that handled? Seems like it
-may be done via versioning table and some interesting joins. We need to
-evaluate the various standard methods for database internal versioning.
+Every record has a unique id. The watch system is a query run on some schedule (daily, hourly, ?) that checks
+to see if a watched record has changed. CPF record has links to a “watch” table so users can watch each
+record, and can watch for certain types of changes. Need UI for the watch system. Need an API for the watch
+system.
 
-CPF record has links to a “watch” table so users can watch each record,
-and can watch for certain types of changes. Need UI for the watch
-system. Need an API for the watch system.
-
-Need a user table, group table, probably a group permission table so
-that permissions are hard code with groups. We also want to allow
-several permissions per group. Need UI for user, group, and
+Need a user table, group (role) table, probably a group permission table so that permissions are hard code
+with groups. We also want to allow several permissions per group. Need UI for user, group, and
 group-permission management.
 
-If we create a generalized workflow system (as opposed to an ad-hoc
-linked set of reports) then we need workflow tables. The tables would
-establish workflow paths, necessary permissions, and would be linked to
-users and groups.
+We have created a generalized workflow system (as opposed to an ad-hoc linked set of reports). There is a work
+flow state table which needs to be moved into the database. 
 
 Need fields to deal with delete/embargo. This may be best implemented
 via a trigger or perhaps a view. By making what appear to be simple
@@ -169,15 +174,6 @@ input, review, etc.)
 
 #### Introduction to Planned Functionality
 
-
-The current system works, but is somewhat skeletal. It requires careful
-attention from the developers to run the data processing pipelines. It
-lacks administrative controls and reporting. Existing software
-development process follows modern agile practices, but the some
-processes are weak or incomplete. The research tools are somewhat
-rudimentary. It needs infrastructure where domain experts can correct
-and update merged authority descriptions.
-
 The functional requirements below specify in detail all of the
 capabilities of the new [production?] system. A separate section about
 user interface (UI) specifies the visual/functional aspects of the UI
@@ -198,7 +194,7 @@ while still keeping the processes manageable.
 Test-driven development ideally means automated testing, with careful
 attention to regression testing. It takes some extra time up front to
 write the tests. Each test is small, and corresponds to small sections
-of code where  both code and text can be quickly created. In this way,
+of code where both code and text can be quickly created. In this way,
 the software is kept in a working state with only brief downtimes during
 feature creation or bug fixes. Large programs are made up of
 intentionally small functions each of which is tested by a small
@@ -243,9 +239,9 @@ features/bug fix coding work of the developers. That means on-going,
 more or less continuous review of fix/features requests every few days,
 depending on how independent the developers are. Agile applies to
 everyone on the project. Ideal change management is not onerous. As
-tasks are completed, someone (developers) update feature status with “in
-progress”, “completed” and so on. There might be additional status
-updates from QA and release, but SNAC probably isn’t large enough to
+tasks are completed, someone (developers) update feature status with "in
+progress", "completed” and so on. There might be additional status
+updates from QA and release, but SNAC probably isn't large enough to
 justify anything too complex.
 
 #### QA and Related Tests for Test-driven Development
@@ -288,7 +284,40 @@ The system will require reports. These will cover broad classes of
 issues related to managing resources, usage statistics, administration,
 maintenance, and some reports for end user researchers.
 
-(Fill in prose introducing the other subsystems such as reporting)
+- Data validation API
+
+
+- Identitiy Reconciliation (aka IR) (architect Robbie)
+
+
+- workflow manager (architect Tom)
+
+- SQL schema (Robbie, Tom)
+
+    
+- Controlled vocabulary subsystem or API [Tag system](#controlled-vocabularies-and-tag-system)
+
+- CPF to SQL parser (Robbie)
+
+- Name serialization tool, selectable pre-configured formats
+
+- Name string parser
+
+- Date parser
+
+- CPF record edit, edit each field
+
+- CPF record split, split data into separate cpf identities, deprecate old ARK, mint new ARKs
+
+- CPF record merge, combine fields, deprecate old ARKs, mint new ARK
+
+- Object architecture, coding style, class template (architect Robbie)
+
+- UI widgets, mostly off the shelf, some custom written. We need to have UI edit/chooser widget for search and
+  select of large numbers of options, such as the Joseph Henry cpfRelations that contain some 22K
+  entries. Also need to list all fields which might have large numbers of values. In fact, part of the meta
+  data for every field is "number of possible entries/reapeat values" or whatever that's called. From a
+  software architecture perspective, the answer is 0, 1, infinite.
 
 One important aspect of the project is long-term viability and
 preservation. We should be able to export all data and metadata in
@@ -308,115 +337,94 @@ Users may "watch" an identity. If a file is being watched, and that file is part
 apply to the results of human edits, regardless of which part of the description was modified. It is possible
 for someone to wish to track a biogHist, but that biogHist could be completely removed in lieu of an improved
 and updated description. We do not track individual elements in CPF. We only track an entire description,
-regardless the watcher’s motivation. The original motivation for watching might no longer exist after an edit,
+regardless the watcher's motivation. The original motivation for watching might no longer exist after an edit,
 and if so, the watcher can simply disable their watch. After each edit, all watchers will get a
 notification. The watch does not apply to any single field, but to the entire description, and therefore also
 to future descriptions which result from merging.
 
-What happens to a watch on a merged description which is subsequently
-split? Does the watch apply to both split descriptions or to neither
-description? Perhaps is it best to disable the watch, and inform the
-watcher to re-apply to watch a specific record, along with links and
-helpful info to make it easy to add the new watch.
+What happens to a watch on a merged description which is subsequently split? Does the watch apply to both
+split descriptions or to neither description? Perhaps is it best to disable the watch, and inform the watcher
+to re-apply to watch a specific record, along with links and helpful info to make it easy to add the new
+watch.
 
-#### Brian’s API docs need to be merged in or otherwise referred to:
+#### Brian's API docs need to be merged in or otherwise referred to:
 
 [https://gist.github.com/tingletech/4a3fc5f59e5af3054286](https://www.google.com/url?q=https%3A%2F%2Fgist.github.com%2Ftingletech%2F4a3fc5f59e5af3054286&sa=D&sntz=1&usg=AFQjCNEJeJexryBtHbvLw-WtFYjxP4VwlQ)
 
 #### Not sure where to fit these topics into the requirements. Some of them may not be part of technical requirements:
 
-Consider implementing linked data standard for relationship links
-instead of having to download an entire document of links (as it is
-configured now.)
+Discuss. What is "as it is configured now"? Consider implementing linked data standard for relationship links
+instead of having to download an entire document of links (as it is configured now.)
 
-Sort by common subject headings across all of SNAC - right now SNAC has
+Discuss. This seems to be the controlled vocabulary issue. Sort by common subject headings across all of SNAC - right now SNAC has
 subject headings that have been applied locally without common practice
 across the entire corpus.
 
-Sort by holdings location. Sort by identity's activity location. Sort
-and visualize a person through time (show dates for events in a person
-or organization's lifetime). Sort and visualize an agency or
-organization as it changes over time.
+We probably need to build our own holdings authority.
+
+We need to write code to get accurate holdings info from WorldCat records. All the other repositories will
+have be handled on a case-by-case basis. Sort by holdings location. Sort by identity's activity location. Sort
+and visualize a person through time (show dates for events in a person or organization's lifetime). Sort and
+visualize an agency or organization as it changes over time.
 
 Continue to develop and refine context widget.
 
-Sort collection links. Add weighting to understand which collections
-have more material directly related to identity. (How is this best
-handled programmatically or as an input by contributors- maybe both?).
+Sort collection links. Add weighting to understand which collections have more material directly related to
+identity. (How is this best handled programmatically or as an input by contributors- maybe both?).
 
-Increase exposure of SNAC to general public by leveraging partnerships.
-Suggested agreement with Wikipedia to display Wikipedia content in SNAC
-biographical area and work with Wikipedia to allow for links to SNAC at
-the bottom of all applicable identities. This would serve to escalate
-and  drive traffic to SNAC.
+Increase exposure of SNAC to general public by leveraging partnerships.  Suggested agreement with Wikipedia to
+display Wikipedia content in SNAC biographical area and work with Wikipedia to allow for links to SNAC at the
+bottom of all applicable identities. This would serve to escalate and drive traffic to SNAC.
 
 #### Match/Merge
 
-The match/merge process has three major data input streams, library
-authority records, EAC-CPF documents from the EAC-CPF extract/create
-system, and an ARK identifier minter.
+Notes: This looks like the current match merge, not the new manual process, or the process based on the IR API.
 
-First, a copy of the Virtual International Authority File (VIAF) is
-indexed as a reference source to aid in the record matching process.  In
-addition to authorized name headings from multiple international
-sources, the VIAF data contains biographical data and links to
-bibliographic records which will be included in the output documents.  
-Then, the EAC-CPF from the extract/create process are serially processed
-against the VIAF and each other to discover and rate potential matches
-between records.  In this phase of processing, matches are noted in a
-database.
+The match/merge process has three major data input streams, library authority records, EAC-CPF documents from
+the EAC-CPF extract/create system, and an ARK identifier minter.
 
-After the matching phase identifies incoming EAC-CPF to merge, a new set
-of EAC-CPF records are generated.  This works by running through all the
-matches in that database, then reading in the EAC-CPF input files, and
-finally outputting a new EAC-CPF records that merges the source EAC-CPF
-with any information found in VIAF.  ARK identifiers are also assigned.
-This architecture allows for incrementally processing more un-merged
-EAC-CPF documents before. It also allows matches to be adjusted in the
-database, or alterations to be made on the un-merged EAC-CPF documents,
-and the merge records can be regenerated.
+First, a copy of the Virtual International Authority File (VIAF) is indexed as a reference source to aid in
+the record matching process. In addition to authorized name headings from multiple international sources, the
+VIAF data contains biographical data and links to bibliographic records which will be included in the output
+documents.   Then, the EAC-CPF from the extract/create process are serially processed against the VIAF and
+each other to discover and rate potential matches between records. In this phase of processing, matches are
+noted in a database.
 
-Cheshire, postgreSQL, and python are the predominate technologies used
-in the generation of the XML documents created by this process.
+After the matching phase identifies incoming EAC-CPF to merge, a new set of EAC-CPF records are
+generated. This works by running through all the matches in that database, then reading in the EAC-CPF input
+files, and finally outputting a new EAC-CPF records that merges the source EAC-CPF with any information found
+in VIAF. ARK identifiers are also assigned.  This architecture allows for incrementally processing more
+un-merged EAC-CPF documents before. It also allows matches to be adjusted in the database, or alterations to
+be made on the un-merged EAC-CPF documents, and the merge records can be regenerated.
+
+Cheshire, postgreSQL, and python are the predominate technologies used in the generation of the XML documents
+created by this process.
 
 [link to the merge output spec]
 
-This involves processing that compares the derived EAC-CPF records
-against one another to identify identical names. Because names for
-entities may not match exactly or the same name string may be used for
-more than one entity, contextual information from the finding aids is
-also used to evaluate the probability that closely and exactly matching
-strings designate the same entity.[1] For matches that have a high
-degree of probability, the EAC-CPF records will be merged, retaining
-variations in the name entries where these occur, and retaining links to
-the finding aids from which the name or name variant was derived. When
-no identical names exist, an additional matching stage compares the
-names from the input EAC-CPF records against authority records in the
-Virtual International Authority File (VIAF). Contextual information
-(dates, inferred dates, etc.) is used to enhance the accuracy of the
-matching. Matched VIAF records are merged with the input derived EAC-CPF
-records, with authoritative or preferred forms of names recorded, and a
-union set of alternative names from the various VIAF contributors, will
-also be incorporated into the EAC-CPF records. When exact matching and
-VIAF matching fail, then we attempt to find close variants using Ngram
-(approximate spelling) matching. In addition contextual information,
-when available is used assess the likelihood of the records actually
-being the same. Records that may be for the same entity but the
-available contextual information is insufficient to make a confident
-match will be flagged for human review (as “May be same as”). While
-these records will be flagged for human review, the current prototype
-does not provide facilities to manually merge records. The current
-policy governing matching is to err on the side of not merging rather
-than merging without strong evidence.
+This involves processing that compares the derived EAC-CPF records against one another to identify identical
+names. Because names for entities may not match exactly or the same name string may be used for more than one
+entity, contextual information from the finding aids is also used to evaluate the probability that closely and
+exactly matching strings designate the same entity.[1] For matches that have a high degree of probability, the
+EAC-CPF records will be merged, retaining variations in the name entries where these occur, and retaining
+links to the finding aids from which the name or name variant was derived. When no identical names exist, an
+additional matching stage compares the names from the input EAC-CPF records against authority records in the
+Virtual International Authority File (VIAF). Contextual information (dates, inferred dates, etc.) is used to
+enhance the accuracy of the matching. Matched VIAF records are merged with the input derived EAC-CPF records,
+with authoritative or preferred forms of names recorded, and a union set of alternative names from the various
+VIAF contributors, will also be incorporated into the EAC-CPF records. When exact matching and VIAF matching
+fail, then we attempt to find close variants using Ngram (approximate spelling) matching. In addition
+contextual information, when available is used assess the likelihood of the records actually being the
+same. Records that may be for the same entity but the available contextual information is insufficient to make
+a confident match will be flagged for human review (as "May be same as"). While these records will be flagged
+for human review, the current prototype does not provide facilities to manually merge records. The current
+policy governing matching is to err on the side of not merging rather than merging without strong evidence.
 
-The resulting set of interrelated EAC-CPF records will represent the
-creators and related entities extracted from EAD-encoded finding aids,
-with a subset of the records enhanced with entries from matching VIAF
-records. The EAC-CPF records will thus represent a large set of archival
-authority records, related with one another and to the archival records
-descriptions from which they were derived. This record set will then be
-used to build a prototype corporate body, person, and family name and
-biographical/historical access system.
+The resulting set of interrelated EAC-CPF records will represent the creators and related entities extracted
+from EAD-encoded finding aids, with a subset of the records enhanced with entries from matching VIAF
+records. The EAC-CPF records will thus represent a large set of archival authority records, related with one
+another and to the archival records descriptions from which they were derived. This record set will then be
+used to build a prototype corporate body, person, and family name and biographical/historical access system.
 
 In the current system all input records, and potential matches are
 recorded in a relational database with the following structure:
@@ -445,50 +453,50 @@ diagram:
 
 
 The main data input for the prototype research tool are the merged
-EAC-CPF documents produced in the match/merge system.  Some other
+EAC-CPF documents produced in the match/merge system. Some other
 supplemental data sources, such as dbpedia and the Digital Public
 Library of America are also consulted during the indexing process.
 
-A pre-indexing phase is run on the merged EAC-CPF documents.  During
+A pre-indexing phase is run on the merged EAC-CPF documents. During
 pre-processing, name headings and wikipedia links are extracted, and
 then used to look for possible related links and data in supplemental
 sources. The output of the pre-indexing phase consists of XML documents
 recording supplemental.
 
 Once the supplemental XML files are generated, two types of indexes are
-created to power which serve as the input to the web site.  The first
+created to power which serve as the input to the web site. The first
 index created runs across all documents and provides access to the full
 text and specific facets of metadata extracted from the documents.
- Additionally, the XML structure of each document is indexed as a
+Additionally, the XML structure of each document is indexed as a
 performance optimization that allows for transformations to be
 efficiently applied to large XML documents.
 
 The public interface to the prototype research tool utilizes the index
 across all documents to enable full text, metadata, and faceted searches
-of the merged EAC-CPF documents.  Once a search is completed, and a
+of the merged EAC-CPF documents. Once a search is completed, and a
 specific merged EAC-CPF document is selected for display; the index of
 the XML document structure is used to quickly transform the merged
 document into an HTML presentation for the end user.
 
 In the SNAC1 prototype a graph database was created after the full text
-indexing was complete.  The graph database was used to power
+indexing was complete. The graph database was used to power
 relationship visualizations and an API used to dynamically integrate
 links to SNAC into archival description access systems. This graph
 database was then converted into linked data, which was loaded into a
 SQARQL endpoint. This step has not yet been implemented in the SNAC 2
-prototype.  Because the merged EAC-CPF documents are of higher quality
+prototype. Because the merged EAC-CPF documents are of higher quality
 for the SNAC 2 prototype, the graph extraction process is no longer
 dependent on the full text index being complete, so it could run in
 parallel with pre-indexing and indexing.
 
 XTF is the main technology used to power public access to the merged
-EAC-CPF records.  XTF integrates lucene for indexing and saxon for XML
+EAC-CPF records. XTF integrates lucene for indexing and saxon for XML
 transformation, making heavy use of XSLT for customization and display
-of search results and the merged documents.  EAC-CPF and search results
-are transformed to HTML5 and JSON for consumption by the end users’ web
-browser.  Multiple javascript and CSS3 libraries and technologies are
-used in the production of the “front end” code for the website.  Google
-analytics is used to measure use of the site.  Werker, middleman, and
+of search results and the merged documents. EAC-CPF and search results
+are transformed to HTML5 and JSON for consumption by the end users' web
+browser. Multiple javascript and CSS3 libraries and technologies are
+used in the production of the "front end" code for the website. Google
+analytics is used to measure use of the site. Werker, middleman, and
 bower used to build the front end code for the site.
 
 This technical architecture
