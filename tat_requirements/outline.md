@@ -35,8 +35,6 @@ co-op_background.md #### Data maintenance
 
 co-op_background.md #### Pilot phase architecture
 
-co-op_background.md #### Alternative 1
-
 co-op_background.md #### Current State Conclusion
 
 introduction.md
