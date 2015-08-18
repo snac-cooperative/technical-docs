@@ -17,16 +17,17 @@ Robbie Hott
 
 #### Organization of documenatation
 
-[Plan](plan.md) (external, broad view roadmap)
+[Plan](plan.md) (External, broad view roadmap)
 
-[Introduction (this document) ](introduction.md)
+[Co-op Background](co-op_background.md)  (This document) 
 
-[Requirements](requirements.md)
+[Introduction ](introduction.md) (Was an introduction, but shaping up to be the requirements)
 
-co-op background
+[Requirements](requirements.md) (Tech requirements from Rachael's spreadsheets)
+
+#### co-op background
 
 #### Introduction to SNAC
-
 
 Social Networks and Archival Context (SNAC) is a Mellon-funded project
 to aid end-user researchers in discovering, locating, and using
@@ -52,7 +53,6 @@ archival descriptions that are submitted and added to the Cooperative.  
 
 
 ##### Overview
-
 
 This section describes the existing technical architecture, and later
 moving on to describe the required functionality for the production
@@ -115,7 +115,6 @@ ground up.
 
 #### Current State of the System
 
-
 CPF description generation is done at the University of Virginia’s
 Institute for Advanced Technology in the Humanities (IATH). IATH handles
 the CPF data extraction and hosts servers for data processing and the
@@ -166,25 +165,16 @@ input records, but also comparison with information from the Virtual
 International Authority File, and approximate matching for these records
 as well.
 
-TK The involvement of CDL includes … (Brian)
+Rachael has several user studiess. The results of these studies are... The implications of these studies
+are...
 
-TK We have several extant user studies UI/UX … (Rachael, on-going)
-
-TK The results of these studies are … (Rachael, on-going)
-
-TK The technical implications of these studies are … (Rachael, on-going)
-
-The current system uses a fairly loose software development process.
-Source code is primarily maintained on a Linux server which is managed
-by standard practices as relate to hardware, software, network, user
-accounts, back up, and so on. All the data resides on the server. Source
-code is managed by version control systems. The amount of quality
-assurance and testing has been increasing over time, as well as
-documentation, and management aspects such as release process. All tools
-currently used are open source, and the code written for SNAC is open
-source. We have begun to formalize feature request and issue tracking.
-The development process is agile in that there are frequent small
-changes that are committed to the version control, and the code is
+The current system uses a fairly loose software development process.  Source code is maintained on a Linux
+server which is managed by standard practices as relate to hardware, software, network, user accounts, back
+up, and so on. All the data resides on the server. Source code is managed by version control systems. The
+amount of quality assurance and testing has been increasing over time, as well as documentation, and
+management aspects such as release process. All tools currently used are open source, and the code written for
+SNAC is open source. We have begun to formalize feature request and issue tracking.  The development process
+is agile in that there are frequent small changes that are committed to the version control, and the code is
 nearly always in a working state.
 
 #### Processing Pipeline
@@ -192,7 +182,6 @@ nearly always in a working state.
 TK Describe algorithmic portions, and add a section for new features.
 
 #### Extraction
-
 
 There are currently several CPF extraction software pipelines: MARC21,
 British Library, Smithsonian Agency History, New York State Archives,
@@ -234,12 +223,10 @@ engine is Saxon 9.x HE which is the free, public version of Saxon.
 
 #### Gap analysis
 
-
 This is gap analysis between the current and SNAC2-prototype. Perhaps
 this should be in the Required and Planned Functionality below.
 
 #### Data maintenance
-
 
 A goal of the pilot phase it to demonstrate cooperative maintenance of
 the data resource.  The prototype does not have robust support for
@@ -294,80 +281,24 @@ license
 #### Pilot phase architecture
 
 
-#### Alternative 1^[[h]](#cmnt8)^
+The software will consist of a web application written in PHP, and using PostgreSQL as the data
+storage. Granual work flow wil managed by a work flow engine. Hand off of tasks will be managed by a series of
+semaphores. 
 
-(Rewrite this for a web application with SQL database.)
+An Identity Reconciliation (IR) API will test similarity between two identities, and allow us to search the
+database for matches. The IR API will make concrete our concept of "identity" as a collection of data fields.
 
-
-The most expeditious way to launch a pilot phase would be to leave the
-basic technical architecture of the prototype in place, and to focus
-initial energies into establishing policies and procedures that work
-within the constraints of this architecture.  Two key systems that would
-need to be set up for this approach to work are a customer relationship
-management (CRM) system and ticketed help desk.
-
-Customer relationship management systems have historically be used as a
-sales support tool.  Information on current and potential customers,
-including contact information and institutional affiliation, are
-maintained in a database.  All pilot members institutions and designated
-contacts should be entered into a CRM system for the pilot phase.  All
-correspondence, call, contracts and agreements with accepted and
-potential pilot phase members should be logged or stored in the CRM
-system.^[[i]](#cmnt9)^
-
-The CRM system should support or integrate with a help desk that issues
-work ticket numbers. ^[[j]](#cmnt10)^ Any addition or change in the
-maintained corpus of merged EAC-CPF records will require a work ticket
-number.  Expectations for response times for issued tickets should be
-established, clearly communicated, and measured for compliance.  A
-customer service manager^[[k]](#cmnt11)^ will actively monitor the queue
-of work tickets pending.  An operations manual will be maintained so
-that the customer service manager or any additional first tier support
-staff will be able to handle a set of ticket types.  If a procedure for
-the request is not yet documented in the operations manual - or if the
-manual indicates this is a task for second tier - then the ticket will
-be escalated to the second tier support programmer.  The second tier
-support programmer will have the technical skills to manipulate the
-technical infrastructure; such as through editing XML files or directly
-altering the database.  The second tier support programmer would also be
-responsible for performing data extraction and normalization of non
-EAC-CPF data sources processed during the pilot phase.^[[l]](#cmnt12)^ 
-The volume and type of tickets will help establish priorities for
-establishing procedures that can be automated for first tier support and
-for future phases that do not require pilot members to contact the help
-desk and obtain work tickets.
-
-An automated way to establish a new identity should established early in
-the pilot phase, so that participants can mint a new ARK identifier
-without creating a work ticket.  Initially, a work ticket would still be
-generated once the participant was ready to submit the new record though
-the match/merge process.
-
-Given the importance of maintaining links from the merged EAC-CPF record
-to related resources, a link harvesting protocol should be developed
-early in the pilot phase.  When a pilot phase participant identifies a
-match in SNAC with a name they have in a collection description; the
-link harvesting protocol would specify how to publish that link in their
-HTML display of their collection description or through some other
-mechanism (perhaps through an extension to the sitemap protocol, along
-the lines of how ResourceSync works).  Procedures would be established
-to then notify SNAC to harvest links from the participant, and the SNAC
-“related collections” section would be automatically updated.  Such
-updates would be based on a “linked data” technology rather than the
-submission of XML files.
-
-
-Pure RDF architecture
+CPF records will be linked to relevant recources. Brian suggest actively harvesting links through an extension
+to the sitemap protocol along the lines of ResourceSync. Brian notes that the updates are based on linked
+data, not submission of XML files.
 
 #### Current State Conclusion
 
 
-The current systems functions well enough for researchers and other
-stakeholders to see large data sets fully processed. These systems will
-benefit from additional work to make them more mature in the usual ways
-that software develops: robustness, testing and QA, documentation,
-examples, consistent API. Most of the current software will be used in
-the production product.
+The current systems functions well enough for researchers and other stakeholders to see large data sets fully
+processed. These systems will benefit from additional work to make them more mature in the usual ways that
+software develops: robustness, testing and QA, documentation, examples, consistent API. Most of the current
+software will be used in the production product.
 
 #### Required and Planned Functionality (All authors)
 
@@ -378,17 +309,15 @@ functionality.)
 
 #### Documentation
 
-Every aspect of the system requires documentation. Most visible to the
-public is the user interface for discovery. Maintenance will be
-complicated, and our processes are somewhat novel, so this will need to
-be extensive, well illustrated with screenshots, and carefully tested.
+System documentation is in http://gitlab.iath.virginia.edu in markdown files.
 
-Documentation intended for developers might be somewhat sparse by
-comparison, but will be critical to the on-going software development
-process. All the databases, operating system, httpd and other servers
-need complete documentation of installation, configuration, deployment,
-starting, stopping, and emergency procedures.
+Every aspect of the system requires documentation. Most visible to the public is the user interface for
+discovery. Maintenance will be complicated, and our processes are somewhat novel, so this will need to be
+extensive, well illustrated with screenshots, and carefully tested.
 
-It is probably wise to choose a wiki-like documentation system at the
-outset of the project.
+Documentation intended for developers might be somewhat sparse by comparison, but will be critical to the
+on-going software development process. All the databases, operating system, httpd and other servers need
+complete documentation of installation, configuration, deployment, starting, stopping, and emergency
+procedures.
+
 
