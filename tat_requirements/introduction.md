@@ -135,6 +135,13 @@ The system will require reports. These will cover broad classes of
 issues related to managing resources, usage statistics, administration,
 maintenance, and some reports for end user researchers.
 
+- Web application (architect: Robbie)
+
+The web application is a wrapper for all the APIs. It can have an API of it own, or not. It handles all http
+requests, validating the data, deciding what needs to be done, doing real work, and handing some output back
+to the user. Typically the output is HTML, but we are already planning for file downloads, and JSON data as
+output from REST API calls. 
+
 - Data validation API
 
 Data from the web browser needs sanity checking and untainting before being handed to the rest of the
@@ -143,31 +150,75 @@ browser. We can add various checks and tests. We need to decide if the validatio
 it can, then it needs to interact with the work flow engine, the actual work flow, and whatever messaging
 system we use to display messages to end users.
 
-- Identitiy Reconciliation (aka IR) (architect Robbie)
+- Identitiy Reconciliation (aka IR) (architect: Robbie)
 
+This API uses many aspects of identity, testing each against a target population of other identities. The
+final anwser is a floating point number giving a match strength. IR has two modes of operation. Mode one
+compares two identities and returns a match strength. Mode two compares a single identity againast the entire
+database returning match strength. Mode two is somewhat unclear.
 
+- workflow manager (Tom)
 
-- workflow manager (architect Tom)
+Every action the application can perform is part of the work flow. All these actions along with their
+requisites are organized into a work flow table. The work flow engine does not know how to do real work, but
+it does know the names of the functions which do the real work. When a new task is added to the application,
+that task must be added to the work flow, and a function created in the application to perform the
+task. Likewise, requistes are determined by boolean functions, and every requisite must have a matching
+function known to the work flow engine. By including requisites, the work flow can enforce role-based
+behavior. The workflow engine exists, but needs to be ported from Perl to PHP, and the work flow data may need
+to be stored in the SQL database.
+
+- Support for work history and task staging. Editing consists of several stages of work that may be performed
+  by different people and/or different roles. We need database tables to support saving of work state
+  data. Create a prototype table schema so we can think about this problem and create a functional spec.
 
 - SQL schema (Robbie, Tom)
+
+All data is stored in a SQL database. Details are given elsewhere.
     
 - Controlled vocabulary subsystem or API [Tag system](#controlled-vocabularies-and-tag-system)
 
+We need controlled vocabulary for several data fields. This system handles all aspects of all controlled vocabularies.
+
 - CPF to SQL parser (Robbie)
+
+The input for the application is CPF files. These files need to be parsed into data fields and input into the
+SQL database. This application exists, but needs some additional functionality.
 
 - Name serialization tool, selectable pre-configured formats
 
+Outputting name strings based on name data fields in the database is a tricky problem. There are several
+output formats. The name serialization deals with this issue.
+
 - Name string parser
+
+Names in CPF files are currently strings. The CPF <part> element has been imported into the SQL database as a
+string, but data needs require individual name components. Parsing names is a tricky problem, but several
+parsers exist. We need to integrate one or more parsers, and perhaps tweak those parsers to handle the SNAC names.
 
 - Date parser
 
+We have several date parsers, but none are fully comprehensive. We can use the existing parsers, but they need
+to be integrated into a single, comprehensive parser.
+
 - CPF record edit, edit each field
+
+Record editing on the server is handled by a collection of functions. The specifications for this may evolve
+in parallel to the code. We know that each field needs to be changed, but the details of work flow and data
+validation have not been determined. Work flow and validation are both likely to change as the SNAC policies
+evolve. There are UI requirements for editing.
 
 - CPF record split, split data into separate cpf identities, deprecate old ARK, mint new ARKs
 
+Record splitting requires a set of functions and UI requirements documented elsewhere.
+
 - CPF record merge, combine fields, deprecate old ARKs, mint new ARK
 
+Record merge requires a set of functions and UI requirements documented elsewhere.
+
 - Object architecture, coding style, class template (architect Robbie)
+
+We will have a specific architecture of the web application, and of the classes and objects involved.
 
 - UI widgets, mostly off the shelf, some custom written. We need to have UI edit/chooser widget for search and
   select of large numbers of options, such as the Joseph Henry cpfRelations that contain some 22K
