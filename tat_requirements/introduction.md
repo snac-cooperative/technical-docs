@@ -10,7 +10,177 @@ Before reading this you should have read:
 
 [Requirements](requirements.md) (Tech requirements from Rachael's spreadsheets)
 
-#### Need a section for each proposed API
+#### Introduction to Planned Functionality
+
+The functional requirements below specify in detail all of the
+capabilities of the new [production?] system. A separate section about
+user interface (UI) specifies the visual/functional aspects of the UI
+and includes discussion of the user experience (UX). Some of the
+functional requirements exist only to support actions of the UI, and
+UI-related functions should exist in their own independent API.
+
+#### Software development, processes, and project management
+
+
+Choices for programming languages, operating system, databases, version
+control, and various related tools and practices are based on extensive
+experience of the developer community, and a complex set of requirements
+for the coding process. Current best practices are agile development
+using practices that allow programmers wide leeway for implementation
+while still keeping the processes manageable.
+
+Test-driven development ideally means automated testing, with careful
+attention to regression testing. It takes some extra time up front to
+write the tests. Each test is small, and corresponds to small sections
+of code where both code and text can be quickly created. In this way,
+the software is kept in a working state with only brief downtimes during
+feature creation or bug fixes. Large programs are made up of
+intentionally small functions each of which is tested by a small
+automated test.
+
+Regression testing refers to verifying that old bugs do not reappear.
+Every bug fix has a corresponding test, even if the function in question
+did not originally have a test for the bug. Each new bug needs a new
+test. Bugs frequently reappear, especially in complex sections of code.
+
+Source code version control is vital to both development process, and to
+the release process. During development, frequent small changes are
+checked-in to the version control, along with a meaningful comment. The
+history of the code can be tracked. This occasionally helps to
+understand how bugs come into existence. In the Git system, the history
+command is “blame”, a bit of programmer dark humor where the history is
+used to know who to blame for a bug (or any undesirable feature).
+
+Moving code into Quality Assurance (QA) and then into the production
+environment are both integral with source code management. Many version
+control systems allow tagging a release with a name. The collected
+source code files are marked as a named (virtual) collection, and can be
+used to update a QA area. Human testing and review happens in QA. After
+QA we have release. Depending on the nature of the system release can be
+quite complex with many parties needing to be notified, and coordination
+across groups of developers, sysadmin, managers, support staff, and
+customers. Agile development tends towards small, seamless releases on a
+frequent (weekly or monthly) basis where communication is primarily via
+update of electronic documentation. The process needs to assure that
+fixes and new features are documented. The system must have tools to see
+the current version of the system with its change log, as well as
+comparing that to previous releases. All of these are integrated with
+change management.
+
+Bug reporting and feature requests fall (broadly speaking) into the
+category of change management. Typically a small group of senior
+developers and stakeholders review the bug/feature tracking system to
+assign priorities, clarify, and investigate. There are good
+off-the-shelf systems for tracking bugs and feature requests, so we have
+several choices. This process happens almost as frequently as the
+features/bug fix coding work of the developers. That means on-going,
+more or less continuous review of fix/features requests every few days,
+depending on how independent the developers are. Agile applies to
+everyone on the project. Ideal change management is not onerous. As
+tasks are completed, someone (developers) update feature status with "in
+progress", "completed” and so on. There might be additional status
+updates from QA and release, but SNAC probably isn't large enough to
+justify anything too complex.
+
+#### QA and Related Tests for Test-driven Development
+
+
+The data extraction pipelines manage massive amounts of data, and
+visually checking descriptions for bugs would be inefficient if not
+infeasible. The MARC extraction process is verified by just over 100
+quality assurance descriptions. The output produced from each
+description is checked for some specific value that confirms that the
+code is working correctly and historical bugs have not reappeared. The
+EAD extraction has a set of QA files, but the output verification is not
+yet automated. A variety of file counts and measures of various sorts
+are performed to verify that descriptions have all been processed. All
+CPF output is validated against the Relax NG schema. Processing log
+files are checked for a variety of error messages. Settings used for
+each run are recorded in documentation maintained with the output files.
+The source code is stored in a Subversion repository.
+
+Our disaster recovery processes must be carefully documented.
+
+The match/merge process is validated by …
+
+#### Documentation
+
+System documentation is in http://gitlab.iath.virginia.edu in markdown files.
+
+Every aspect of the system requires documentation. Most visible to the public is the user interface for
+discovery. Maintenance will be complicated, and our processes are somewhat novel, so this will need to be
+extensive, well illustrated with screenshots, and carefully tested.
+
+Documentation intended for developers might be somewhat sparse by comparison, but will be critical to the
+on-going software development process. All the databases, operating system, httpd and other servers need
+complete documentation of installation, configuration, deployment, starting, stopping, and emergency
+procedures.
+
+#### Required new features
+
+
+The majority of new features will be in two areas: the maintenance
+system, and the administration system. None of this code exists. The
+maintenance system has a web UI and a server-based back end that
+interacts with the same database used by the match-merge. The
+maintenance system also requires an authentication system (login) that
+allows us to manage the extensive collaborative efforts. The current
+processing of data is accomplished only on servers at the command line,
+and is handled directly by project programmers. In the new maintenance
+system, that will be driven by content experts via a web site, and
+therefore must expect the issues of authentication and authorization
+inherent in collaborative data manipulation web applications.
+
+The system will require reports. These will cover broad classes of
+issues related to managing resources, usage statistics, administration,
+maintenance, and some reports for end user researchers.
+
+- Data validation API
+
+Data from the web browser needs sanity checking and untainting before being handed to the rest of the
+application. Initially the data validation API can consist of nothing more than untaining input from the
+browser. We can add various checks and tests. We need to decide if the validation API can reject data, and if
+it can, then it needs to interact with the work flow engine, the actual work flow, and whatever messaging
+system we use to display messages to end users.
+
+- Identitiy Reconciliation (aka IR) (architect Robbie)
+
+
+
+- workflow manager (architect Tom)
+
+- SQL schema (Robbie, Tom)
+    
+- Controlled vocabulary subsystem or API [Tag system](#controlled-vocabularies-and-tag-system)
+
+- CPF to SQL parser (Robbie)
+
+- Name serialization tool, selectable pre-configured formats
+
+- Name string parser
+
+- Date parser
+
+- CPF record edit, edit each field
+
+- CPF record split, split data into separate cpf identities, deprecate old ARK, mint new ARKs
+
+- CPF record merge, combine fields, deprecate old ARKs, mint new ARK
+
+- Object architecture, coding style, class template (architect Robbie)
+
+- UI widgets, mostly off the shelf, some custom written. We need to have UI edit/chooser widget for search and
+  select of large numbers of options, such as the Joseph Henry cpfRelations that contain some 22K
+  entries. Also need to list all fields which might have large numbers of values. In fact, part of the meta
+  data for every field is "number of possible entries/reapeat values" or whatever that's called. From a
+  software architecture perspective, the answer is 0, 1, infinite.
+
+One important aspect of the project is long-term viability and preservation. We should be able to export all
+data and metadata in standard formats. Part of the API should cover export facilities so that over time we can
+easily add new export features to support emerging standards.
+
+The ability to export all the data for preservation purposes also gives us the ability to offer bulk data
+downloads to researchers and collaborating peer institutions.
 
 #### Data background
 
@@ -171,163 +341,6 @@ performance time, available features, and ease of use.
 We could try to report on the amount of training necessary before a new
 user was able to work independently in each of various areas (content
 input, review, etc.)
-
-#### Introduction to Planned Functionality
-
-The functional requirements below specify in detail all of the
-capabilities of the new [production?] system. A separate section about
-user interface (UI) specifies the visual/functional aspects of the UI
-and includes discussion of the user experience (UX). Some of the
-functional requirements exist only to support actions of the UI, and
-UI-related functions should exist in their own independent API.
-
-#### Software development, processes, and project management
-
-
-Choices for programming languages, operating system, databases, version
-control, and various related tools and practices are based on extensive
-experience of the developer community, and a complex set of requirements
-for the coding process. Current best practices are agile development
-using practices that allow programmers wide leeway for implementation
-while still keeping the processes manageable.
-
-Test-driven development ideally means automated testing, with careful
-attention to regression testing. It takes some extra time up front to
-write the tests. Each test is small, and corresponds to small sections
-of code where both code and text can be quickly created. In this way,
-the software is kept in a working state with only brief downtimes during
-feature creation or bug fixes. Large programs are made up of
-intentionally small functions each of which is tested by a small
-automated test.
-
-Regression testing refers to verifying that old bugs do not reappear.
-Every bug fix has a corresponding test, even if the function in question
-did not originally have a test for the bug. Each new bug needs a new
-test. Bugs frequently reappear, especially in complex sections of code.
-
-Source code version control is vital to both development process, and to
-the release process. During development, frequent small changes are
-checked-in to the version control, along with a meaningful comment. The
-history of the code can be tracked. This occasionally helps to
-understand how bugs come into existence. In the Git system, the history
-command is “blame”, a bit of programmer dark humor where the history is
-used to know who to blame for a bug (or any undesirable feature).
-
-Moving code into Quality Assurance (QA) and then into the production
-environment are both integral with source code management. Many version
-control systems allow tagging a release with a name. The collected
-source code files are marked as a named (virtual) collection, and can be
-used to update a QA area. Human testing and review happens in QA. After
-QA we have release. Depending on the nature of the system release can be
-quite complex with many parties needing to be notified, and coordination
-across groups of developers, sysadmin, managers, support staff, and
-customers. Agile development tends towards small, seamless releases on a
-frequent (weekly or monthly) basis where communication is primarily via
-update of electronic documentation. The process needs to assure that
-fixes and new features are documented. The system must have tools to see
-the current version of the system with its change log, as well as
-comparing that to previous releases. All of these are integrated with
-change management.
-
-Bug reporting and feature requests fall (broadly speaking) into the
-category of change management. Typically a small group of senior
-developers and stakeholders review the bug/feature tracking system to
-assign priorities, clarify, and investigate. There are good
-off-the-shelf systems for tracking bugs and feature requests, so we have
-several choices. This process happens almost as frequently as the
-features/bug fix coding work of the developers. That means on-going,
-more or less continuous review of fix/features requests every few days,
-depending on how independent the developers are. Agile applies to
-everyone on the project. Ideal change management is not onerous. As
-tasks are completed, someone (developers) update feature status with "in
-progress", "completed” and so on. There might be additional status
-updates from QA and release, but SNAC probably isn't large enough to
-justify anything too complex.
-
-#### QA and Related Tests for Test-driven Development
-
-
-The data extraction pipelines manage massive amounts of data, and
-visually checking descriptions for bugs would be inefficient if not
-infeasible. The MARC extraction process is verified by just over 100
-quality assurance descriptions. The output produced from each
-description is checked for some specific value that confirms that the
-code is working correctly and historical bugs have not reappeared. The
-EAD extraction has a set of QA files, but the output verification is not
-yet automated. A variety of file counts and measures of various sorts
-are performed to verify that descriptions have all been processed. All
-CPF output is validated against the Relax NG schema. Processing log
-files are checked for a variety of error messages. Settings used for
-each run are recorded in documentation maintained with the output files.
-The source code is stored in a Subversion repository.
-
-Our disaster recovery processes must be carefully documented.
-
-The match/merge process is validated by …
-
-#### Required new features
-
-
-The majority of new features will be in two areas: the maintenance
-system, and the administration system. None of this code exists. The
-maintenance system has a web UI and a server-based back end that
-interacts with the same database used by the match-merge. The
-maintenance system also requires an authentication system (login) that
-allows us to manage the extensive collaborative efforts. The current
-processing of data is accomplished only on servers at the command line,
-and is handled directly by project programmers. In the new maintenance
-system, that will be driven by content experts via a web site, and
-therefore must expect the issues of authentication and authorization
-inherent in collaborative data manipulation web applications.
-
-The system will require reports. These will cover broad classes of
-issues related to managing resources, usage statistics, administration,
-maintenance, and some reports for end user researchers.
-
-- Data validation API
-
-
-- Identitiy Reconciliation (aka IR) (architect Robbie)
-
-
-- workflow manager (architect Tom)
-
-- SQL schema (Robbie, Tom)
-
-    
-- Controlled vocabulary subsystem or API [Tag system](#controlled-vocabularies-and-tag-system)
-
-- CPF to SQL parser (Robbie)
-
-- Name serialization tool, selectable pre-configured formats
-
-- Name string parser
-
-- Date parser
-
-- CPF record edit, edit each field
-
-- CPF record split, split data into separate cpf identities, deprecate old ARK, mint new ARKs
-
-- CPF record merge, combine fields, deprecate old ARKs, mint new ARK
-
-- Object architecture, coding style, class template (architect Robbie)
-
-- UI widgets, mostly off the shelf, some custom written. We need to have UI edit/chooser widget for search and
-  select of large numbers of options, such as the Joseph Henry cpfRelations that contain some 22K
-  entries. Also need to list all fields which might have large numbers of values. In fact, part of the meta
-  data for every field is "number of possible entries/reapeat values" or whatever that's called. From a
-  software architecture perspective, the answer is 0, 1, infinite.
-
-One important aspect of the project is long-term viability and
-preservation. We should be able to export all data and metadata in
-standard formats. Part of the API should cover export facilities so that
-over time we can easily add new export features to support emerging
-standards.
-
-The ability to export all the data for preservation purposes also gives
-us the ability to offer bulk data downloads to researchers and
-collaborating peer institutions.
 
 #### Merge and watch
 

@@ -1,76 +1,80 @@
 
 plan.md
+--------
 
-plan.md #### Big questions
+plan.md Big questions
 
-plan.md #### Overview and order of work
+plan.md Overview and order of work
 
-plan.md #### Code we write
+plan.md Code we write
 
-plan.md #### Controlled vocabularies and tag system 
+plan.md Controlled vocabularies and tag system 
 
-plan.md #### Code we use off the shelf
+plan.md Code we use off the shelf
 
 co-op_background.md
+-----
 
-co-op_background.md #### Authors
+Authors
 
-co-op_background.md #### Organization of documenatation
+Organization of documenatation
 
-co-op_background.md #### Introduction to SNAC
+Introduction to SNAC
 
-co-op_background.md #### Evaluation of Existing Technical Architecture
+Evaluation of Existing Technical Architecture
 
-co-op_background.md #### Overview
+Overview
 
-co-op_background.md #### Current State of the System
+Current State of the System
 
-co-op_background.md #### Processing Pipeline
+Processing Pipeline
 
-co-op_background.md #### Extraction
+Extraction
 
-co-op_background.md #### Match/Merge
+Match/Merge
 
-co-op_background.md #### Discovery/Dissemination
+Discovery/Dissemination
 
-co-op_background.md #### Prototype research tool
+Prototype research tool
 
-co-op_background.md #### Gap analysis
+Gap analysis
 
-co-op_background.md #### Data maintenance
+Data maintenance
 
-co-op_background.md #### Pilot phase architecture
+Pilot phase architecture
 
-co-op_background.md #### Current State Conclusion
+Current State Conclusion
+
 
 introduction.md
+--------
 
-introduction.md #### Software development, processes, and project management
+TAT Functional Requirements
 
-introduction.md #### QA and Related Tests for Test-driven Development
+Introduction to Planned Functionality
 
-introduction.md #### Documentation
+Software development, processes, and project management
 
-introduction.md #### Data background
+QA and Related Tests for Test-driven Development
 
-introduction.md #### What is "normal form" and what informs the database schema design?
+Documentation
 
-introduction.md #### Edit architecture requirements
+Required new features
 
-introduction.md #### Required and Planned Functionality
+Data background
 
-introduction.md #### Expanded CPF schema requirements
+What is "normal form" and what informs the database schema design?
 
-introduction.md #### Expanded Database Schema
+Edit architecture requirements
 
-introduction.md #### Introduction to Planned Functionality
+Expanded CPF schema requirements
 
-introduction.md #### Required new features
+Expanded Database Schema
 
-introduction.md #### Merge and watch
+Merge and watch
 
-introduction.md #### Brian’s API docs need to be merged in or otherwise referred to:
+Brian’s API docs need to be merged in or otherwise referred to:
 
-introduction.md #### Not sure where to fit these topics into the requirements. Some of them may not be part of technical requirements:
+Not sure where to fit these topics into the requirements. Some of them may not be part of technical requirements:
 
 

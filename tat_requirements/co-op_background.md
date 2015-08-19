@@ -25,8 +25,6 @@ Robbie Hott
 
 [Requirements](requirements.md) (Tech requirements from Rachael's spreadsheets)
 
-#### co-op background
-
 #### Introduction to SNAC
 
 Social Networks and Archival Context (SNAC) is a Mellon-funded project
@@ -419,6 +417,7 @@ CPF records will be linked to relevant recources. Brian suggest actively harvest
 to the sitemap protocol along the lines of ResourceSync. Brian notes that the updates are based on linked
 data, not submission of XML files.
 
+
 #### Current State Conclusion
 
 
@@ -427,24 +426,5 @@ processed. These systems will benefit from additional work to make them more mat
 software develops: robustness, testing and QA, documentation, examples, consistent API. Most of the current
 software will be used in the production product.
 
-#### Required and Planned Functionality (All authors)
-
-
-(We need to break out each item into UI functionality, and API
-functionality.)
-
-
-#### Documentation
-
-System documentation is in http://gitlab.iath.virginia.edu in markdown files.
-
-Every aspect of the system requires documentation. Most visible to the public is the user interface for
-discovery. Maintenance will be complicated, and our processes are somewhat novel, so this will need to be
-extensive, well illustrated with screenshots, and carefully tested.
-
-Documentation intended for developers might be somewhat sparse by comparison, but will be critical to the
-on-going software development process. All the databases, operating system, httpd and other servers need
-complete documentation of installation, configuration, deployment, starting, stopping, and emergency
-procedures.
 
 
