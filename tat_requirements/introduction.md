@@ -168,9 +168,14 @@ function known to the work flow engine. By including requisites, the work flow c
 behavior. The workflow engine exists, but needs to be ported from Perl to PHP, and the work flow data may need
 to be stored in the SQL database.
 
-- Support for work history and task staging. Editing consists of several stages of work that may be performed
-  by different people and/or different roles. We need database tables to support saving of work state
-  data. Create a prototype table schema so we can think about this problem and create a functional spec.
+- Support for work history and task staging. 
+
+Editing consists of several stages of work that may be performed by different people and/or different
+roles. We need database tables to support saving of work state data. Create a prototype table schema so we can
+think about this problem and create a functional spec.
+
+For an edit we need the CPF id, user id, timedate stamp, bitfield or work flow tags, optional user notes. For
+search we need: user id, search string, timedate stamp. 
 
 - SQL schema (Robbie, Tom)
 
