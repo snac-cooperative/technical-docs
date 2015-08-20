@@ -273,35 +273,71 @@ simple as a record id, and some will be fairly interesting json data structures.
 
 1. Create the output data object if it wasn't created by the functions doing the work.
 
+1. Pass the output data to a rendering function (or module) to be rendered into the appropriate output format:
+html, text, xml, etc. and sent to stdout, or returned as an http file download. JSON probably doesn't need to
+be rendered since JSON is "data" and not "presentation".
 
-
-The work flow engine needs a number of functions that read application data and return booleans so that the
+The work flow engine relies on functions that read application data and return booleans so that the
 work flow engine can detect the application's relevant state. I guess that sounds confusing because the work
 flow engine has state, and the application has state. Those two types of state are vastly different and only
 related to each other in that the work flow engine can detect the application's state. The internal API of the
 web app has no idea that the work flow engine even exists. And the work flow engine knows what work needs to
-be done, but has no idea how it will be done.This is a very lovely separation of concerns.
+be done, but has no idea how it will be done. This is a very lovely separation of concerns.
 
-My strong preference is to use an existing template module for output. I have attached a CPF xml template
-based on the Template Tookit http://www.template-toolkit.org/ for which there is a Perl module, and apparently
-a Python module. Template modules are fairly common, so I'm almost certain we will have several to choose from
-in PHP.
+#### Web application output via template
 
-I don't know how you feel about web frameworks, but I don't like them. Too hard to work with and very little
-functionality I need, and often they break MVC, and they generally made debugging nearly impossible. Much
-better to use a select few modules to create a lightweight quasi-framework that is perfectly matched to our
+A well known, easy, powerful method of creating presntation output is to use an template module. Templating
+separates business logic from presentation logic, thus following an MVC model. Our business logic is our work
+flow and related function calls. Presentation is our UI, and the work flow engine has no idea that a UI exists,
+let alone how to create it. Curiously, the presentation logic knows how to create the presentation rendering,
+but has no idea what it does or what it interacts with. This is another example of strong separation of
+concerns.
+
+A simple hello world text template with a single variable world = "world" would be:
+
+```
+Hello [% world %]!
+```
+
+Or a simple HTML version:
+
+```
+<html><body>Hello [% world %]!</body></html>
+```
+
+That example is based on the Template Tookit http://www.template-toolkit.org/ for which there is a Perl
+module, and a Python module. Template modules are fairly common, so I'm almost certain we will have several to
+choose from in PHP.
+
+Choosing our own select software modules, including a template module, is better than being locked into a
+large, cumbersome web framework. In general, web frameworks have issues: 
+
+- difficult to work with
+
+- no useful functionality that isn't more easily found in another software module 
+
+- the often break MVC
+
+- generally make debugging nearly impossible
+
+We can do much better by selecting a few modules to create a lightweight quasi-framework that is perfectly matched to our
 needs.
 
-The internal API does its work, and creates the data for the output. Output data is passed to a rendering
+Once the internal API completes its work, we will have output data. Output data is passed to a rendering
 layer that relies on the template module. The only code that knows anything about rendering is the rendering
 layer. To all the non-rendering code, there is only "output data" which does conform to a standard structure
-(almost certainly an output data object). The rendering layer uses the output object, and the requested format
+(almost certainly an output data object). The rendering layer takes the output object, and the requested format
 of the output (text, html, pdf, xml, etc.) to create the output. Happily, "rendering" is generally a single
-function call. Create a template object, call its "render" method with two arguments: (1) template file name,
-(2) the output data object. Default behavior is to write the output to stdout, but the render method can also
+function call. We create a template object, call its "render" method with two arguments: 
+
+1. template file name,
+
+2. the output data object. 
+
+Default behavior is to write the output to stdout, but the render method can also
 return the output in a variable so we can create an http download.
 
-Templates are human created static files with placeholders. The template engine fills in the placeholders with
+Templates are human created static files containing placeholders. The template engine fills in the placeholders with
 values from relevant parts of the output data. Clearly, the output data object and the template must share a
 object/property naming convention. The template engine functionality has single value fields, looping over
 input lists, and if statement branching based on input. But that's pretty much it. No work is done in the
