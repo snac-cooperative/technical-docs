@@ -1,13 +1,15 @@
 
 These documents are organized in the following order:
 
-[plan.md](plan.md) gives the big overview.
+[plan.md](plan.md) Big overview.
 
-[introduction.md](introduction.md) covers the current state and gives some historical background.
+[outline.md](outline.md) An outline of sections in the documents
 
-[co-op_background.md](co-op_background.md) covers broad expectations for the co-op software.
+[co-op_background.md](co-op_background.md) Broad expectations for the co-op software.
 
-[requirements.md](requirements.md) are the technical requirements.
+[introduction.md](introduction.md) Requirements part one
+
+[requirements.md](requirements.md) Requirements part two, includes tech requirements from Rachael's spreadsheets
 
 
 

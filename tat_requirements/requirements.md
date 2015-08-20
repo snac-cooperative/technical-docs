@@ -1,73 +1,6 @@
-Requirements from Rachael's spreadsheet
----
 
-- Programmers contribute some time to help with technology side of the gap analysis of institutional capability
+#### List of requirements
 
-- We need a concrete plan for persistent IDs.
-
-  - We need to manage base HREF stubs that are combined with persistent IDs to form working URLs. Ideally, all
-    the URLs could be composed via a format string (printf), so we could just store the ID, HREF stub, and
-    format string and be done with it. However, some URLs have interesting issues that require code and thus
-    exceed the abilities of normal format strings. We can certainly roll out an early version with format
-    strings, and add some clever functions later as necessary.
-
-- Do we need any additional requirements for related name linking?
-
-- Clarify: the co-op version 1 is not going to support bulk data ingest
-
-- Clarify: the co-op version 1 is not going to support bi-directional data exchange and update
-
-- Do we need full delete? For example, a CPF contains something illegal and must be fully deleted. How do we
-  delete from backups? Are either of these even required by policy?
-  
-- Are we assuming that data from the web browser has been sanity checked before hitting the server? Does the
-  server need to cache edit data prior to writing the data to the cpf database? For example, what if someone
-  enters "19th century" in a date field? It isn't valid, but we need to save their work.
-  
-- We need to sanity check any links we create, especially links back into SNAC.
-
-- Don't forget the X-to-CPF field mapping documentation, and this ties in to the "CPF data contributor's"
-  guide (below)
-
-- We need the "CPF data contributor's" guide.
-
-- What authority work will we be doing?
-
-- What authority data from other sources do we cache locally?
-
-- Create detailed functional requirements for controlled vocabularies, and a detailed implementation
-  specification.
-  
-- Clarify: versioning is per-record, not per-field. 
-
-- Need a watch/notification API. It needs a canonical name. Is there an off-the-shelf event monitor that will
-  easily integrate with the web REST API and work flow manager?
-  
-- Clarify: Are we integrating SNAC and ArchiveSpace in co-op version 1? Will ArchiveSpace have to use our REST API?
-
-- How is embargo implemented at the database level? What are the requirements for embargo?
-
-- Clarify / verify: Technical review vs content review is handled by a combination of roles and work flow.
-
-- Reports: Where are we keeping the Big List of All Reports? 
-
-- Clarify: row 43, (unclear) Consider implementing inked data standard for relationship links
-  instead of having to download an entire document of links, as it is configured now.
-  
-- Search: need the Big List of Search Facets, and someone needs to verify that Elastic Search can do facets.
-
-- Does co-op version 1 have a timeline visualization? Does it have a "sort by timeline"? What does it mean to
-  sort by timeline?
-  
-- Clarify: What is a context widget? - row 52, Continue to develop and refine context widget. (technical
-  requirements unclear)
-  
-- Clarify: we need requirements for citations, and details about where they integrate with the rest of the
-  system.
-
-
-List of requirements
----
 
 This is the definitive list of all requirements. Anything the application needs to do must be in this
 list. Each item and group of items is explained in detail later in the document. Being a "list", this includes
@@ -157,9 +90,100 @@ only sufficient detail to disambiguate items.
 
 - data integrity testing
 
+#### Requirements from Rachael's spreadsheet
 
-List of Application Programmer Interfaces (APIs)
-----
+
+- Programmers contribute some time to help with technology side of the gap analysis of institutional capability
+
+- We need a concrete plan for persistent IDs.
+
+  - We need to manage base HREF stubs that are combined with persistent IDs to form working URLs. Ideally, all
+    the URLs could be composed via a format string (printf), so we could just store the ID, HREF stub, and
+    format string and be done with it. However, some URLs have interesting issues that require code and thus
+    exceed the abilities of normal format strings. We can certainly roll out an early version with format
+    strings, and add some clever functions later as necessary.
+
+- Do we need any additional requirements for related name linking, or more accurately identity linking? Each
+  identity has and ARK which is a persistent ID with an assciated URL. Use cases for identity links:
+  
+  1. SNAC links one identity to another internally based on relations between identities
+  
+  1. SNAC links to itself as a name authority
+  
+  1. SNAC links to external identities
+  
+  1. SNAC links to external archival resources
+  
+  2. External resources link to SNAC as an authority. (Tom asks: is SNAC also an archival resource?)
+
+- Clarify: the co-op version 1 is not going to support bulk data ingest
+
+- Clarify: the co-op version 1 is not going to support bi-directional data exchange and update
+
+- Do we need full delete? For example, a CPF contains something illegal and must be fully deleted. How do we
+  delete from backups? Are either of these even required by policy?
+  
+- Are we assuming that data from the web browser has been sanity checked before hitting the server? (Yes, by
+  the data validation API) 
+  
+- Does the server need to save temporary edit data prior to writing the data to the cpf database? For example, what if
+  someone enters "19th century" in a date field? It isn't valid, but we need to save their work. (Yes, we need to save invalid user input, and give the user a useful message for each type of data validation failure.)
+  
+- We need to sanity check any links we create, especially links back into SNAC.
+
+- Don't forget (to create) the X-to-CPF field mapping documentation, and this ties in to the "CPF data contributor's"
+  guide (Below)
+
+- We need the "CPF data contributor's" guide.
+
+- What authority work will we be doing? 
+
+    - For example, holding institution ISIL identifier, name, address, contact person, etc.
+
+- What authority data from other sources do we cache locally? 
+
+    - We need examples of this, as well as a process to manage those resources. It is important to know where
+      the data came from, technically how it was acquired, the date we acquired it, and some methods of
+      updating the current local cache. This implies that all external data we use has internal persistent
+      ids.
+
+- Create detailed functional requirements for controlled vocabularies, and a detailed implementation
+  specification.
+  
+- Clarify: versioning is per-record, not per-field. 
+
+- Need a watch/notification API. It needs a canonical name. Is there an off-the-shelf event monitor that will
+  easily integrate with the web REST API and work flow manager? 
+  
+      - We can write our own status and staging API. It only requires modest SQL schema work. Most of the necessary data is already planned for other features. For example, records can be locked by a user, we know who has the lock, we need administrative functions for unlocking and transfering locks, the work flow explicitly lays out the process for each user interaction with the application.
+  
+- Clarify: Are we integrating SNAC and ArchiveSpace in co-op version 1? Will ArchiveSpace have to use our REST API?
+
+- How is embargo implemented at the database level? What are the requirements for embargo?
+
+- Clarify / verify: Technical review vs content review is handled by a combination of roles and work flow.
+
+- Reports: Where are we keeping the Big List of All Reports? 
+
+- Clarify: row 43, (unclear) Consider implementing inked data standard for relationship links
+  instead of having to download an entire document of links, as it is configured now.
+  
+- Search: need the Big List of Search Facets, and someone needs to verify that Elastic Search can do facets.
+
+- Does co-op version 1 have a timeline visualization? Does it have a "sort by timeline"? 
+
+    - What does it mean to sort by timeline?
+  
+- Clarify: What is a context widget? - row 52, Continue to develop and refine context widget. (technical
+  requirements unclear)
+  
+- Clarify: we need requirements for citations, and details about where they integrate with the rest of the
+  system.
+
+
+
+#### List of Application Programmer Interfaces (APIs)
+
 
 The following include both direct programming language intefaces, and REST interfaces. We need to determine
 which (REST/direct) is available for each. Modifying data should probably go through authorization and should
@@ -183,8 +207,8 @@ only public interface.
 - record watching (REST?)
 
 
-Maintenance Functionality (All authors)
----------------------------------------
+#### Maintenance Functionality
+
 
 Maintenance falls into four areas: discover, split, merge, and edit.
 
@@ -216,7 +240,7 @@ trail, and there are no destructive changes. For example, there is no
 public view. Updated descriptions will be subject to version control so
 changes can be rolled back.
 
-### Functionality for Discovery
+#### Functionality for Discovery
 
 The discovery tools for maintenance may be somewhat different from the
 normal discovery tools for scholarly research. We have a standard
@@ -230,13 +254,9 @@ Users will have individual accounts, so we can enable a search history,
 internal bookmarks, and various saved reports (assuming faceted search
 where it could take many mouse clicks to accrete a specific search).
 
-### 
+#### User interface for Discovery 
 
-### User interface for Discovery (Brian, Rachael)
-
-### 
-
-### Functionality for Splitting^[[m]](#cmnt13)^^[[n]](#cmnt14)^ (Tom, Danial, all authors)
+#### Functionality for Splitting^[[m]](#cmnt13)^^[[n]](#cmnt14)^ 
 
 Keeping in mind that our descriptions are authoritative, and will be
 referenced via persistent identifier (ARK), it will be necessary to
@@ -339,9 +359,9 @@ To review split:
 20. admin function to view locked descriptions by user,
 21. choose one of my locked descriptions to continue work.
 
-### User interface for Splitting (Tom, Daniel, Rachael, others)
+#### User interface for Splitting
 
-### Functionality for Merging (Tom, Daniel, all authors)
+#### Functionality for Merging
 
 We need to allow our experts to merge descriptions. This may be far more
 common than splitting since the automated pipeline was designed to only
@@ -408,11 +428,9 @@ To review merging:
 19. locks and hides original,
 20. makes merged description publically visible.
 
-### User interface for Merging (Rachael, Tom, Daniel, others)
+#### User interface for Merging
 
-### 
-
-### Functionality for Editing
+#### Functionality for Editing
 
 Modifications we expect include but are not limited to: spelling
 corrections, date corrections, editing or expanding biographical data,
@@ -421,12 +439,11 @@ and correcting relations between descriptions. Metadata such as the URL
 of the original finding aid may also be updated. The maintenance system
 also needs to support bulk data edits of several types.
 
-### User interface for Editing (Rachael, Tom, Daniel, others)
+#### User interface for Editing
 
-Admin Client for Maintenance System
------------------------------------
+#### Admin Client for Maintenance System
 
-### User Management (Tom, Brian)
+#### User Management
 
 Authentication is validating user logins to the system. Authorization is
 the related aspect of controlling which parts of the system users may
@@ -564,8 +581,8 @@ These users need an admin dashboard with corresponding reports. We may
 need to have sub-institution accounts and that gets tricky because we
 don’t want to be mixed up in internal institutional politics.
 
-Web Application Administration
-------------------------------
+#### Web Application Administration
+
 
 System administration will be required for the web application and the
 server hosting the web site. This is well understood from a technical
@@ -574,8 +591,8 @@ command line accounts involved, and server configuration. This aspect of
 administration integrates with versioning, backup, and software
 releases.
 
-Reports ^[[s]](#cmnt19)^^[[t]](#cmnt20)^(Tom, Brian, Rachael, Brad)
--------------------------------------------------------------------
+#### Reports ^[[s]](#cmnt19)^^[[t]](#cmnt20)^
+
 
 While the web interface is the primary public face of SNAC, many other
 views of the data and meta data are necessary, especially for admins and
@@ -589,8 +606,8 @@ adding reporting and business intelligence.
 (How much detail do we want about reports? Maybe just half a dozen
 examples?)
 
-System Administration (Tom, Brian)
-----------------------------------
+#### System Administration
+
 
 This is boilerplate server administration, for the most part.
 Preservation of original material may not be necessary. Since our data
@@ -622,8 +639,8 @@ correcting file systems (ZFS, Btrfs) may not be production quality at
 this time. If we want to deploy an anti-bit-rot technology, our
 alternative may be limited to using Par2/Quick Par/Parchive.
 
-Community Contributions (All authors)
--------------------------------------
+#### Community Contributions
+
 
 Researcher interface/functionality including public facing discovery and
 dissemination (All, especially Brian)
@@ -651,8 +668,8 @@ logic that we will support with UI, code, and database tables/fields.
 Many reports will be limited certain roles. Admin users will likely be
 heavy report users.
 
-Ability to Open/Close the Site during Maintenance (Tom, Brian)
---------------------------------------------------------------
+#### Ability to Open/Close the Site during Maintenance
+
 
 If the product has a “closed for maintenance” feature,
 ^[[x]](#cmnt24)^this ability would be available to admins, even though
@@ -681,8 +698,8 @@ to our software architecture. The more elegant approach is to use one of
 several system architectures that  keep a small system front end always
 running.
 
-Sandbox for Training, perhaps as a clone of the QA system? (All authors)
-------------------------------------------------------------------------
+#### Sandbox for Training, perhaps as a clone of the QA system?
+
 
 TK
 
