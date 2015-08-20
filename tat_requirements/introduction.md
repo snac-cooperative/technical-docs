@@ -159,14 +159,14 @@ database returning match strength. Mode two is somewhat unclear.
 
 - workflow manager (Tom)
 
-Every action the application can perform is part of the work flow. All these actions along with their
-requisites are organized into a work flow table. The work flow engine does not know how to do real work, but
-it does know the names of the functions which do the real work. When a new task is added to the application,
-that task must be added to the work flow, and a function created in the application to perform the
-task. Likewise, requistes are determined by boolean functions, and every requisite must have a matching
-function known to the work flow engine. By including requisites, the work flow can enforce role-based
-behavior. The workflow engine exists, but needs to be ported from Perl to PHP, and the work flow data may need
-to be stored in the SQL database.
+Every action the application can perform is part of the work flow. The names of these actions along with names
+of their requisites are organized into a work flow table. The work flow engine does not know how to do real
+work, but it does know the names of the functions which do the real work. A new feature (aka function, task)
+is added to the application, by adding its name to the work flow, and creating a function of the same name in
+the application. Likewise, requistes are determined by boolean functions, and every requisite must have a
+matching function known to the work flow engine. The work flow enforces role-based behavior by testing the
+requisites. The workflow engine exists, but needs to be ported from Perl to PHP, and the work flow data should
+be stored in the SQL database.
 
 - Support for work history and task staging. 
 
@@ -237,6 +237,78 @@ easily add new export features to support emerging standards.
 
 The ability to export all the data for preservation purposes also gives us the ability to offer bulk data
 downloads to researchers and collaborating peer institutions.
+
+#### Web application overview
+
+Some aspects of the web app aren't yet clear, so there are details to be worked out, and some large-ish
+concepts to clarify. I'm guessing we will agree on most things, and one of us or the other will just concede
+on stuff where we don't agree.
+
+Requirements:
+
+- expose an http accessible API that is viable for wget, browser <form>, and Ajax calls.
+
+- Supported input format depends on the complexity of the requested operation. 
+
+- Public functions require no authentication. Everything else must include authentication data.
+
+Internal flow: 
+
+1. validate the inputs. 
+
+1. Somehow slice and dice the CGI params of the REST call into an abstracted request we can pass to the
+internal API. I suppose that the external and internal APIs are very similar, but we almost certainly need
+some level of symbolic reference aka abstraction. Each REST call has its requisite data. Some data is as
+simple as a record id, and some will be fairly interesting json data structures.
+
+1. The web app API does the tasks specified by the REST request and the work flow engine's directions.
+
+    a. Every http request must go through the work flow engine so that the work flow is validated and managed. Every
+web app has a work flow, but people mostly just cobble that together with a bunch of implied functionality
+using conditionals and side-effect-full function calls. In our code, the internal API is 100% work flow
+agnostic. I can explain this in more detail, but it makes a huge improvement in the structure of the
+application.
+
+1. Create the output data object if it wasn't created by the functions doing the work.
+
+
+
+The work flow engine needs a number of functions that read application data and return booleans so that the
+work flow engine can detect the application's relevant state. I guess that sounds confusing because the work
+flow engine has state, and the application has state. Those two types of state are vastly different and only
+related to each other in that the work flow engine can detect the application's state. The internal API of the
+web app has no idea that the work flow engine even exists. And the work flow engine knows what work needs to
+be done, but has no idea how it will be done.This is a very lovely separation of concerns.
+
+My strong preference is to use an existing template module for output. I have attached a CPF xml template
+based on the Template Tookit http://www.template-toolkit.org/ for which there is a Perl module, and apparently
+a Python module. Template modules are fairly common, so I'm almost certain we will have several to choose from
+in PHP.
+
+I don't know how you feel about web frameworks, but I don't like them. Too hard to work with and very little
+functionality I need, and often they break MVC, and they generally made debugging nearly impossible. Much
+better to use a select few modules to create a lightweight quasi-framework that is perfectly matched to our
+needs.
+
+The internal API does its work, and creates the data for the output. Output data is passed to a rendering
+layer that relies on the template module. The only code that knows anything about rendering is the rendering
+layer. To all the non-rendering code, there is only "output data" which does conform to a standard structure
+(almost certainly an output data object). The rendering layer uses the output object, and the requested format
+of the output (text, html, pdf, xml, etc.) to create the output. Happily, "rendering" is generally a single
+function call. Create a template object, call its "render" method with two arguments: (1) template file name,
+(2) the output data object. Default behavior is to write the output to stdout, but the render method can also
+return the output in a variable so we can create an http download.
+
+Templates are human created static files with placeholders. The template engine fills in the placeholders with
+values from relevant parts of the output data. Clearly, the output data object and the template must share a
+object/property naming convention. The template engine functionality has single value fields, looping over
+input lists, and if statement branching based on input. But that's pretty much it. No work is done in the
+template that is not directly concerned with filling in placeholders, not even formatting (in the sense of
+rounding numbers, capitalizing strings, or adding html tags). Templates are valid documents of the output
+type, except in rare cases. The attached template is well-formed XML.
+
+The web app needs a file download output option as well as output to stdout.
+
 
 #### Data background
 
@@ -333,83 +405,68 @@ group-permission management.
 We have created a generalized workflow system (as opposed to an ad-hoc linked set of reports). There is a work
 flow state table which needs to be moved into the database. 
 
-Need fields to deal with delete/embargo. This may be best implemented
-via a trigger or perhaps a view. By making what appear to be simple
-SELECTs through a view, the view can exclude deleted records. We must
-think about how using a view (or trigger) will effect UPDATE and INSERT.
-Ideally the view is transparent. Is there some clever way we can
-restrict access to the original table only via the view?
+Need fields to deal with delete/embargo. This may be best implemented via a trigger or perhaps a view. By
+making what appear to be simple SELECTs through a view, the view can exclude deleted records. We must think
+about how using a view (or trigger) will effect UPDATE and INSERT.  Ideally the view is transparent. Is there
+some clever way we can restrict access to the original table only via the view?
 
-Need record lock on some types of records. This lock needs to be honored
-by several modules, so like “delete”, lock might best be implemented via
-a view and we \*only\* access the table in question via the view.
+Need record lock on some types of records. This lock needs to be honored by several modules, so like “delete”,
+lock might best be implemented via a view and we \*only\* access the table in question via the view.
 
-If there are different levels of review for different elements in the
-record, then we need extra granularity in the workflow or the edited
-record info to know the type of record edited apropos of workflow
-variations.
+If there are different levels of review for different elements in the record, then we need extra granularity
+in the workflow or the edited record info to know the type of record edited apropos of workflow variations.
 
-If there different reviewers for different parts of the record, then
-workflow data (and workflow configuration) needs to be able to notify
-multiple people, and would have to get multiple reviewer approvals
+If there different reviewers for different parts of the record, then workflow data (and workflow
+configuration) needs to be able to notify multiple people, and would have to get multiple reviewer approvals
 before moving to the next phase of the workflow.
 
-Institutional affiliation is probably common enough to want a field in
-the user table, as opposed to creating a group for each institution. The
-group is perhaps more generalized and could behave identical (or almost
+Institutional affiliation is probably common enough to want a field in the user table, as opposed to creating
+a group for each institution. The group is perhaps more generalized and could behave identical (or almost
 identical) to a field (with controlled vocabulary) in the user table.
 
-Make sure we can write a query (report) to count numbers of records
-based type of edit, institution of the editor, and number of holdings.
+Make sure we can write a query (report) to count numbers of records based type of edit, institution of the
+editor, and number of holdings.
 
-If we want to be able to quickly count some CPF element such as outgoing
-links from CPF to a given institution, then we should put those CPF
-values into the SQL database, as meta data for the CPF record.
+If we want to be able to quickly count some CPF element such as outgoing links from CPF to a given
+institution, then we should put those CPF values into the SQL database, as meta data for the CPF record.
 
 What is: How many referral links to EAC records that they created?
 
-Be able to count record views, record downloads. Institutional dashboard
-reports need the ability to group-by user, or even filter to a specific
-user.
+Be able to count record views, record downloads. Institutional dashboard reports need the ability to group-by
+user, or even filter to a specific user.
 
-Reporting needs to help managers verify performance metrics. This
-assumes that all changes have a date/timestamp. Once workflow and
-process decisions are set, performance requirements for users such as
-load/performance (how many updates and changes to records can be handled
-at once), search response time, edit time (outside of review workflow),
-and update times need to be set.
+Reporting needs to help managers verify performance metrics. This assumes that all changes have a
+date/timestamp. Once workflow and process decisions are set, performance requirements for users such as
+load/performance (how many updates and changes to records can be handled at once), search response time, edit
+time (outside of review workflow), and update times need to be set.
 
-Effort reporting to allow SNAC and participants to communicate to others
-the actual level of effort involved. This sounds like a report with time
-span and numbers of records handled in various ways. SNAC might use this
-when going from pilot into production so that everyone knows what effort
-will be required for X number of records/actions (of whatever action
-type).
+Effort reporting to allow SNAC and participants to communicate to others the actual level of effort
+involved. This sounds like a report with time span and numbers of records handled in various ways. SNAC might
+use this when going from pilot into production so that everyone knows what effort will be required for X
+number of records/actions (of whatever action type).
 
-Time/activity reporting could allow us to assess viability, utility, and
-efficiency of maintenance system processes.
+Time/activity reporting could allow us to assess viability, utility, and efficiency of maintenance system
+processes.
 
-Similar reports might be generated to evaluate the discovery interface.
-Something akin to how much time was required to access a certain number
-of records. Rachael said: Assess viability of access funtionality-
+Similar reports might be generated to evaluate the discovery interface.  Something akin to how much time was
+required to access a certain number of records. Rachael said: Assess viability of access funtionality-
 performance time, available features, and ease of use.
 
-We could try to report on the amount of training necessary before a new
-user was able to work independently in each of various areas (content
-input, review, etc.)
+We could try to report on the amount of training necessary before a new user was able to work independently in
+each of various areas (content input, review, etc.)
 
 #### Merge and watch
 
 Note: Ask Robbie what the database architecture is to support merged records.
 
-Users may "watch" an identity. If a file is being watched, and that file is part of an description (merged or single) then the watch will
-apply to the results of human edits, regardless of which part of the description was modified. It is possible
-for someone to wish to track a biogHist, but that biogHist could be completely removed in lieu of an improved
-and updated description. We do not track individual elements in CPF. We only track an entire description,
-regardless the watcher's motivation. The original motivation for watching might no longer exist after an edit,
-and if so, the watcher can simply disable their watch. After each edit, all watchers will get a
-notification. The watch does not apply to any single field, but to the entire description, and therefore also
-to future descriptions which result from merging.
+Users may "watch" an identity. If a file is being watched, and that file is part of an description (merged or
+single) then the watch will apply to the results of human edits, regardless of which part of the description
+was modified. It is possible for someone to wish to track a biogHist, but that biogHist could be completely
+removed in lieu of an improved and updated description. We do not track individual elements in CPF. We only
+track an entire description, regardless the watcher's motivation. The original motivation for watching might
+no longer exist after an edit, and if so, the watcher can simply disable their watch. After each edit, all
+watchers will get a notification. The watch does not apply to any single field, but to the entire description,
+and therefore also to future descriptions which result from merging.
 
 What happens to a watch on a merged description which is subsequently split? Does the watch apply to both
 split descriptions or to neither description? Perhaps is it best to disable the watch, and inform the watcher
