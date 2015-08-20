@@ -1,11 +1,17 @@
 ### Info about Markdown
 
+Markdown is a markup language that is used in Gitlab, and that we are using in SNAC for documentation. A syntax guide can be found at <https://confluence.atlassian.com/stash/using-stash/markdown-syntax-guide>. 
+
+#### Formatting 
+There is a good guide [here](https://confluence.atlassian.com/stash/using-stash/markdown-syntax-guide) or [here](https://en.wikipedia.org/wiki/Markdown).
+
+### Editing
 You can edit markdown files from the Gitlab web site. From the Gitlab home page, click a project on the right
 side. On the project home page, click "Files" in the left navigation bar. Click a .md file. Click the "Edit"
 button on the right side. Update the text and when finished, enter a commit message below, and click the
 "Commit Changes" button.
 
-You can also edit markdown files locally, using a text editing application such as TextEdit. 
+You can also edit markdown files locally, using a text editing application (such as TextEdit) or a word processing program (such as Word). However, be aware that some word processing programs may affect line breaks and formatting. 
 
 #### Markdown, local complete reference
 http://gitlab.iath.virginia.edu/help/markdown/markdown.md
