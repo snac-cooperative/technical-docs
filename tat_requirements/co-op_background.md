@@ -21,9 +21,9 @@ Robbie Hott
 
 [Co-op Background](co-op_background.md)  (This document) 
 
-[Introduction ](introduction.md) (Was an introduction, but shaping up to be the requirements)
+[Introduction ](introduction.md) (Was an introduction, but shaping up to be requirements part one)
 
-[Requirements](requirements.md) (Tech requirements from Rachael's spreadsheets)
+[Requirements](requirements.md) (Requirements part two, includes requirements from Rachael's spreadsheets)
 
 #### Introduction to SNAC
 

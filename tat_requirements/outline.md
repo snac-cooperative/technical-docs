@@ -61,6 +61,10 @@ Documentation
 
 Required new features
 
+Web application overview
+
+Web application output via template
+
 Data background
 
 What is "normal form" and what informs the database schema design?
@@ -77,4 +81,47 @@ Brian’s API docs need to be merged in or otherwise referred to:
 
 Not sure where to fit these topics into the requirements. Some of them may not be part of technical requirements:
 
+
+requirements.md
+----
+
+List of requirements
+
+Requirements from Rachael's spreadsheet
+
+List of Application Programmer Interfaces (APIs)
+
+Maintenance Functionality
+
+Functionality for Discovery
+
+User interface for Discovery
+
+Functionality for Splitting
+
+User interface for Splitting
+
+Functionality for Merging
+
+User interface for Merging
+
+Functionality for Editing
+
+User interface for Editing
+
+Admin Client for Maintenance System
+
+User Management
+
+Web Application Administration
+
+Reports
+
+System Administration
+
+Community Contributions
+
+Ability to Open/Close the Site during Maintenance
+
+Sandbox for Training, perhaps as a clone of the QA system?
 

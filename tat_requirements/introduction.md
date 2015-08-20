@@ -1,14 +1,13 @@
 #### TAT Functional Requirements
 
-Before reading this you should have read:
 
-[Plan](plan.md) (External, broad view roadmap)
+[Plan](plan.md) (Read this first. External, broad view roadmap)
 
-[Co-op Background](co-op_background.md)  (Currrent state and background explanations)
+[Co-op Background](co-op_background.md)  (Currrent state and SNAC background)
 
-[Introduction ](introduction.md) (This document. The technical requirements)
+[Introduction ](introduction.md) (This document. The technical requirements part one)
 
-[Requirements](requirements.md) (Tech requirements from Rachael's spreadsheets)
+[Requirements](requirements.md) (Tech requirements part two, includes requirements from Rachael's spreadsheets)
 
 #### Introduction to Planned Functionality
 
