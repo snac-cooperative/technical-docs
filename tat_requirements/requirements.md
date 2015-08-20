@@ -1,3 +1,39 @@
+#### Governance and Policies, etc.
+
+- Data curation, preservation, graceful retirement
+
+- Data expulsion vs. embargo
+
+- Duplicates, backups, restore, related policy and technical issues
+
+- Broad pieces that are missing or underdeveloped [Laura]
+
+- Refresh relationship with OCLC [John, Daniel]
+
+#### Governance and Policies, etc.
+
+- Data curation, preservation, graceful retirement
+
+- Data expulsion vs. embargo
+
+- Duplicates, backups, restore, related policy and technical issues
+
+- Broad pieces that are missing or underdeveloped [Laura]
+
+- Refresh relationship with OCLC [John, Daniel]
+
+#### Governance and Policies, etc.
+
+- Data curation, preservation, graceful retirement
+
+- Data expulsion vs. embargo
+
+- Duplicates, backups, restore, related policy and technical issues
+
+- Broad pieces that are missing or underdeveloped [Laura]
+
+- Refresh relationship with OCLC [John, Daniel]
+
 
 #### List of requirements
 
@@ -236,7 +272,7 @@ exist at the most granular level for which we can imagine reasonable
 business logic. For the sake of security and general peace of mind,
 every change to the system must be captured (aka versioning) in an audit
 trail, and there are no destructive changes. For example, there is no
-“delete” per se, because the delete feature only hides descriptions from
+"delete" per se, because the delete feature only hides descriptions from
 public view. Updated descriptions will be subject to version control so
 changes can be rolled back.
 
@@ -273,21 +309,21 @@ either due to the old ARK being so much changed as to not be want it
 originally referred to, or other causes TBD.
 
 Having found a description in need of splitting, we need UI to support
-creating one or more additional descriptions. This should have a “save”
+creating one or more additional descriptions. This should have a "save"
 feature so that the work can continue over time. This implies that we
-also mark descriptions that are being worked on as “being worked on”
-that others don’t duplicate the work. Completed splitting is “reviewed”
-by moderators before being “posted”, where posting makes the
+also mark descriptions that are being worked on as "being worked on"
+that others don't duplicate the work. Completed splitting is "reviewed"
+by moderators before being "posted", where posting makes the
 modifications visible to the standard discovery tools. There are also
 some issues in how we manage ARKs of split descriptions.
 
 In theory, several people in separate locations could collaborate in
 real time on description maintenance. However, that type of
-collaboration is fairly complex. We don’t want to support collaborative
+collaboration is fairly complex. We don't want to support collaborative
 description splitting in the first version, so we need a feature to
-“lock” descriptions. Which means we need mechanism for seeing who has
+"lock" descriptions. Which means we need mechanism for seeing who has
 the lock, and for sending that person a
-message.^[[p]](#cmnt16)^^[[q]](#cmnt17)^ Unless we’re going to expose
+message.^[[p]](#cmnt16)^^[[q]](#cmnt17)^ Unless we're going to expose
 the email addresses of our users we will need an anonymized email system
 (or email forwarding system).
 
@@ -315,20 +351,20 @@ visible to other users.
 When the split data is ready, the user goes into the review and post
 phases. Review saves all the work, and presents some final, read-only
 view of the work. Review also does a validation of the description/data,
-and gives meaningful messages when validation fails. The “post” button
-should come with various warnings and notifications and the typical “are
-you sure”. Posting will save all work, perform the any required database
+and gives meaningful messages when validation fails. The "post" button
+should come with various warnings and notifications and the typical "are
+you sure". Posting will save all work, perform the any required database
 bookkeeping, and unlock all the involved descriptions.
 
 One type of bookkeeping during the post phase is managing ARKs. The ARK
 of a split description must be deprecated, and new ARKs created for all
-the splits. The deprecated ARK will have a “permanently moved” redirect
+the splits. The deprecated ARK will have a "permanently moved" redirect
 in the ARK system that gives the new ARK values and the names associated
 with the new authority descriptions in both machine actionable and human
 readable formats.
 
-We need a feature to abandon the split, and this feature needs an “are
-you sure” check.
+We need a feature to abandon the split, and this feature needs an "are
+you sure" check.
 
 Descriptions that are in the process of being modified should have some
 kind of icon/warning in the normal discovery interface, just so
@@ -347,8 +383,8 @@ To review split:
 8.  enter new data into any of the description fields,
 9.  edit data in any of the description fields,
 10. delete new descriptions (aka undo create),
-11. “done splitting”,
-12. undo “done splitting” (go back into splitting UI),
+11. "done splitting",
+12. undo "done splitting" (go back into splitting UI),
 13. review split (just a read-only UI?),
 14. moderator posts  the completed split,
 15. revert entire split,
@@ -379,7 +415,7 @@ authoritative recdescriptionord. This single description will be
 retained, and the other merged descriptions marked at deleted. We can
 retain the ARK of the single retained description. The main description
 will be copied, with the original still visible to the discovery tool,
-albeit marked as “under maintenance” or similar. The copy will be
+albeit marked as "under maintenance" or similar. The copy will be
 modified by the merging process, and will not be visible until
 completion of merging.
 
@@ -392,7 +428,7 @@ especially alternative name forms. Merging needs the usual save, undo,
 and abandon features.
 
 When merging is complete, the new description is validated, and sent to
-a moderator for review. The moderator may post or “send back” the
+a moderator for review. The moderator may post or "send back" the
 description for the editor to make additional changes.
 
 During the post phase, bookkeeping is done. The now-deprecated merged
@@ -457,7 +493,7 @@ source authentication system, and only write our own if nothing
 exists.^[[r]](#cmnt18)^
 
 Authorization involves controlling what users can do once they are in
-the system. The default is that they can’t do anything that isn’t
+the system. The default is that they can't do anything that isn’t
 exposed to the non-authenticated public users. Privileges are added and
 users are put into groups from which they inherit privileges, and some
 privileges can be granted on a per-user basis. The authorization system
@@ -465,23 +501,23 @@ is involved in every transaction with the server to the extent that
 every request to the server is check for authorization before being
 passed to the code doing the real work.
 
-The Linux model of three privilege types “user”, “group”, and “other”
+The Linux model of three privilege types "user", “group”, and “other”
 works well for authorization permissions and we should use this model.
-“User” is an authenticated user. “Group” is a set of users, and a user
-may belong to several groups. “Other” is any non-authenticated user.
+"User" is an authenticated user. “Group” is a set of users, and a user
+may belong to several groups. "Other" is any non-authenticated user.
 Users can be in multiple groups and have all the privileges of all the
 groups to which they belong. Groups membership can change, therefore we
 need UI and code to manage that. User information such as name, phone
 number, and even password can also change. User ID values cannot be
 changed, and a user ID is never reused.
 
-By and large when we refer to “accounts” we mean web accounts managed by
+By and large when we refer to "accounts" we mean web accounts managed by
 the Manager/Web admin. It should be possible to use the discovery
 interface without an account, but saving history, searches, and other
 session related discovery tools requires an account.
 
-Every account will be in the “Researcher” group (role). Privileges are
-managed by adding other groups to an individual user’s account.
+Every account will be in the "Researcher" group (role). Privileges are
+managed by adding other groups to an individual user's account.
 
 [](#)[](#)
 
@@ -579,7 +615,7 @@ reports for their institution (but probably not for other institutions).
 
 These users need an admin dashboard with corresponding reports. We may
 need to have sub-institution accounts and that gets tricky because we
-don’t want to be mixed up in internal institutional politics.
+don't want to be mixed up in internal institutional politics.
 
 #### Web Application Administration
 
@@ -622,7 +658,7 @@ strategy.
 
 One option is to do our hosting on Amazon. If so, what is the hosting
 fall back if Amazon has an outage? ^[[u]](#cmnt21)^Where do we house
-things like tape backups? If we’re using Amazon we will have to research
+things like tape backups? If we're using Amazon we will have to research
 the list of things that go wrong since our current
 sysadmins^[[v]](#cmnt22)^ are experienced with the model of local
 hardware colocation.
@@ -671,21 +707,21 @@ heavy report users.
 #### Ability to Open/Close the Site during Maintenance
 
 
-If the product has a “closed for maintenance” feature,
+If the product has a "closed for maintenance" feature,
 ^[[x]](#cmnt24)^this ability would be available to admins, even though
 it is the Linux sysadmins who will do the maintenance. A major failing
 of web applications is the assumption that the product is always up.
 This creates havoc when the site simply fails to load due to an outage,
 planned or otherwise. With a little work we should be able to have an
-orderly “site is closed” web page and status message. This is a low
+orderly "site is closed" web page and status message. This is a low
 priority feature since downtime is probably only a few hours per year.
-At the same time, if it isn’t too difficult to implement, it sets our
+At the same time, if it isn't too difficult to implement, it sets our
 project apart from the majority who either ignore the problem, or let
 their help desk folks spend an hour apologizing to customers.
 
 When the product is closed, web admins should be able to login (assuming
 login is possible). Discuss: do we want an architecture where the login
-is essentially a separate product so that we can have a “lobby” and
+is essentially a separate product so that we can have a "lobby" and
 other front end features that continue to work even when the backend is
 down for maintenance?
 
@@ -701,173 +737,62 @@ running.
 #### Sandbox for Training, perhaps as a clone of the QA system?
 
 
-TK
-
-ArchiveSpace Feature Planning via Brad
-======================================
+#### ArchiveSpace Feature Planning via Brad
 
 This section will require some discussion (conference calls) with Brad
 and others.
 
-Staffing Model (Brian’s draft suggestions)
-==========================================
+#### Staffing Model (Brian's draft suggestions)
 
 Production of a cooperatively maintained high profile web site requires
 different types of Technical and non-technical work.
 
 Operations Team
 
--   Communications and interactions with end users and content owners,
+- Communications and interactions with end users and content owners,
     from marketing to user support, assessment
--   Manages help desk
+- Manages help desk
 -   Support production web application infrastructure, including
     monitoring, "on call" for first tier response to system monitors
--   batch ingest of new data sources
+- batch ingest of new data sources
 -   signs up and on-boards new pilot members
--   Proactive content QA and remediation
+- Proactive content QA and remediation
 -   work organized around issue queue / customer relationship management
     system
 
-Main Artifact: Ticketing Issue tracker that automatically generates a
+Main Artifact: Ticketing Issue tracker that automatically generates a
 ticket for an email to help@example.edu
-
-Staffing Requirements:
-
-?? FTE Tech Lead
-
-?? FTE Project Lead
-
-?? FTE Programmer/Analyst
-
-?? FTE General Analyst
 
 Development Team
 
--   Create new features that deliver customer value
+- Create new features that deliver customer value
 -   Maintain tests for new features
--   second tier support of deployed features, developers on call for
+- second tier support of deployed features, developers on call for
     their deployed code
--   deploy code to test, stage, and production environments
+- deploy code to test, stage, and production environments
 -   work organized around sprints
 
-Main Artifact: User story backlog that supports scoring stories by
+Main Artifact: User story backlog that supports scoring stories by
 points,
-
-Staffing Requirements:
-
-?? FTE Tech Lead
-
-?? FTE Project Lead
-
-?? FTE Programmer/Analyst
-
-?? FTE General Analyst
 
 Research Team
 
--   Conduct experiments with new algorithms and technologies
--   interoperation (and participation in the development) of relevant
+- Conduct experiments with new algorithms and technologies
+- interoperation (and participation in the development) of relevant
     domain specific standards and practices
 
-Staffing Requirements:
-
-?? FTE Tech Lead
-
-?? FTE Project Lead
-
-?? FTE Programmer/Analyst
-
-?? FTE General Analyst
-
-Main Artifact: Research Agenda, schemas and specifications (esp. merge
+Main Artifact: Research Agenda, schemas and specifications (esp. merge
 spec)
 
-How the three teams are coordinated
-
-Continuous integration, testing, and automated deployment infrastructure
-
-Operations and Procedure Manual
-
-Research Agenda
-
-User Story Backlog
-
-Design Documents (UI/UX/Graphic Design)
-
-Professional Standards (content and technical) and local interpretation
-
-XML, RDB, RDMS schemas
-
-Github, post-commit hooks
-
-Roadmap (All authors)
-=====================
-
-After determining work assignments, development begins by creating a
-prototype. Developers will endeavor to build an API for the prototype be
-that can be carried forward into production. Early work should include
-the authentication system, and framework for the web interface. Back end
-functionality will be divided up into REST API accessible portions, and
-a separate, server-only functional (or class) API. Database schema will
-develop at this time as well.
-
-All development needs to be test driven, with some way to determine if
-the code is behaving properly. This is especially important for the
-authentication module, and all data-processing pipelines.
-
-A tight timeline for the prototype is 2 months. During prototyping we
-try out ideas, and discover any discrepancies in the functional plan. At
-the end of the prototype phase we allow a week or two where we evaluate
-which parts of the APIs to retain, and which to rewrite.
-
-Real project development will proceed based on priority of end user
-needs, with some input from developers about fundamental functionality
-for the API foundations.
-
-Milestones (All authors)
-========================
-
-Need something firm for the July meeting (Tom, Rachael, based on CPP
-proposal)
-
-May 9: Outline and team assignments
-
-July 15: Outline refinement, milestones, technical details
-
-September 15: Daniel has draft proposal, tech team (TAT) provides best
-guesses for development milestone
-
-October 15: Draft proposal refined
-
-December 15: Proposal complete
-
-Create the what/how table
-=========================
-
-TK Is this a table of which function and how we expect it to be
-implemented?
-
-Governance and Policies, etc.
-=============================
-
-TK Data curation, preservation, graceful retirement
-
-Data expulsion vs. embargo
-
-Duplicates, backups, restore, related policy and technical issues
-
-Broad pieces that are missing or underdeveloped [Laura]
-
-Refresh relationship with OCLC [John, Daniel]
 
 [[a]](#cmnt_ref1)Awkward. Unclear perhaps that "the same" means records
 referring to the same identity, and not "the same" as the previous
 sentence.
 
 [[b]](#cmnt_ref2)could it be phrased as "...for matching name records,
-linking those descriptions to a single authoritative CF identity."?  
+linking those descriptions to a single authoritative CF identity."?  
 
-I am not sure the adverb "Critically" has noteworthy value here.  Or
+I am not sure the adverb "Critically" has noteworthy value here.  Or
 should it be replaced with something like "Basically" | "Essentially" |
 "Effectively" ?
 
@@ -878,7 +803,7 @@ contains singleton and merged records. Confusion may arise because we
 alway says, "the merged records are discoverable..." In fact, both
 unmerged and merged records are discoverable.
 
-[[e]](#cmnt_ref5)I find this sense awkward.  Should the sentence maybe
+[[e]](#cmnt_ref5)I find this sense awkward.  Should the sentence maybe
 end with something more like "...can accurately determine are matching
 descriptions | descriptions for the same identify."?
 
@@ -940,5 +865,5 @@ experience running production services in Amazon
 
 [[w]](#cmnt_ref23)I'm pretty sure this is a current feature
 
-[[x]](#cmnt_ref24)This is just for the backend?  The front end should
+[[x]](#cmnt_ref24)This is just for the backend?  The front end should
 not need to go down.

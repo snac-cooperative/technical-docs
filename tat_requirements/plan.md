@@ -10,6 +10,32 @@
   well as how this relates to search facets. This also impacts our future ability to make assertions about the
   data, and is somewhat related to semantic net. See [Tag system](#controlled-vocabularies-and-tag-system).
   
+#### Documents we need to create
+
+- Operations and Procedure Manual
+
+- Research Agenda
+
+- User Story Backlog
+
+- Design Documents (UI/UX/Graphic Design)
+  
+      - ideally someone writes a (possibly brief) style guide
+      
+      - a set of .psd or other images is not a style guide
+
+#### Governance and Policies, etc.
+
+- Data curation, preservation, graceful retirement
+
+- Data expulsion vs. embargo
+
+- Duplicates, backups, restore, related policy and technical issues
+
+- Broad pieces that are missing or underdeveloped [Laura]
+
+- Refresh relationship with OCLC [John, Daniel]
+
 
 #### Overview and order of work
 
