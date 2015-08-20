@@ -263,14 +263,14 @@ simple as a record id, and some will be fairly interesting json data structures.
 
 1. The web app API does the tasks specified by the REST request and the work flow engine's directions.
 
-    1. Every http request must go through the work flow engine so that the work flow is validated and
+    - Every http request must go through the work flow engine so that the work flow is validated and
     managed. 
-
-    1. Every web app has a work flow, but people mostly just cobble that together with a bunch of implied
+    
+    - Every web app has a work flow, but people mostly just cobble that together with a bunch of implied
 functionality using conditionals and side-effect-full function calls. In our code, the internal API is 100%
 work flow agnostic. 
 
-    1. I can explain this in more detail, but it makes a huge improvement in the structure of the
+    - I can explain this in more detail, but it makes a huge improvement in the structure of the
 application.
 
 1. Create the output data object if it wasn't created by the functions doing the work.
