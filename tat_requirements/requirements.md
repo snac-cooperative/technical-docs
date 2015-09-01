@@ -250,7 +250,7 @@ small functions in two categories:
 The work flows are encoded in a 4 column table which is presumably more or less legible to
 non-programmers. There is only one state table for the entire application.
 
-See the work flow engine readme for more information. (Work flow engine readme)[/snac/Work-flow-engine]
+See the work flow engine readme for more information. [Work flow engine readme](/snac/Work-flow-engine)
 
 
 #### Maintenance Functionality
@@ -259,11 +259,13 @@ See the work flow engine readme for more information. (Work flow engine readme)[
 Maintenance falls into four areas: discover, split, merge, and edit.
 
 - Discovery is the process of finding errors.
+
 - Splitting is the process of distributing data from one description
     to two or more new description. This may involve descriptions that
     have been incorrectly merged.
 - Merging is the process of combining two or more separate descriptions for the same CPF identity into a
   single description.
+
 - Editing is the modification of descriptions.
 
 We will build a maintenance system based on a core of researchers
