@@ -528,7 +528,7 @@ TBD set of basic privileges including: search history, certain researcher report
 [](#)[](#)
 
 
-| User type                                | Group                             | Description                                                                                                                                                                                                |
+| User type                                | Role                              | Description                                                                                                                                                                                                |
 |------------------------------------------+-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Sysadmin                                 | Server admin, Web admin           | Maintain server, backups, etc.                                                                                                                                                                             |
 | DBA                                      | Server admin, DB admin, Web admin | Schema maintenance, data dumps, etc.                                                                                                                                                                       |
@@ -544,7 +544,8 @@ TBD set of basic privileges including: search history, certain researcher report
 | Institutional archival description donor | Block upload                      | Member of an institution that donates blocks of descriptions, may have block upload privs, may have update privs                                                                                           |
 | Name authority manager                   | Name authority                    | Someone in charge of  a name authority, donates descriptions to SNAC, may have some Admin privs to update descriptions, may have bulk upload privs                                                         |
 | Institutional admins                     |                                   | These users need an admin dashboard with corresponding reports. We may need to have sub-institution accounts and that gets tricky because we don't want to be mixed up in internal institutional politics. |
-|                                          |                                   | Certain users will be distinguished by having access to administrative reports for their institution (but probably not for other institutions).                                                            |
+|                                          |                                   | Certain users will be distinguished by having access to administrative                                                                                                                                     |
+|                                          |                                   | reports for their institution (but probably not for other institutions).                                                                                                                                   |
 
 #### Web Application Administration
 
