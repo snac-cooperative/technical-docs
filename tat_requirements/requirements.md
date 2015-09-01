@@ -21,6 +21,8 @@ This is the definitive list of all requirements, briefly. Anything the applicati
 list. Each item and group of items is explained in detail later in the document. Being a "list", this includes
 only sufficient detail to disambiguate items.
 
+**RH: We should reorganize these by component of the system, then create a formal specifications for each component as to what it must do and how they interact.**
+
 - authentication
 
   - user creation
@@ -129,6 +131,7 @@ only sufficient detail to disambiguate items.
     format string and be done with it. However, some URLs have interesting issues that require code and thus
     exceed the abilities of normal format strings. We can certainly roll out an early version with format
     strings, and add some clever functions later as necessary.
+    * **RH: I don't understand this.  If we're generating persistant IDs, then we don't need to write "clever functions"**
 
 - Do we need any additional requirements for related name linking, or more accurately identity linking? Each
   identity has and ARK which is a persistent ID with an assciated URL. Use cases for identity links:
@@ -144,6 +147,7 @@ only sufficient detail to disambiguate items.
   2. External resources link to SNAC as an authority. (Tom comment: is SNAC also an archival resource?)
 
 - Clarify: the co-op version 1 is not going to support bulk data ingest
+    * **Why not?**
 
 - Clarify: the co-op version 1 is not going to support bi-directional data exchange and update
 
@@ -152,9 +156,11 @@ only sufficient detail to disambiguate items.
   
 - Are we assuming that data from the web browser has been sanity checked before hitting the server? (Yes, by
   the data validation API) 
+    * **What is the data validation api?  Wouldn't we need a validation engine?  Where will the engine live, in the browser?**
   
 - Does the server need to save temporary edit data prior to writing the data to the cpf database? For example, what if
   someone enters "19th century" in a date field? It isn't valid, but we need to save their work. (Yes, we need to save invalid user input, and give the user a useful message for each type of data validation failure.)
+    * **Where does the data validation engine live?  If we make that part of the UI, it may live on the browser as a downloaded JS engine**
   
 - We need to sanity check any links we create, especially links back into SNAC.
 
