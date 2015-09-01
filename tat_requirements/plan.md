@@ -70,7 +70,7 @@
 
 6. Develop software based on formal specification that passes the given tests.
 
-#### Coding style requirements (architect Robbie)
+### Coding style requirements (architect Robbie)
 
 - Code quality
   - 4-space tabs with literal spaces
@@ -82,7 +82,7 @@
   - All files must have javadoc-style documentation with author attribution, definition of the file, and short-text of the code license
   - All classes and definitions must include javadoc-style documentation
 
-#### Non-component notes to be worked into requirements 
+### Non-component notes to be worked into requirements 
 - CPF record edit, edit each field
 
 - CPF record split, split data into separate cpf identities, deprecate old ARK, mint new ARKs
