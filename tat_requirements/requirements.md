@@ -527,101 +527,24 @@ TBD set of basic privileges including: search history, certain researcher report
 
 [](#)[](#)
 
-User type 
 
-Group
-
-Description
-
-Sysadmin
-
-Server admin, Web admin
-
-Maintain server, backups, etc.
-
-DBA
-
-Server admin, DB admin, Web admin
-
-Schema maintenance, data dumps, etc.
-
-Programmer
-
-Server admin, Web admin
-
-Coding, testing, QA, release management, data loading, etc.
-
-Manager
-
-Web admin
-
-Web account creation, account management, privilege management, web
-reporting
-
-Peer vetting
-
-Vetting
-
-Reviewing applicant Moderators, Reviewers, Content experts, uses the
-Vetting UI,
-
-Moderator
-
-Moderator
-
-Reviewing Maintenance changes and posting those changes, is vetted
-
-Reviewer/editor
-
-Maintenance
-
-Has Maintainer privileges, affiliated with an institution and vouched
-for by that institution, vetted, interacts with Moderators
-
-Content expert
-
-Maintenance
-
-Not affiliated with an institution, a domain expert, has Maintainer
-privileges, vetted, interacts with Moderators
-
-Documentary editor
-
-Maintenance
-
-(For our purposes the same as Reviewer/editor?)
-
-Researcher (read-only)
-
-Researcher
-
-The main consumer of SNAC, uses the public web interface to search and
-discover, has an account so they can save searches and use other session
-related features
-
-Institutional archival description donor
-
-Block upload
-
-Member of an institution that donates blocks of descriptions, may have
-block upload privs, may have update privs
-
-Name authority manager
-
-Name authority
-
-Someone in charge of  a name authority, donates descriptions to SNAC,
-may have some Admin privs to update descriptions, may have bulk upload
-privs
-
-Institutional admins
-
-Certain users will be distinguished by having access to administrative
-reports for their institution (but probably not for other institutions).
-
-These users need an admin dashboard with corresponding reports. We may
-need to have sub-institution accounts and that gets tricky because we
-don't want to be mixed up in internal institutional politics.
+| User type                                | Group                             | Description                                                                                                                                                                                                |
+|------------------------------------------+-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Sysadmin                                 | Server admin, Web admin           | Maintain server, backups, etc.                                                                                                                                                                             |
+| DBA                                      | Server admin, DB admin, Web admin | Schema maintenance, data dumps, etc.                                                                                                                                                                       |
+| Programmer                               | Server admin, Web admin           | Coding, testing, QA, release management, data loading, etc.                                                                                                                                                |
+| Manager                                  | Web admin                         | Web account creation, account management, privilege management, web reporting                                                                                                                              |
+| Peer vetting                             | Vetting                           | Reviewing applicant Moderators, Reviewers, Content experts, uses the Vetting UI                                                                                                                            |
+| Moderator                                | Moderator                         | Reviewing Maintenance changes and posting those changes, is vetted                                                                                                                                         |
+| Reviewer/editor                          | Maintenance                       | Has Maintainer privileges, affiliated with an institution and vouchedfor by that institution, vetted, interacts with Moderators                                                                            |
+| Content expert                           | Maintenance                       | Not affiliated with an institution, a domain expert, has Maintainer privileges, vetted, interacts with Moderators                                                                                          |
+| Documentary editor                       |                                   |                                                                                                                                                                                                            |
+| Maintenance                              | (Same as Reviewer/editor?)        |                                                                                                                                                                                                            |
+| Researcher (read-only)                   | Researcher                        | The main consumer of SNAC, uses the public web interface to search and discover, has an account so they can save searches and use other session related features                                           |
+| Institutional archival description donor | Block upload                      | Member of an institution that donates blocks of descriptions, may have block upload privs, may have update privs                                                                                           |
+| Name authority manager                   | Name authority                    | Someone in charge of  a name authority, donates descriptions to SNAC, may have some Admin privs to update descriptions, may have bulk upload privs                                                         |
+| Institutional admins                     |                                   | These users need an admin dashboard with corresponding reports. We may need to have sub-institution accounts and that gets tricky because we don't want to be mixed up in internal institutional politics. |
+|                                          |                                   | Certain users will be distinguished by having access to administrative reports for their institution (but probably not for other institutions).                                                            |
 
 #### Web Application Administration
 
