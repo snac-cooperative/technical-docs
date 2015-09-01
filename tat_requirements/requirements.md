@@ -1,29 +1,6 @@
 
 See "comment:" for comments, discussion, todo, etc.
 
-#### Governance and Policies, etc.
-
-- Data curation, preservation, graceful retirement
-
-- Data expulsion vs. embargo
-
-- Duplicates, backups, restore, related policy and technical issues
-
-- Broad pieces that are missing or underdeveloped [Laura]
-
-- Refresh relationship with OCLC [John, Daniel]
-
-#### Governance and Policies, etc.
-
-- Data curation, preservation, graceful retirement
-
-- Data expulsion vs. embargo
-
-- Duplicates, backups, restore, related policy and technical issues
-
-- Broad pieces that are missing or underdeveloped [Laura]
-
-- Refresh relationship with OCLC [John, Daniel]
 
 #### Governance and Policies, etc.
 
@@ -40,7 +17,7 @@ See "comment:" for comments, discussion, todo, etc.
 
 #### List of requirements
 
-This is the definitive list of all requirements. Anything the application needs to do must be in this
+This is the definitive list of all requirements, briefly. Anything the application needs to do must be in this
 list. Each item and group of items is explained in detail later in the document. Being a "list", this includes
 only sufficient detail to disambiguate items.
 
@@ -61,7 +38,7 @@ only sufficient detail to disambiguate items.
 
   - dashboard
 
-- dashboard
+- dashboard content/tabs
 
   - search history
     - clear history
@@ -70,7 +47,19 @@ only sufficient detail to disambiguate items.
     - change sort order (maybe version 2)
   - system/work flow messages 
   - account settings
-  - social media features
+
+  - social media
+
+  - web admin (for admins only)
+
+  - institutional admin (for institutional admins only)
+
+  - moderator admin (for moderators only)
+
+  - available reports
+
+  - links to the rest of the web site, especially search and edit
+    
 
 - edit cpf data
 
@@ -193,17 +182,21 @@ only sufficient detail to disambiguate items.
 - Need a watch/notification API. It needs a canonical name. Is there an off-the-shelf event monitor that will
   easily integrate with the web REST API and work flow manager? 
   
-      - We can write our own status and staging API. It only requires modest SQL schema work. Most of the necessary data is already planned for other features. For example, records can be locked by a user, we know who has the lock, we need administrative functions for unlocking and transfering locks, the work flow explicitly lays out the process for each user interaction with the application.
+      - We can write our own status and staging API. It only requires modest SQL schema work. Most of the
+        necessary data is already planned for other features. For example, records can be locked by a user, we
+        know who has the lock, we need administrative functions for unlocking and transfering locks, the work
+        flow explicitly lays out the process for each user interaction with the application.
   
 - Clarify: Are we integrating SNAC and ArchiveSpace in co-op version 1? Will ArchiveSpace have to use our REST API?
 
 - How is embargo implemented at the database level? What are the requirements for embargo?
 
-- Clarify / verify: Technical review vs content review is handled by a combination of roles and work flow.
+- comment: Clarify and/or verify: Technical review vs content review is handled by a combination of roles and
+  work flow.
 
-- Reports: Where are we keeping the Big List of All Reports? 
+- comment: Reports: Where are we keeping the Big List of All Reports? 
 
-- Clarify: row 43, (unclear) Consider implementing inked data standard for relationship links
+- comment: Clarify: row 43, (unclear) Consider implementing inked data standard for relationship links
   instead of having to download an entire document of links, as it is configured now.
   
 - Search: need the Big List of Search Facets, and someone needs to verify that Elastic Search can do facets.
@@ -212,10 +205,10 @@ only sufficient detail to disambiguate items.
 
     - What does it mean to sort by timeline?
   
-- Clarify: What is a context widget? - row 52, Continue to develop and refine context widget. (technical
+- comment: Clarify: What is a context widget? - row 52, Continue to develop and refine context widget. (technical
   requirements unclear)
   
-- Clarify: we need requirements for citations, and details about where they integrate with the rest of the
+- comment: Clarify: we need requirements for citations, and details about where they integrate with the rest of the
   system.
 
 
@@ -230,7 +223,7 @@ interface is the only public interface.
 
 - Identity Reconciliation (IR) (direct)
 
-- work flow manager (REST)
+- work flow manager (direct, )
 
 - name string parser (direct)
 
@@ -240,9 +233,24 @@ interface is the only public interface.
 
 - web UI messages (direct)
 
-- work flow messages (REST?)
+- work flow messages (direct)
 
 - record watching (REST?)
+
+#### Work flow engine
+
+The work flow engine (wfe)is a simple state machine that exists only to direct work flow for each REST request, and
+editing stages. The wfe does no work, but directs what work is done and the order of work. The wfe is can run
+small functions in two categories:
+
+1. test functions that return a boolean based on the underlying state of the application, or user work stage
+
+1. action functions that perform a task
+
+The work flows are encoded in a 4 column table which is presumably more or less legible to
+non-programmers. There is only one state table for the entire application.
+
+See the work flow engine readme for more information. (Work flow engine readme)[/snac/Work-flow-engine]
 
 
 #### Maintenance Functionality
@@ -250,13 +258,13 @@ interface is the only public interface.
 
 Maintenance falls into four areas: discover, split, merge, and edit.
 
--   Discover is the process of finding errors.
--   Splitting is the process of distributing data from one description
+- Discovery is the process of finding errors.
+- Splitting is the process of distributing data from one description
     to two or more new description. This may involve descriptions that
     have been incorrectly merged.
--   Merging is the process of combining two or more separate
-    descriptions for the same CPF identity into a single description.
--   Editing is the modification of descriptions.
+- Merging is the process of combining two or more separate descriptions for the same CPF identity into a
+  single description.
+- Editing is the modification of descriptions.
 
 We will build a maintenance system based on a core of researchers
 working in a moderated environment. Primarily, the people involved in
