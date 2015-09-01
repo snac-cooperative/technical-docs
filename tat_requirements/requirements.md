@@ -250,7 +250,7 @@ small functions in two categories:
 The work flows are encoded in a 4 column table which is presumably more or less legible to
 non-programmers. There is only one state table for the entire application.
 
-See the work flow engine readme for more information. [Work flow engine readme](snac/Work-flow-engine)
+See the work flow engine readme for more information. [Work flow engine readme](http://gitlab.iath.virginia.edu/snac/Work-flow-engine)
 
 
 #### Maintenance Functionality
