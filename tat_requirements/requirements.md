@@ -485,43 +485,49 @@ Authentication is validating user logins to the system. Authorization is
 the related aspect of controlling which parts of the system users may
 access (or even which parts they may know exist).
 
-Authentication systems require excessively careful programming since
-they are always attacked. The usual recommendation is to use an
-off-the-shelf authentication system although this is often difficult
-since system requirements vary widely. We should search for an open
-source authentication system, and only write our own if nothing
-exists.^[[r]](#cmnt18)^
+We can use OpenID for authentication, but we will need a user profile for SNAC roles and authorization. There
+are examples of PHP code to implement OpenID at stackexchange:
 
-Authorization involves controlling what users can do once they are in
-the system. The default is that they can't do anything that isn’t
-exposed to the non-authenticated public users. Privileges are added and
-users are put into groups from which they inherit privileges, and some
-privileges can be granted on a per-user basis. The authorization system
-is involved in every transaction with the server to the extent that
-every request to the server is check for authorization before being
-passed to the code doing the real work.
+http://stackoverflow.com/questions/4459509/how-to-use-open-id-as-login-system
 
-The Linux model of three privilege types "user", “group”, and “other”
-works well for authorization permissions and we should use this model.
-"User" is an authenticated user. “Group” is a set of users, and a user
-may belong to several groups. "Other" is any non-authenticated user.
-Users can be in multiple groups and have all the privileges of all the
-groups to which they belong. Groups membership can change, therefore we
-need UI and code to manage that. User information such as name, phone
-number, and even password can also change. User ID values cannot be
-changed, and a user ID is never reused.
+OpenID seems to constantly be changing, and sites using change frequently. Google has (apparently) deprecated
+OpenID 2.0 in favor of Open Connect. Facebook is using something else, but apparently FB still works with
+OpenID. Stackexchange supports several authentication schemes. If they can do it, so can we. Or we can support
+one scheme for starters and add others as necessary. The SE code is not open source, so we can't see how much
+work it was to support the various OpenID partners.
 
-By and large when we refer to "accounts" we mean web accounts managed by
-the Manager/Web admin. It should be possible to use the discovery
-interface without an account, but saving history, searches, and other
+Authorization involves controlling what users can do once they are in the system. That function is sort of
+more solved by OAuth or OpenID by sharing the user profile. However, SNAC has specific requirements,
+especially our roles, and those will not be found in other system. There is not anything we must have from
+user profiles. We might want their social networking profile, but social networking is not a core function of
+SNAC. 
+
+By default users can't do anything that isn't exposed to the non-authenticated public users. Privileges are
+added and users are given roles (aka groups) from which they inherit privileges. The authorization system is
+involved in every transaction with the server to the extent that every request to the server is checked for
+authorization before being passed to the code doing the real work.
+
+The Linux model of three privilege types "user", "group", and "other" works well for authorization permissions
+and we should use this model.  "User" is an authenticated user. "Group" is a set of users, and a user may
+belong to several groups. Outside the Linux world "group" is known as "role", so SNAC will call them
+"roles". "Other" privileges apply to SNAC as public, non-authenticated users.  
+
+Users can have several roles, and will have all the privileges of all the roles they fill. Role membership is
+managed by an administrative UI and related API code. User information such as name, phone number, and even
+password can also change. User ID values cannot be changed, and a user ID is never reused, even after account
+deletion.
+
+By and large when we refer to "accounts" we mean web accounts managed by the Manager/Web admin. The general
+public can use the discovery interface without an account, but saving search history, and other
 session related discovery tools requires an account.
 
-Every account will be in the "Researcher" group (role). Privileges are
-managed by adding other groups to an individual user's account.
+Every account will be in the "Researcher" role which has the same privileges as the general public, but with a
+TBD set of basic privileges including: search history, certain researcher reports. 
+
 
 [](#)[](#)
 
-User type
+User type 
 
 Group
 
