@@ -525,27 +525,57 @@ Every account will be in the "Researcher" role which has the same privileges as 
 TBD set of basic privileges including: search history, certain researcher reports. 
 
 
-[](#)[](#)
+| User type                  | Role                | Description                                                            |
+|----------------------------+---------------------+------------------------------------------------------------------------|
+| Sysadmin                   | Server admin        | Maintain server, backups, etc.                                         |
+| DBA                        | DB admin            | Schema maintenance, data dumps, etc.                                   |
+| Software engineer          | Developer           | Coding, testing, QA, release management, data loading, etc.            |
+| Manager                    | Web admin           | Web accounts: create, manage, assign roles, run reports                |
+| Peer vetting               | Vetting             | Approve moderators, reviewers, content experts                         |
+| Moderator                  | Moderator           | Approve maintenance changes, posting those changes                     |
+| Reviewer/editor            | Maintenance         | Maintainer privileges, interacts with moderators                       |
+| Content expert             | Maintenance         | Domain expert, may have zero institutional roles                       |
+| Documentary editor         | Maintenance         | Distinguished by?                                                      |
+| Maintenance                | Maintenance         | Distinguished by?                                                      |
+| Researcher                 | Researcher          | Use the discovery interface and history dashboard                      |
+| Archival description donor | Block upload        | Bulk uploads of CPF or finding aids                                    |
+| Name authority manager     | Name authority      | Donates name authority data perhaps via bulk upload                    |
+| Institutional admins       | Institutional admin | Admin dashboard, institutional reports                                 |
+| Public                     | Researcher          | No account, researcher role, no dashboard, or single session dashboard |
 
 
-| User type                                | Role                              | Description                                                                                                                                                                                                |
-|------------------------------------------+-----------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Sysadmin                                 | Server admin, Web admin           | Maintain server, backups, etc.                                                                                                                                                                             |
-| DBA                                      | Server admin, DB admin, Web admin | Schema maintenance, data dumps, etc.                                                                                                                                                                       |
-| Programmer                               | Server admin, Web admin           | Coding, testing, QA, release management, data loading, etc.                                                                                                                                                |
-| Manager                                  | Web admin                         | Web account creation, account management, privilege management, web reporting                                                                                                                              |
-| Peer vetting                             | Vetting                           | Reviewing applicant Moderators, Reviewers, Content experts, uses the Vetting UI                                                                                                                            |
-| Moderator                                | Moderator                         | Reviewing Maintenance changes and posting those changes, is vetted                                                                                                                                         |
-| Reviewer/editor                          | Maintenance                       | Has Maintainer privileges, affiliated with an institution and vouchedfor by that institution, vetted, interacts with Moderators                                                                            |
-| Content expert                           | Maintenance                       | Not affiliated with an institution, a domain expert, has Maintainer privileges, vetted, interacts with Moderators                                                                                          |
-| Documentary editor                       |                                   |                                                                                                                                                                                                            |
-| Maintenance                              | (Same as Reviewer/editor?)        |                                                                                                                                                                                                            |
-| Researcher (read-only)                   | Researcher                        | The main consumer of SNAC, uses the public web interface to search and discover, has an account so they can save searches and use other session related features                                           |
-| Institutional archival description donor | Block upload                      | Member of an institution that donates blocks of descriptions, may have block upload privs, may have update privs                                                                                           |
-| Name authority manager                   | Name authority                    | Someone in charge of  a name authority, donates descriptions to SNAC, may have some Admin privs to update descriptions, may have bulk upload privs                                                         |
-| Institutional admins                     |                                   | These users need an admin dashboard with corresponding reports. We may need to have sub-institution accounts and that gets tricky because we don't want to be mixed up in internal institutional politics. |
-|                                          |                                   | Certain users will be distinguished by having access to administrative                                                                                                                                     |
-|                                          |                                   | reports for their institution (but probably not for other institutions).                                                                                                                                   |
+Not listed above are "is instution member" roles. Any user can have zero or more roles that define their
+instutional privileges. This primarily effects reporting and admin. In the case of reports, membership in an
+institution constrains the reporting. When setting up a report, users may only choose from institutions of
+which they are members. Some reports may auto-detect the user's membership. 
+
+Institutional Admins have the ability: view membership lists of their institution(s), and to add or remove
+their instutional role for users. It is possible for an institutional admin to be a member of more than one
+institution.
+
+Roles which require one or more instutitutional roles (affiliation):
+
+- Block upload
+- Name authority
+- Institutional admin
+
+Roles which may have zero or more institutional roles:
+
+- Web admin
+- Vetting
+- Moderator
+- Maintenance (likely to have one or more)
+- Researcher
+
+
+There are several dashboard sections:
+
+- Standard researcher history
+- Standard user account management (password, email, etc.)
+- Web admin account creation, deletion, role assignments
+- Vetting admin (if we have vetting) 
+- Available reports. 
+
 
 #### Web Application Administration
 
