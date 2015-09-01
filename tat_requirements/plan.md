@@ -10,9 +10,13 @@
   well as how this relates to search facets. This also impacts our future ability to make assertions about the
   data, and is somewhat related to semantic net. See [Tag system](#controlled-vocabularies-and-tag-system).
   
-#### Documents we need to create
+### Documents we need to create
 
 - Operations and Procedure Manual
+
+- Formal Requirements Document
+
+- Formal Specification Document
 
 - Research Agenda
 
@@ -24,7 +28,7 @@
       
       - a set of .psd or other images is not a style guide
 
-#### Governance and Policies, etc.
+### Governance and Policies, etc.
 
 - Data curation, preservation, graceful retirement
 
@@ -37,7 +41,7 @@
 - Refresh relationship with OCLC [John, Daniel]
 
 
-#### Overview and order of work
+### Overview and order of work
 
 1. create tech documents, filling in as much prose as possible
    - currenly on-going
@@ -56,9 +60,9 @@
 
 1. List requirements of the overall application. (done)
 
-2. Organize requirements by component, clean up, flesh out, and vet.
+2. Organize requirements by component, clean up, flesh out, and vet. (requires team meetings)
 
-3. Create formal specifications for each component based on the official, clean, requirements document. Prototypes may help ensure the formal spec is written correctly.
+3. Create formal specifications for each component based on the official, clean, requirements document. Prototypes will help ensure the formal spec is written correctly.
 
 4. Define a timeline for development and prototyping based on the formal specifications document.
 
