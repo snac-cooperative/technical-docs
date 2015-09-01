@@ -1,14 +1,5 @@
-#### Governance and Policies, etc.
 
-- Data curation, preservation, graceful retirement
-
-- Data expulsion vs. embargo
-
-- Duplicates, backups, restore, related policy and technical issues
-
-- Broad pieces that are missing or underdeveloped [Laura]
-
-- Refresh relationship with OCLC [John, Daniel]
+See "comment:" for comments, discussion, todo, etc.
 
 #### Governance and Policies, etc.
 
@@ -27,6 +18,18 @@
 - Data curation, preservation, graceful retirement
 
 - Data expulsion vs. embargo
+
+- Duplicates, backups, restore, related policy and technical issues
+
+- Broad pieces that are missing or underdeveloped [Laura]
+
+- Refresh relationship with OCLC [John, Daniel]
+
+#### Governance and Policies, etc.
+
+- Data curation, preservation, graceful retirement
+
+- Data expulsion vs embargo vs mark as deleted vs physical record delete vs delete from all tapes/disk/media
 
 - Duplicates, backups, restore, related policy and technical issues
 
@@ -36,7 +39,6 @@
 
 
 #### List of requirements
-
 
 This is the definitive list of all requirements. Anything the application needs to do must be in this
 list. Each item and group of items is explained in detail later in the document. Being a "list", this includes
@@ -150,7 +152,7 @@ only sufficient detail to disambiguate items.
   
   1. SNAC links to external archival resources
   
-  2. External resources link to SNAC as an authority. (Tom asks: is SNAC also an archival resource?)
+  2. External resources link to SNAC as an authority. (Tom comment: is SNAC also an archival resource?)
 
 - Clarify: the co-op version 1 is not going to support bulk data ingest
 
@@ -223,8 +225,8 @@ only sufficient detail to disambiguate items.
 
 The following include both direct programming language intefaces, and REST interfaces. We need to determine
 which (REST/direct) is available for each. Modifying data should probably go through authorization and should
-probably be subject to work flow, and that implies that the work flow has a REST interface, and this is the
-only public interface.
+probably be subject to work flow, and that implies that the work flow has a REST interface, and that the REST
+interface is the only public interface.
 
 - Identity Reconciliation (IR) (direct)
 
@@ -292,21 +294,22 @@ where it could take many mouse clicks to accrete a specific search).
 
 #### User interface for Discovery 
 
-#### Functionality for Splitting^[[m]](#cmnt13)^^[[n]](#cmnt14)^ 
+#### Functionality for Splitting
 
-Keeping in mind that our descriptions are authoritative, and will be
-referenced via persistent identifier (ARK), it will be necessary to
-de-authorize or invalidate the ARK of a description which has been
-split. The ARK server will note the new ARKs of the resulting
-descriptions in both human readable, and machine-actionable formats.
-Outside parties with an invalid ARK will probably have to manually
-update their descriptions, since the entity name is too confusing for a
-computer to disambiguate. (Although we can easily create a report of
-deprecated ARKs on a per-institution basis.) When merging descriptions,
-the main ARK will be retained, and merged ARKs can simply redirect to
-it. ^[[o]](#cmnt15)^Note: determine which operations require a new ARK,
-either due to the old ARK being so much changed as to not be want it
-originally referred to, or other causes TBD.
+comment: Add prose to explain how splitting interacts with the work flow (historically called the "queue").
+
+comment: Add prose to cover the manual splitting of single record components (bioghist) into multiple parts.
+
+Keeping in mind that our descriptions are authoritative, and will be referenced via persistent identifier
+(ARK), it will be necessary to de-authorize or invalidate the ARK of a description which has been split. The
+ARK server will note the new ARKs of the resulting descriptions in both human readable, and machine-actionable
+formats.  Outside parties with an invalid ARK will probably have to manually update their descriptions, since
+the entity name is too confusing for a computer to disambiguate. (Although we can easily create a report of
+deprecated ARKs on a per-institution basis.) When merging descriptions, the main ARK will be retained, and
+merged ARKs can simply redirect to it. 
+
+Note: determine which operations require a new ARK, either due to the old ARK being so much changed as the
+original reference is meaningless, or other causes TBD.
 
 Having found a description in need of splitting, we need UI to support
 creating one or more additional descriptions. This should have a "save"
@@ -317,15 +320,15 @@ by moderators before being "posted", where posting makes the
 modifications visible to the standard discovery tools. There are also
 some issues in how we manage ARKs of split descriptions.
 
-In theory, several people in separate locations could collaborate in
-real time on description maintenance. However, that type of
-collaboration is fairly complex. We don't want to support collaborative
-description splitting in the first version, so we need a feature to
-"lock" descriptions. Which means we need mechanism for seeing who has
-the lock, and for sending that person a
-message.^[[p]](#cmnt16)^^[[q]](#cmnt17)^ Unless we're going to expose
-the email addresses of our users we will need an anonymized email system
-(or email forwarding system).
+comment: confirm collaborative editing is not a requirement
+
+comment: confirm that locking is a requirement
+
+In theory, several people in separate locations could collaborate in real time on description
+maintenance. However, that type of collaboration is fairly complex. We don't want to support collaborative
+description splitting in the first version, so we need a feature to "lock" descriptions. Which means we need
+mechanism for seeing who has the lock, and for sending that person a message. Unless we're going to expose the
+email addresses of our users we will need an anonymized email system (or email forwarding system).
 
 An ideal split UI will easily allow text/fields to be selected and moved
 to one of the possibly multiple splits, via a single mouse click or
@@ -411,7 +414,7 @@ When starting description maintenance, the descriptions involved are
 locked to prevent other users from modifying them. The system notes this
 lock and makes the locked state visible in the discovery interface. It
 seems safe to assume that one of the merged descriptions will become the
-authoritative recdescriptionord. This single description will be
+authoritative record description. This single description will be
 retained, and the other merged descriptions marked at deleted. We can
 retain the ARK of the single retained description. The main description
 will be copied, with the original still visible to the discovery tool,
@@ -479,11 +482,12 @@ also needs to support bulk data edits of several types.
 
 #### Admin Client for Maintenance System
 
+Does this mean the admin dashboard?
+
 #### User Management
 
-Authentication is validating user logins to the system. Authorization is
-the related aspect of controlling which parts of the system users may
-access (or even which parts they may know exist).
+Authentication is validating user logins to the system. Authorization is the related aspect of controlling
+which parts of the system users may access (or even which parts they may know exist).
 
 We can use OpenID for authentication, but we will need a user profile for SNAC roles and authorization. There
 are examples of PHP code to implement OpenID at stackexchange:
@@ -509,49 +513,62 @@ authorization before being passed to the code doing the real work.
 
 The Linux model of three privilege types "user", "group", and "other" works well for authorization permissions
 and we should use this model.  "User" is an authenticated user. "Group" is a set of users, and a user may
-belong to several groups. Outside the Linux world "group" is known as "role", so SNAC will call them
-"roles". "Other" privileges apply to SNAC as public, non-authenticated users.  
+belong to several groups. In SNAC and the non-Linux world "group" is known as "role", so SNAC will call them
+"roles". "Other" privileges apply to SNAC as public, non-authenticated users, although we don't really have
+"other", and the "researcher" role applies to public users.
 
-Users can have several roles, and will have all the privileges of all the roles they fill. Role membership is
-managed by an administrative UI and related API code. User information such as name, phone number, and even
-password can also change. User ID values cannot be changed, and a user ID is never reused, even after account
-deletion.
+Users can have several roles, and will have all the privileges of all their roles. Role membership is managed
+by an administrative UI (part of the dashboard) and related API code. User information such as name, phone
+number, and even password can also change. User ID values cannot be changed, and a user ID is never reused,
+even after account deletion.
+
+We expect to create additional roles as necessary for application functions.
+
+Roles include a large number "is instution member" roles. These should be roles like any other, but we may
+want to flag these role records to make them easy to manage and easy to display in the UI. Any user can have
+zero or more roles that define their instutional affiliation. This primarily effects reporting and admin. In
+the case of reports, membership in an institution constrains the reporting. When setting up a report, users
+may only choose from institutions of which they are members. Some reports may auto-detect the user's
+membership.
 
 By and large when we refer to "accounts" we mean web accounts managed by the Manager/Web admin. The general
 public can use the discovery interface without an account, but saving search history, and other
-session related discovery tools requires an account.
+session related discovery tools requires an account. It is technically possible to have a single session
+dashboard. Although that has not been mentioned as a requirement and is probably a low priority, it might be
+almost trivial to implement.
 
 Every account will be in the "Researcher" role which has the same privileges as the general public, but with a
 TBD set of basic privileges including: search history, certain researcher reports. 
 
 
-| User type                  | Role                | Description                                                            |
-|----------------------------+---------------------+------------------------------------------------------------------------|
-| Sysadmin                   | Server admin        | Maintain server, backups, etc.                                         |
-| DBA                        | DB admin            | Schema maintenance, data dumps, etc.                                   |
-| Software engineer          | Developer           | Coding, testing, QA, release management, data loading, etc.            |
-| Manager                    | Web admin           | Web accounts: create, manage, assign roles, run reports                |
-| Peer vetting               | Vetting             | Approve moderators, reviewers, content experts                         |
-| Moderator                  | Moderator           | Approve maintenance changes, posting those changes                     |
-| Reviewer/editor            | Maintenance         | Maintainer privileges, interacts with moderators                       |
-| Content expert             | Maintenance         | Domain expert, may have zero institutional roles                       |
-| Documentary editor         | Maintenance         | Distinguished by?                                                      |
-| Maintenance                | Maintenance         | Distinguished by?                                                      |
-| Researcher                 | Researcher          | Use the discovery interface and history dashboard                      |
-| Archival description donor | Block upload        | Bulk uploads of CPF or finding aids                                    |
-| Name authority manager     | Name authority      | Donates name authority data perhaps via bulk upload                    |
-| Institutional admins       | Institutional admin | Admin dashboard, institutional reports                                 |
-| Public                     | Researcher          | No account, researcher role, no dashboard, or single session dashboard |
+| User type                  | Role                | Description                                                           |
+|----------------------------+---------------------+-----------------------------------------------------------------------|
+| Sysadmin                   | Server admin        | Maintain server, backups, etc.                                        |
+| Database Administrator     | DBA                 | Schema maintenance, data dumps, etc.                                  |
+| Software engineer          | Developer           | Coding, testing, QA, release management, data loading, etc.           |
+| Manager                    | Web admin           | Web accounts: create, manage, assign roles, run reports               |
+| Peer vetting               | Vetting             | Approve moderators, reviewers, content experts                        |
+| Moderator                  | Moderator           | Approve maintenance changes, posting those changes                    |
+| Reviewer/editor            | Maintenance         | Maintainer privileges, interacts with moderators                      |
+| Content expert             | Maintenance         | Domain expert, may have zero institutional roles                      |
+| Documentary editor         | Maintenance         | Distinguished by?                                                     |
+| Maintenance                | Maintenance         | Distinguished by?                                                     |
+| Researcher                 | Researcher          | Use the discovery interface and history dashboard                     |
+| Archival description donor | Block upload        | Bulk uploads of CPF or finding aids                                   |
+| Name authority manager     | Name authority      | Donates name authority data perhaps via bulk upload                   |
+| Institutional admins       | Institutional admin | Instutional role admin dashboard, institutional reports               |
+| Public                     | Researcher          | No account, researcher role, no dashboard or single session dashboard |
 
 
-Not listed above are "is instution member" roles. Any user can have zero or more roles that define their
-instutional privileges. This primarily effects reporting and admin. In the case of reports, membership in an
-institution constrains the reporting. When setting up a report, users may only choose from institutions of
-which they are members. Some reports may auto-detect the user's membership. 
+Remember: institutional affiliation roles aren't in the table above. There will be many of those roles, and
+users may have zero, one, or several institutional roles that define which insitutions that user is a member
+of.
 
-Institutional Admins have the ability: view membership lists of their institution(s), and to add or remove
-their instutional role for users. It is possible for an institutional admin to be a member of more than one
-institution.
+It is possible for an institutional admin to be a member of more than one institution. Institutional Admins
+have abilities:
+
+- view membership lists of their institution(s)
+- add or remove their instutional role for users. 
 
 Roles which require one or more instutitutional roles (affiliation):
 
@@ -587,17 +604,15 @@ command line accounts involved, and server configuration. This aspect of
 administration integrates with versioning, backup, and software
 releases.
 
-#### Reports ^[[s]](#cmnt19)^^[[t]](#cmnt20)^
+#### Reports
 
 
-While the web interface is the primary public face of SNAC, many other
-views of the data and meta data are necessary, especially for admins and
-governance. These reports will primary be generated via integration of a
-third-party reporting package such as Jaspersoft Business Intelligence
-Suite, which is free, open source, and includes a full range of tools.
-The SNAC data resides in PostgreSQL, the standard SQL relational
-database management system (RDBMS) which simplifies the process of
-adding reporting and business intelligence.
+While the web interface is the primary public face of SNAC, many other views of the data and meta data are
+necessary, especially for admins and governance. Those "views" are reports and will primary be generated via
+integration of a third-party reporting package such as Jaspersoft Business Intelligence Suite, which is free,
+open source, and includes a full range of tools.  All SNAC data resides in PostgreSQL, the standard SQL
+relational database management system (RDBMS) which simplifies the process of adding reporting and business
+intelligence.
 
 (How much detail do we want about reports? Maybe just half a dozen
 examples?)
@@ -616,12 +631,10 @@ developers via SSH. If the institution hosting the project can only
 allow employees on the server, then we may need to create a new server
 strategy.
 
-One option is to do our hosting on Amazon. If so, what is the hosting
-fall back if Amazon has an outage? ^[[u]](#cmnt21)^Where do we house
-things like tape backups? If we're using Amazon we will have to research
-the list of things that go wrong since our current
-sysadmins^[[v]](#cmnt22)^ are experienced with the model of local
-hardware colocation.
+One option is to do our hosting on Amazon. If so, what is the hosting fall back if Amazon has an outage? If we
+host with Amazon, do we have to pay extra for multiple availablity zones? Where does Amazon house offsite
+things like tape backups? If we're using Amazon we will have to research the list of things that go wrong
+since our current sysadmins are experienced with the model of local hardware colocation.
 
 One common failure of standard server practice is to assume that backups
 are working. We should test our backups on some schedule to verify that
@@ -644,14 +657,14 @@ dissemination (All, especially Brian)
 In addition to current and planned features (need a list) we should
 consider the following:
 
--   Expose all CPF descriptions to search crawlers so that Google and
-    Bing can index our data.^[[w]](#cmnt23)^
--   Expose the facets of our data as web pages or directories of web
-    pages so that the facets can be browsed outside XTF, and indexed by
-    Google and Bing.
--   Administration interface/functionality, including private/admin
-    facing, internal discovery tools, and data modification (Tom, Brian,
-    Rachael, Ray)
+- Expose all CPF descriptions to search crawlers so that Google and Bing can index our data. Google has
+  started using schema.org for improved hinting about certain kinds of data.
+
+- Expose the facets of our data as web pages or directories of web pages so that the facets can be browsed
+  outside XTF, and indexed by Google and Bing.
+
+- Administration interface/functionality, including private/admin facing, internal discovery tools, and data
+  modification (Tom, Brian, Rachael, Ray)
 
 The last item above is available only to management and editorial
 admins, but not required by any other users. Not all admins should (or
@@ -667,32 +680,25 @@ heavy report users.
 #### Ability to Open/Close the Site during Maintenance
 
 
-If the product has a "closed for maintenance" feature,
-^[[x]](#cmnt24)^this ability would be available to admins, even though
-it is the Linux sysadmins who will do the maintenance. A major failing
-of web applications is the assumption that the product is always up.
-This creates havoc when the site simply fails to load due to an outage,
-planned or otherwise. With a little work we should be able to have an
-orderly "site is closed" web page and status message. This is a low
-priority feature since downtime is probably only a few hours per year.
-At the same time, if it isn't too difficult to implement, it sets our
-project apart from the majority who either ignore the problem, or let
-their help desk folks spend an hour apologizing to customers.
+If the web application has a "closed for maintenance" feature, this feature would be available to web admins,
+even though it is the Linux sysadmins who will do the maintenance. A common major failure of web applications
+is the assumption that the product is always up.  This creates havoc when the site simply fails to load due to
+an outage, planned or otherwise. With a little work we should be able to have an orderly "site is closed" web
+page and status message for planned outages. We might be able to failover to some kind of system status
+message. This is a low priority feature since downtime is probably only a few hours per year.  At the same
+time, if it isn't too difficult to implement, it sets our project apart from the majority who either ignore
+the problem, or let their help desk folks spend an hour apologizing to customers.
 
-When the product is closed, web admins should be able to login (assuming
-login is possible). Discuss: do we want an architecture where the login
-is essentially a separate product so that we can have a "lobby" and
-other front end features that continue to work even when the backend is
-down for maintenance?
+When the product is closed, web admins should be able to login (assuming login is possible). 
 
-Most sites simply return a server error or site not available (404) when
-the site is down for whatever reason. We can avoid this a couple of
-ways. The simplest is to use some Apache server features and a few
-simple scripts so that users see a nice message when the site is down
-for maintenance. This very simple approach requires little or no change
-to our software architecture. The more elegant approach is to use one of
-several system architectures that  keep a small system front end always
-running.
+comment: Do we want an architecture where the login is essentially a separate product so that we can have a
+"lobby" and other front end features that continue to work even when the backend is down for maintenance?
+
+Most sites simply return a server error or site not available (404) when the site is down for whatever
+reason. We can avoid this a couple of ways. The simplest is to use some Apache server features and a few
+simple scripts so that users see a nice message when the site is down for maintenance. This very simple
+approach requires little or no change to our software architecture. The more elegant approach is to use one of
+several system architectures that  keep a small system front end always running.
 
 #### Sandbox for Training, perhaps as a clone of the QA system?
 
@@ -745,85 +751,5 @@ Main Artifact: Research Agenda, schemas and specifications (esp. merge
 spec)
 
 
-[[a]](#cmnt_ref1)Awkward. Unclear perhaps that "the same" means records
-referring to the same identity, and not "the same" as the previous
-sentence.
 
-[[b]](#cmnt_ref2)could it be phrased as "...for matching name records,
-linking those descriptions to a single authoritative CF identity."?  
 
-I am not sure the adverb "Critically" has noteworthy value here.  Or
-should it be replaced with something like "Basically" | "Essentially" |
-"Effectively" ?
-
-[[c]](#cmnt_ref3)Is this the same as pilot phase; or after the pilot?
-
-[[d]](#cmnt_ref4)First time readers may not be clear that the database
-contains singleton and merged records. Confusion may arise because we
-alway says, "the merged records are discoverable..." In fact, both
-unmerged and merged records are discoverable.
-
-[[e]](#cmnt_ref5)I find this sense awkward.  Should the sentence maybe
-end with something more like "...can accurately determine are matching
-descriptions | descriptions for the same identify."?
-
-[[f]](#cmnt_ref6)We seem to have a name consistency issue. Names here
-should match names on the SNAC web site, grant materials, etc.
-
-[[g]](#cmnt_ref7)this is a planned feature, thus the next sentence
-instead of this sentence.
-
-[[h]](#cmnt_ref8)Work on alternative 1 to extract out functions common
-to all prototype architectures, and distill Alt 1 architecture.
-
-[[i]](#cmnt_ref9)We need user id and group (role) in order to implement
-most of the UI features. Unless the CRM is tightly integrated with the
-Prototype, there will be problems. Correspondence, contracts, etc.
-present an interesting problem.
-
-[[j]](#cmnt_ref10)It may be asking too much to find an off the shelf CRM
-that integrates both with our UI/UX and an off-the-shelf issue tracker.
-
-[[k]](#cmnt_ref11)Note this management role!
-
-[[l]](#cmnt_ref12)Good point that we may need a programmer to handle
-tier 2 help desk issues, if not during the prototype, then later.
-
-[[m]](#cmnt_ref13)this section doesn't cover the manual splitting of
-parts of the record that go into the various splits. For example, a
-bioghist might need to be split several ways, and for that we need some
-kind of wysiwyg editor.
-
-[[n]](#cmnt_ref14)This also needs a rewrite to align with the data
-architecture/queue, etc.
-
-[[o]](#cmnt_ref15)Right? Review the rule of when ARCs are invalid.
-
-[[p]](#cmnt_ref16)we sketched out an edit queue based approach in one of
-the DC meetings
-
-[[q]](#cmnt_ref17)If we don't lock, two people could have live edits,
-and one of them is not going to get the expected result, unless I'm
-missing something. Certainly both edits will take place, but the final
-state could result in the first edit being wiped out, just as can happen
-in RDBMS commits. The locking seems to me more a feature of business
-logic than transaction logic.
-
-[[r]](#cmnt_ref18)why not do something like use OAuth and google?
-
-[[s]](#cmnt_ref19)I know ASpace uses jasper reports with good success;
-but I'm not convinced the database will record information on everything
-we want to report on.
-
-[[t]](#cmnt_ref20)A corollary requirement is that the database contain
-all necessary data for any report we anticipate.
-
-[[u]](#cmnt_ref21)Host in multiple availability zones
-
-[[v]](#cmnt_ref22)Several teams at CDL including DSC have several years
-experience running production services in Amazon
-
-[[w]](#cmnt_ref23)I'm pretty sure this is a current feature
-
-[[x]](#cmnt_ref24)This is just for the backend?  The front end should
-not need to go down.
