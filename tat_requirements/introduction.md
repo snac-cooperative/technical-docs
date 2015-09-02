@@ -407,7 +407,7 @@ administration, authorization (data privileges).
 #### Expanded CPF schema requirements
 
 - Provenance and history of each element/attribute.
-  - add this to the schema
+  - see schema_additions.sql
 
 - Unique ID per element of CPF if that element is editable.
   - we have a unique id per record, and only one field of each type per unique id, so this is covered.
