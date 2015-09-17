@@ -5,7 +5,7 @@ Markdown is a markup language that is used in Gitlab for documentation text file
 ### Editing
 You can edit markdown files locally, rather than on the website.  One full-featured cross-platform Markdown editor is [Atom](http://atom.io).  After opening a file, pressing `Ctrl-Shift-M` for Win/Linux and `Cmd-Shift-M` for Mac will open a real-time preview of the markdown file.
 
-![Atom Screenshot](../images/atom-screenshot.png "Screenshot of Atom editing Interface")
+![Atom Screenshot](http://gitlab.iath.virginia.edu/snac/Documentation/raw/b39387646432816488537cce327f00e41aa79452/images/atom-screenshot.png "Screenshot of Atom editing Interface")
 
 You can also edit markdown files using a text editing application (such as TextEdit or Notepad). However, be aware that some word processing programs may affect line breaks and formatting, which may change how information is displayed.  
 
