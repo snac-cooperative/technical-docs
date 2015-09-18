@@ -43,21 +43,6 @@
 
 ### Overview and order of work
 
-1. create tech documents, filling in as much prose as possible
-   - currenly on-going
-
-1. create prototype software to test tech requirements, iterate updating requirements and prototype
-   - Work flow engine is working and has both a command-line and web interface
-   - We have a SQL database schema
-
-1. create tests for test driven development, and validate prototype
-
-1. refactor or rewrite prototype to match requirements
-
-1. create version 1 of software
-
-**RH: I'd rework this a little, but would like feedback:**
-
 1. List requirements of the overall application. (done)
 
 2. Organize requirements by component, clean up, flesh out, and vet. (requires team meetings)
@@ -147,20 +132,24 @@
   - exists, needs tests, needs requirements
     * **We need to stop now, write requirements, then apply those requirements moving forward to ensure we meet the requirements**
   
-- Name serialization tool, selectable pre-configured formats
+- NameEntity serialization tool, selectable pre-configured formats
 
-- Name string parser **We need to distinguish between name parser and name-identity-string parser**
+- NameEntity string parser
+
   - **API:** subroutine? JSON?
 
     - Can we find a grammar-based parser for PHP? Should we use a standalone parser?
 
     - Can we expose this as a JSON API such that it's given a name-string and returns an identity object of that identity's information?  Possibly a score as well as to how well we thought we could parse it?
+- Name parser (only a portion of the NameEntity string) 
+  - **API:** subroutine? JSON?
+  - Can this use the same parser engine as the name string parser?
 
 - Date parser
   - **API:** subroutine? JSON?
 
   - Can this use the same parser engine as the name string parser?
-  - **This should be distinct, or may be a subroutine of the name-identity-string parser**
+  - **This should be distinct, or may be a subroutine of the nameEntry-string parser**
   - Can we expose this as a JSON API such that given a set of dates, it returns a date object that lists out the individual dates?  Then, it could be called from the name-string parser to parse out dates.
 
 - Editing User interface
