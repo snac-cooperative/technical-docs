@@ -25,7 +25,7 @@ All code will be internally-documented using [Javadoc](http://www.oracle.com/tec
 
 * All files, regardless of language,  must have javadoc-style documentation with author attribution, definition of the file, and short-text of the code license, as defined below:
     
-    ```PHP
+    ```php
     /**
      * File Description Headline
      *
@@ -35,13 +35,14 @@ All code will be internally-documented using [Javadoc](http://www.oracle.com/tec
      * ....
      *
      * @author Robbie Hott
-     * @license GPL
+     * @license http://opensource.org/licenses/BSD-3-Clause BSD 3-Clause
+     * @copyright 2015 the Rector and Visitors of the University of Virginia, and the Regents of the University of California
      */
     ```
 
 * All classes, fields, methods, and function definitions must include documentation, as shown below:
 
-    ```PHP
+    ```php
     /**
      * Name Reconciliation Engine Main Class
      *
