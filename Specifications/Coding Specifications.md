@@ -21,9 +21,9 @@ Source code must match the following style guidelines:
 
 ## Internal Documentation of Code
 
-All code will be internally-documented using [Javadoc](http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html) style documentation, which has been ported to PHP as [phpdoc](http://www.phpdoc.org/docs/latest/guides/docblocks.html).  Tools to generate documentation from the code is also available for [Java](http://www.oracle.com/technetwork/java/javase/documentation/index-jsp-135444.html) and [PHP](http://www.phpdoc.org/).
+All code will be internally-documented using [Javadoc](http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html) style documentation, which has been ported to PHP as [phpdoc](http://www.phpdoc.org/docs/latest/guides/docblocks.html) and XSLT as [XSLTdoc](http://www.pnp-software.com/XSLTdoc/).  Tools to generate documentation from the code is also available for [Java](http://www.oracle.com/technetwork/java/javase/documentation/index-jsp-135444.html), [PHP](http://www.phpdoc.org/), and [XSLT](http://www.pnp-software.com/XSLTdoc/).
 
-* All files, regardless of language,  must have javadoc-style documentation with author attribution, definition of the file, and short-text of the code license, as defined below:
+* All files, regardless of language,  must have javadoc-style documentation with author attribution, definition of the file, and short-text of the code license, as defined below (in PHP):
     
     ```php
     <?php
