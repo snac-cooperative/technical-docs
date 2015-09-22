@@ -53,7 +53,6 @@ All code will be internally-documented using [Javadoc](http://www.oracle.com/tec
      * @author Robbie Hott
      */
     class ReconciliationEngine {
-        ...
 
         
         /**
@@ -69,7 +68,9 @@ All code will be internally-documented using [Javadoc](http://www.oracle.com/tec
          * engine
          */
         public function reconcile($identity) {
-            ...
+            return $identity;
+        }
+    }
     ```
 
 ## Licensing in Github/Gitlab
