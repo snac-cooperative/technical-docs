@@ -55,17 +55,7 @@
 
 6. Develop software based on formal specification that passes the given tests.
 
-### Coding style requirements (architect Robbie)
 
-- Code quality
-  - 4-space tabs with literal spaces
-  - line-lengths of 100 characters or less
-  - Upper-cased class names with camel casing
-  - lower-cased field and variable names with camel casing
-  - no underscores in variable names  (we may revisit this to flop between camel and underscore, but should pick only one for sanity)
-- Intra-code documentation
-  - All files must have javadoc-style documentation with author attribution, definition of the file, and short-text of the code license
-  - All classes and definitions must include javadoc-style documentation
 
 ### Non-component notes to be worked into requirements 
 - CPF record edit, edit each field
