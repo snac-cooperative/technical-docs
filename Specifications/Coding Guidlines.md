@@ -25,10 +25,48 @@ All code will be internally-documented using [Javadoc](http://www.oracle.com/tec
 
 * All files, regardless of language,  must have javadoc-style documentation with author attribution, definition of the file, and short-text of the code license, as defined below:
     
-    This is a test
+    ```php
+    /**
+     * File Description Headline
+     *
+     * Paragraphs describing the file
+     * 
+     * License:
+     * ....
+     *
+     * @author Robbie Hott
+     * @license GPL
+     */
+    ```
 
-* All classes, fields, methods, and function definitions must include documentation, as defined below:
+* All classes, fields, methods, and function definitions must include documentation, as shown below:
 
-    This is another test
+    ```php
+    /**
+     * Name Reconciliation Engine Main Class
+     *
+     * This class provides the meat of the reconciliation engine. To run the
+     * reconciliation engine, create an instance of this class and call the
+     * reconcile method.
+     *
+     * @author Robbie Hott
+     */
+    class ReconciliationEngine {
+        ...
 
-
+        
+        /**
+         * Main reconciliation function
+         *
+         * This function does the reconciliation and returns the top identity from
+         * the engine.  Other top identities and their corresponding score vectors
+         * may be obtained by other functions within this class.  
+         *
+         * @param identity $identity The identity to be searched. This identity 
+         * must be in the proper form 
+         * @return identity The top identity by the reconciliation
+         * engine
+         */
+        public function reconcile($identity) {
+            ...
+    ```
