@@ -1,5 +1,17 @@
 
-All the data resides in the SQL database. At this time, we have no non-SQL data stores.
+SNAC Data outline
+
+This is a broad view of various kinds of data in the SNAC web application. At the core, SNAC data was
+historically EAC-CPF. Working with the CPF data causes two things to happen. First, CPF data itself becomes
+more of a constellation than discrete fields. Second, using and manipulating the data requires many types of
+meta data.
+
+SNAC has always had aspects of controlled vocabulary and authority work. Both of those are being formalized
+and both add data to the SNAC application.
+
+Most of the data resides in the SQL database. Nearly every item below corresponds to a SQL table. The database
+also has additional tables serving various linking and record keeping functions. At this time, we have several
+non-SQL data stores: XTF, Neo4j, Elastic search index
 
 - EAC-CPF constellation (broadly disambiguated from "identity", "entity", "EAC-CPF", "record", etc).
     - Canonical data in SQL tables
@@ -25,7 +37,7 @@ All the data resides in the SQL database. At this time, we have no non-SQL data 
         - policy based workflows
         - technical workflows
 - Web admins
-    - Create and assign institution roles (more powerful than instution admins)
+    - Create and assign institution roles (more powerful than institution admins)
 - Institutions
     - Institution admins
     - Users
@@ -64,3 +76,6 @@ All the data resides in the SQL database. At this time, we have no non-SQL data 
 - Reports
     - Read the database
     - Availability based on roles
+- XTF full text index
+- Neo4j graph database
+- Elastic search full text index
