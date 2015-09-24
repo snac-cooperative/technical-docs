@@ -21,56 +21,44 @@ This is the definitive list of all requirements, briefly. Anything the applicati
 list. Each item and group of items is explained in detail later in the document. Being a "list", this includes
 only sufficient detail to disambiguate items.
 
-**Todo: We should reorganize these by component of the system, then create a formal specifications for each component as to what it must do and how they interact.**
+* User Management
+    - authentication
+        - user creation
+        - authentication
+        - account maintenance
+    - authorization
+        - user/group/other (ugo) with read/write (rw) privilege system, typical for Linux
+        - admin tool for group privs
+        - create/edit/delete groups
+        - create privs matched to API functionality
+* User Interface
+    - search/discover cpf data; need a list of filters/facets
+        - dashboard
+    - dashboard content/tabs
+        - search history
+            - clear history
+            - search history
+        - work status
+            - change sort order (maybe version 2)
+    - system/work flow messages
+    - account settings
+    - social media
+    - web admin (for admins only)
+    - institutional admin (for institutional admins only)
+    - moderator admin (for moderators only)
+    - edit cpf data
+        - edit UI
+        - per field data validation
+        - record validation
+        - user message system in UI
+        - work flow
+        - dashboard for workspace, task list
+* Generated Documents
+    - available reports
+    - EAC-CPF export
+    - RDF/Turtle triples
+    - JSON-LD
 
-- authentication
-
-  - user creation
-  - authentication
-  - account maintenance
-
-- authorization
-
-  - user/group/other (ugo) with read/write (rw) privilege system, typical for Linux
-  - admin tool for group privs
-  - create/edit/delete groups
-  - create privs matched to API functionality
-
-- search/discover cpf data; need a list of filters/facets
-
-  - dashboard
-
-- dashboard content/tabs
-
-  - search history
-    - clear history
-    - search history
-  - work status
-    - change sort order (maybe version 2)
-  - system/work flow messages 
-  - account settings
-
-  - social media
-
-  - web admin (for admins only)
-
-  - institutional admin (for institutional admins only)
-
-  - moderator admin (for moderators only)
-
-  - available reports
-
-  - links to the rest of the web site, especially search and edit
-    
-
-- edit cpf data
-
-  - edit UI
-  - per field data validation
-  - record validation
-  - user message system in UI
-  - work flow
-  - dashboard for workspace, task list
 
 - split merged records, know that some record consists of merged records
 
@@ -95,12 +83,6 @@ only sufficient detail to disambiguate items.
   - architecture of identity, expandable design
   - authority and controlled vocabulary management
 
-- web UI/web application
-
-  - Linux, Apache httpd, PostgreSQL (aka Postgres)
-  - HTML, CSS, JavaScript
-  - work flow
-
 - work flows
 
   - may want wild-west non-locking edits
@@ -108,7 +90,7 @@ only sufficient detail to disambiguate items.
   - ability to issue reminders
   - integrated email notification
   - "watched" records (might be reporting, and not specifically work flow)
-  
+
 - reporting
 
 - help desk
@@ -135,15 +117,15 @@ only sufficient detail to disambiguate items.
 
 - Do we need any additional requirements for related name linking, or more accurately identity linking? Each
   identity has and ARK which is a persistent ID with an assciated URL. Use cases for identity links:
-  
+
   1. SNAC links one identity to another internally based on relations between identities
-  
+
   1. SNAC links to itself as a name authority
-  
+
   1. SNAC links to external identities
-  
+
   1. SNAC links to external archival resources
-  
+
   2. External resources link to SNAC as an authority. (Tom comment: is SNAC also an archival resource?)
 
 - Clarify: the co-op version 1 is not going to support bulk data ingest
@@ -153,15 +135,15 @@ only sufficient detail to disambiguate items.
 
 - Do we need full delete? For example, a CPF contains something illegal and must be fully deleted. How do we
   delete from backups? Are either of these even required by policy?
-  
+
 - Are we assuming that data from the web browser has been sanity checked before hitting the server? (Yes, by
-  the data validation engine) 
+  the data validation engine)
     * **Todo: Where will the engine live, in the browser (Javascript) or on the server?**
-  
+
 - Does the server need to save temporary edit data prior to writing the data to the cpf database? For example, what if
   someone enters "19th century" in a date field? It isn't valid, but we need to save their work. (Yes, we need to save invalid user input, and give the user a useful message for each type of data validation failure.)
     * **Todo: Where does the data validation engine live?  If we make that part of the UI, it may live on the browser as a downloaded JS engine**
-  
+
 - We need to sanity check any links we create, especially links back into SNAC.
 
 - Don't forget (to create) the X-to-CPF field mapping documentation, and this ties in to the "CPF data contributor's"
@@ -169,11 +151,11 @@ only sufficient detail to disambiguate items.
 
 - We need the "CPF data contributor's" guide.
 
-- What authority work will we be doing? 
+- What authority work will we be doing?
 
     - For example, holding institution ISIL identifier, name, address, contact person, etc.
 
-- What authority data from other sources do we cache locally? 
+- What authority data from other sources do we cache locally?
 
     - We need examples of this, as well as a process to manage those resources. It is important to know where
       the data came from, technically how it was acquired, the date we acquired it, and some methods of
@@ -182,17 +164,17 @@ only sufficient detail to disambiguate items.
 
 - Create detailed functional requirements for controlled vocabularies, and a detailed implementation
   specification.
-  
-- Clarify: versioning is per-record, not per-field. 
+
+- Clarify: versioning is per-record, not per-field.
 
 - Need a watch/notification API. It needs a canonical name. Is there an off-the-shelf event monitor that will
-  easily integrate with the web REST API and work flow manager? 
-  
+  easily integrate with the web REST API and work flow manager?
+
       - We can write our own status and staging API. It only requires modest SQL schema work. Most of the
         necessary data is already planned for other features. For example, records can be locked by a user, we
         know who has the lock, we need administrative functions for unlocking and transfering locks, the work
         flow explicitly lays out the process for each user interaction with the application.
-  
+
 - Clarify: Are we integrating SNAC and ArchiveSpace in co-op version 1? Will ArchiveSpace have to use our REST API?
 
 - How is embargo implemented at the database level? What are the requirements for embargo?
@@ -200,20 +182,20 @@ only sufficient detail to disambiguate items.
 - comment: Clarify and/or verify: Technical review vs content review is handled by a combination of roles and
   work flow.
 
-- comment: Reports: Where are we keeping the Big List of All Reports? 
+- comment: Reports: Where are we keeping the Big List of All Reports?
 
 - comment: Clarify: row 43, (unclear) Consider implementing inked data standard for relationship links
   instead of having to download an entire document of links, as it is configured now.
-  
+
 - Search: need the Big List of Search Facets, and someone needs to verify that Elastic Search can do facets.
 
-- Does co-op version 1 have a timeline visualization? Does it have a "sort by timeline"? 
+- Does co-op version 1 have a timeline visualization? Does it have a "sort by timeline"?
 
     - What does it mean to sort by timeline?
-  
+
 - comment: Clarify: What is a context widget? - row 52, Continue to develop and refine context widget. (technical
   requirements unclear)
-  
+
 - comment: Clarify: we need requirements for citations, and details about where they integrate with the rest of the
   system.
 
@@ -308,7 +290,7 @@ Users will have individual accounts, so we can enable a search history,
 internal bookmarks, and various saved reports (assuming faceted search
 where it could take many mouse clicks to accrete a specific search).
 
-#### User interface for Discovery 
+#### User interface for Discovery
 
 #### Functionality for Splitting
 
@@ -322,7 +304,7 @@ ARK server will note the new ARKs of the resulting descriptions in both human re
 formats.  Outside parties with an invalid ARK will probably have to manually update their descriptions, since
 the entity name is too confusing for a computer to disambiguate. (Although we can easily create a report of
 deprecated ARKs on a per-institution basis.) When merging descriptions, the main ARK will be retained, and
-merged ARKs can simply redirect to it. 
+merged ARKs can simply redirect to it.
 
 Note: determine which operations require a new ARK, either due to the old ARK being so much changed as the
 original reference is meaningless, or other causes TBD.
@@ -500,138 +482,6 @@ also needs to support bulk data edits of several types.
 
 Does this mean the admin dashboard?
 
-#### User Management
-
-Authentication is validating user logins to the system. Authorization is the related aspect of controlling
-which parts of the system users may access (or even which parts they may know exist).
-
-We can use OpenID for authentication, but we will need a user profile for SNAC roles and authorization. There
-are examples of PHP code to implement OpenID at stackexchange:
-
-http://stackoverflow.com/questions/4459509/how-to-use-open-id-as-login-system
-
-OpenID seems to constantly be changing, and sites using change frequently. Google has (apparently) deprecated
-OpenID 2.0 in favor of Open Connect. Facebook is using something else, but apparently FB still works with
-OpenID. Stackexchange supports several authentication schemes. If they can do it, so can we. Or we can support
-one scheme for starters and add others as necessary. The SE code is not open source, so we can't see how much
-work it was to support the various OpenID partners.
-
-Authorization involves controlling what users can do once they are in the system. That function is sort of
-more solved by OAuth or OpenID by sharing the user profile. However, SNAC has specific requirements,
-especially our roles, and those will not be found in other system. There is not anything we must have from
-user profiles. We might want their social networking profile, but social networking is not a core function of
-SNAC. 
-
-By default users can't do anything that isn't exposed to the non-authenticated public users. Privileges are
-added and users are given roles (aka groups) from which they inherit privileges. The authorization system is
-involved in every transaction with the server to the extent that every request to the server is checked for
-authorization before being passed to the code doing the real work.
-
-The Linux model of three privilege types "user", "group", and "other" works well for authorization permissions
-and we should use this model.  "User" is an authenticated user. "Group" is a set of users, and a user may
-belong to several groups. In SNAC and the non-Linux world "group" is known as "role", so SNAC will call them
-"roles". "Other" privileges apply to SNAC as public, non-authenticated users, although we don't really have
-"other", and the "researcher" role applies to public users.
-
-Users can have several roles, and will have all the privileges of all their roles. Role membership is managed
-by an administrative UI (part of the dashboard) and related API code. User information such as name, phone
-number, and even password can also change. User ID values cannot be changed, and a user ID is never reused,
-even after account deletion.
-
-We expect to create additional roles as necessary for application functions.
-
-Roles include a large number "is instution member" roles. These should be roles like any other, but we may
-want to flag these role records to make them easy to manage and easy to display in the UI. Any user can have
-zero or more roles that define their instutional affiliation. This primarily effects reporting and admin. In
-the case of reports, membership in an institution constrains the reporting. When setting up a report, users
-may only choose from institutions of which they are members. Some reports may auto-detect the user's
-membership.
-
-By and large when we refer to "accounts" we mean web accounts managed by the Manager/Web admin. The general
-public can use the discovery interface without an account, but saving search history, and other
-session related discovery tools requires an account. It is technically possible to have a single session
-dashboard. Although that has not been mentioned as a requirement and is probably a low priority, it might be
-almost trivial to implement.
-
-Every account will be in the "Researcher" role which has the same privileges as the general public, but with a
-TBD set of basic privileges including: search history, certain researcher reports. 
-
-
-| User type                  | Role                | Description                                                           |
-|----------------------------+---------------------+-----------------------------------------------------------------------|
-| Sysadmin                   | Server admin        | Maintain server, backups, etc.                                        |
-| Database Administrator     | DBA                 | Schema maintenance, data dumps, etc.                                  |
-| Software engineer          | Developer           | Coding, testing, QA, release management, data loading, etc.           |
-| Manager                    | Web admin           | Web accounts: create, manage, assign roles, run reports               |
-| Peer vetting               | Vetting             | Approve moderators, reviewers, content experts                        |
-| Moderator                  | Moderator           | Approve maintenance changes, posting those changes                    |
-| Reviewer/editor            | Maintenance         | Maintainer privileges, interacts with moderators                      |
-| Content expert             | Maintenance         | Domain expert, may have zero institutional roles                      |
-| Documentary editor         | Maintenance         | Distinguished by?                                                     |
-| Maintenance                | Maintenance         | Distinguished by?                                                     |
-| Researcher                 | Researcher          | Use the discovery interface and history dashboard                     |
-| Archival description donor | Block upload        | Bulk uploads of CPF or finding aids                                   |
-| Name authority manager     | Name authority      | Donates name authority data perhaps via bulk upload                   |
-| Institutional admins       | Institutional admin | Instutional role admin dashboard, institutional reports               |
-| Public                     | Researcher          | No account, researcher role, no dashboard or single session dashboard |
-
-
-Remember: institutional affiliation roles aren't in the table above. There will be many of those roles, and
-users may have zero, one, or several institutional roles that define which insitutions that user is a member
-of.
-
-It is possible for an institutional admin to be a member of more than one institution. Institutional Admins
-have abilities:
-
-- view membership lists of their institution(s)
-- add or remove their instutional role for users. 
-
-Roles which require one or more instutitutional roles (affiliation):
-
-- Block upload
-- Name authority
-- Institutional admin
-
-Roles which may have zero or more institutional roles:
-
-- Web admin
-- Vetting
-- Moderator
-- Maintenance (likely to have one or more)
-- Researcher
-
-
-There are several dashboard sections:
-
-- Standard researcher history
-- Standard user account management (password, email, etc.)
-- Web admin account creation, deletion, role assignments
-- Vetting admin (if we have vetting) 
-- Available reports. 
-
-
-#### Web Application Administration
-
-
-System administration will be required for the web application and the
-server hosting the web site. This is well understood from a technical
-point of view. We should have more than usual documentation of the
-command line accounts involved, and server configuration. This aspect of
-administration integrates with versioning, backup, and software
-releases.
-
-#### Reports
-
-
-While the web interface is the primary public face of SNAC, many other views of the data and meta data are
-necessary, especially for admins and governance. Those "views" are reports and will primary be generated via
-integration of a third-party reporting package such as Jaspersoft Business Intelligence Suite, which is free,
-open source, and includes a full range of tools.  All SNAC data resides in PostgreSQL, the standard SQL
-relational database management system (RDBMS) which simplifies the process of adding reporting and business
-intelligence.
-
-(How much detail do we want about reports? Maybe just half a dozen
-examples?)
 
 #### System Administration
 
@@ -693,79 +543,9 @@ logic that we will support with UI, code, and database tables/fields.
 Many reports will be limited certain roles. Admin users will likely be
 heavy report users.
 
-#### Ability to Open/Close the Site during Maintenance
-
-
-If the web application has a "closed for maintenance" feature, this feature would be available to web admins,
-even though it is the Linux sysadmins who will do the maintenance. A common major failure of web applications
-is the assumption that the product is always up.  This creates havoc when the site simply fails to load due to
-an outage, planned or otherwise. With a little work we should be able to have an orderly "site is closed" web
-page and status message for planned outages. We might be able to failover to some kind of system status
-message. This is a low priority feature since downtime is probably only a few hours per year.  At the same
-time, if it isn't too difficult to implement, it sets our project apart from the majority who either ignore
-the problem, or let their help desk folks spend an hour apologizing to customers.
-
-When the product is closed, web admins should be able to login (assuming login is possible). 
-
-comment: Do we want an architecture where the login is essentially a separate product so that we can have a
-"lobby" and other front end features that continue to work even when the backend is down for maintenance?
-
-Most sites simply return a server error or site not available (404) when the site is down for whatever
-reason. We can avoid this a couple of ways. The simplest is to use some Apache server features and a few
-simple scripts so that users see a nice message when the site is down for maintenance. This very simple
-approach requires little or no change to our software architecture. The more elegant approach is to use one of
-several system architectures that  keep a small system front end always running.
-
-#### Sandbox for Training, perhaps as a clone of the QA system?
 
 
 #### ArchiveSpace Feature Planning via Brad
 
 This section will require some discussion (conference calls) with Brad
 and others.
-
-#### Staffing Model (Brian's draft suggestions)
-
-Production of a cooperatively maintained high profile web site requires
-different types of Technical and non-technical work.
-
-Operations Team
-
-- Communications and interactions with end users and content owners,
-    from marketing to user support, assessment
-- Manages help desk
--   Support production web application infrastructure, including
-    monitoring, "on call" for first tier response to system monitors
-- batch ingest of new data sources
--   signs up and on-boards new pilot members
-- Proactive content QA and remediation
--   work organized around issue queue / customer relationship management
-    system
-
-Main Artifact: Ticketing Issue tracker that automatically generates a
-ticket for an email to help@example.edu
-
-Development Team
-
-- Create new features that deliver customer value
--   Maintain tests for new features
-- second tier support of deployed features, developers on call for
-    their deployed code
-- deploy code to test, stage, and production environments
--   work organized around sprints
-
-Main Artifact: User story backlog that supports scoring stories by
-points,
-
-Research Team
-
-- Conduct experiments with new algorithms and technologies
-- interoperation (and participation in the development) of relevant
-    domain specific standards and practices
-
-Main Artifact: Research Agenda, schemas and specifications (esp. merge
-spec)
-
-
-
-

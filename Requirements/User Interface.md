@@ -9,10 +9,10 @@ on stuff where we don't agree.
 Requirements:
 
 - expose an http accessible API that is viable for `wget` or `curl`, browser `<form>`, and Ajax calls.
-
 - Supported input format depends on the complexity of the requested operation.
-
 - Public functions require no authentication. Everything else must include authentication data.
+- Sandbox functionality to for training and testing, which doesn't modify actual SNAC data
+
 
 
 ### Web application output via template
@@ -89,3 +89,26 @@ The watcher should have the ability to disable their watch. After each edit, all
 watchers will get a notification. The watch does not apply to any single field, but to the entire description, and therefore also to future descriptions which result from merging.
 
 When an identity constellation is split, the watch propagates to both resulting records.  The user will be informed of the change, and then may choose to disable one of the watchers.
+
+### Ability to Open/Close the Site during Maintenance
+
+
+If the web application has a "closed for maintenance" feature, this feature would be available to web admins,
+even though it is the Linux sysadmins who will do the maintenance. A common major failure of web applications
+is the assumption that the product is always up.  This creates havoc when the site simply fails to load due to
+an outage, planned or otherwise. With a little work we should be able to have an orderly "site is closed" web
+page and status message for planned outages. We might be able to failover to some kind of system status
+message. This is a low priority feature since downtime is probably only a few hours per year.  At the same
+time, if it isn't too difficult to implement, it sets our project apart from the majority who either ignore
+the problem, or let their help desk folks spend an hour apologizing to customers.
+
+When the product is closed, web admins should be able to login (assuming login is possible).
+
+comment: Do we want an architecture where the login is essentially a separate product so that we can have a
+"lobby" and other front end features that continue to work even when the backend is down for maintenance?
+
+Most sites simply return a server error or site not available (404) when the site is down for whatever
+reason. We can avoid this a couple of ways. The simplest is to use some Apache server features and a few
+simple scripts so that users see a nice message when the site is down for maintenance. This very simple
+approach requires little or no change to our software architecture. The more elegant approach is to use one of
+several system architectures that  keep a small system front end always running.

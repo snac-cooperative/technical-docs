@@ -18,6 +18,11 @@ Data should be available to be downloaded in the following formats:
 
 ## System Reports
 
+While the web interface is the primary public face of SNAC, many other views of the data and meta data are
+necessary, especially for admins and governance. Those "views" are reports and will primary be generated via
+integration of a third-party reporting package such as Jaspersoft Business Intelligence Suite, which is free,
+open source, and includes a full range of tools.
+
 For each user of the system, the following reports should be available for download:
 
 * List of records the user has edited
