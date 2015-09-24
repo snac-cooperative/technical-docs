@@ -1,20 +1,19 @@
 
+All the data resides in the SQL database. At this time, we have no non-SQL data stores.
 
-
-- EAC-CPF data
-    - All CPF data saved in SQL tables
+- EAC-CPF constellation (broadly disambiguated from "identity", "entity", "EAC-CPF", "record", etc).
+    - Canonical data in SQL tables
+    - XML output generated as necessary
     - Meta data
         - Version system
             - data current public version
             - data current edit version (for records being edited)
             - data old public versions
             - data old edit versions
-    - Historical Research Tool per-user search history
-    - Maintenance tool per-user workflow task status
-    - Notifications, all users
-- Links to outside resources
-    - Archives
-    - Finding aids
+    - Merge history
+    - Links to outside resources
+        - Archives
+        - Finding aids
 - Workflows
     - Web UI workflow
         - Workflow specific to web domain, pages, buttons, output type, etc.
@@ -25,45 +24,43 @@
             - manual merge
         - policy based workflows
         - technical workflows
+- Web admins
+    - Create and assign institution roles (more powerful than instution admins)
 - Institutions
-    - Admins
+    - Institution admins
     - Users
     - SNAC CPF entries for institutions
+    - At least one role per institution
 - Users
-    - name, email, user id, password
-    - roles, as many as necessary
+    - Dashboard tabs
+        - Historical Research Tool per-user search history
+        - Maintenance tool per-user workflow task status
+        - Notifications, all users
+    - Account info
+        - name, email, user id, password
+        - roles, as many as necessary
+    - Web session, possibly multiple sessions per user
+    - REST API session, similar or identical to web sessions
+    - Removing a role from a user revokes the associated privilege
 - Roles
     - Created and maintained by admins with role privileges
-    - Single privilege per role
-    - One role per institution
+    - Single privilege per role, must be coordinated with workflows and application functions
+    - At least one role exists per institution
+    - At least one role per user (HRT user)
     - Potentially, roles for ad-hoc groups (sub-institution, department, professional orgs, etc.)
+    - Need explicit, on-going policy guidance
 - Name format system
     - Multiple known formats
     - Canonical SNAC format?
-    - Language, script, and user sensitive?
+    - Context sensitive to language, script, and user?
 - Multilingual strings
     - Web UI labels
     - Controlled vocabulary strings, including labels and definitions
-  
-
-
-- create data constellation outline:
-
-CPF
-workflow
-
-merge meta data
-
-archivist edit workflow
-merge workflow
-policy workflow
-technical workflow
-snac users and roles
-human merge
-identity reconciliation suggested merge
-data versions
-name format
-finding aids
-archives
-institutions as CPF entities
-external resources
+- Controlled vocabularies
+    - Multilingual strings
+    - Have category and hierarchy
+    - All vocabularies share a base data structure
+    - Use varies by policy; does this imply a vocabulary workflow?
+- Reports
+    - Read the database
+    - Availability based on roles
