@@ -22,10 +22,22 @@ non-SQL data stores: XTF, Neo4j, Elastic search index
             - data current edit version (for records being edited)
             - data old public versions
             - data old edit versions
-    - Merge history
-    - Links to outside resources
-        - Archives
-        - Finding aids
+        - Merge history
+        - Links to outside resources
+            - Archives
+            - Finding aids
+    - Multilingual strings
+        - Web UI labels
+        - Controlled vocabulary strings, including labels and definitions
+    - Controlled vocabularies
+        - Multilingual strings
+        - Have category and hierarchy
+        - All vocabularies share a base data structure
+        - Use varies by policy; does this imply a vocabulary workflow?
+- Name format system
+    - Multiple known formats
+    - Canonical SNAC format?
+    - Context sensitive to language, script, and user?
 - Workflows
     - Web UI workflow
         - Workflow specific to web domain, pages, buttons, output type, etc.
@@ -61,18 +73,6 @@ non-SQL data stores: XTF, Neo4j, Elastic search index
     - At least one role per user (HRT user)
     - Potentially, roles for ad-hoc groups (sub-institution, department, professional orgs, etc.)
     - Need explicit, on-going policy guidance
-- Name format system
-    - Multiple known formats
-    - Canonical SNAC format?
-    - Context sensitive to language, script, and user?
-- Multilingual strings
-    - Web UI labels
-    - Controlled vocabulary strings, including labels and definitions
-- Controlled vocabularies
-    - Multilingual strings
-    - Have category and hierarchy
-    - All vocabularies share a base data structure
-    - Use varies by policy; does this imply a vocabulary workflow?
 - Reports
     - Read the database
     - Availability based on roles
