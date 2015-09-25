@@ -1,4 +1,4 @@
-# Introduction to Documentation
+# SNAC Documentation
 
 This repository contains all the documentation for the SNAC Web Application and related frameworks, engines, and pieces.  Specifically:
 
