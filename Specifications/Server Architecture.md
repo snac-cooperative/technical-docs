@@ -11,4 +11,4 @@ Each component of the architecture will run on this platform.  Any sub-component
 
 The following diagrams describe the architecture of internal components:
 
-* [Overall Server Architecture](http://gitlab.iath.virginia.edu/snac/Documentation/raw/master/Specifications/SNAC%20Server%20Architecture.pdf)
+* ![Overall Server Architecture](http://gitlab.iath.virginia.edu/snac/Documentation/raw/master/Specifications/Originals/SNAC%20Server%20Architecture.svg)
