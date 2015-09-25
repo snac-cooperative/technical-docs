@@ -1,6 +1,14 @@
 # Introduction to Documentation
 
-The currently-being-revised Technical Requirements are found in the [Requirements Directory](Requirements).  Formal Specifications of those requirements, as available are in the [Specifications Directory](Specifications).  This repository also includes [Help](Help) on using Gitlab, Git, and the Markdown text format; [Documentation](Third Party Documentation) on third-party software and applications being used; [Historical Documentation](Historical Documentation) on previous iterations of SNAC; and [Discussions](Discussion) and [Notes](Notes) from the technical team.
+This repository contains all the documentation for the SNAC Web Application and related frameworks, engines, and pieces.  Specifically:
+
+* The currently-being-revised Technical Requirements are found in the [Requirements Directory](Requirements).  
+* Formal Specifications for those requirements are in the [Specifications Directory](Specifications).
+* [Help](Help) on using Gitlab, Git, and the Markdown text format
+* [Documentation](Third Party Documentation) on third-party software and applications being used
+* [Historical Documentation](Historical Documentation) on previous iterations of SNAC
+* Technical [Discussions](Discussion) related to the SNAC project
+* [Notes](Notes) from the technical team.
 
 The best place to start is the big, overall [plan](plan.md) document, which describes the process forward with defining requirements and specifications.
 
