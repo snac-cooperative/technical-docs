@@ -1,0 +1,63 @@
+digraph States {
+        // neato -n2 -Tsvg identity_constellation.gv -O
+        // 
+        // Absolute positioning appears to only work with neato, and only if all nodes are pinned,
+        // but not always. neato -n2 units are points, and inputscale appears to be ignored
+        // sep=0.2 splines=polyline overlap=false allows the pos values to be followed,
+        // while getting the lines to go around nodes.
+
+	label = "\n\nIdentity Constellation\n(R) repeatable fields";
+        labelloc="t";
+	fontsize=20;
+        // inputscale=75;
+        sep=0.05;
+
+        // nodesep is a synonym for sep?
+        // nodesep=0.1;
+
+        splines=polyline;
+        overlap=false;
+
+        "an1" [label="name/alt(R)"];
+        "ed1" [label="exist dates"];
+        "occ1" [label="occupation\nor function(R)"];
+        "cr1" [label="identity relation(R)"];
+        "rr1" [label="resource relation(R)"];
+        
+
+        root1 [pos="350,400!" label="identity root"];
+        place [pos="200,450!" label="related place(R)"];
+
+        an1             [pos="150,350!" ];
+        usedate         [pos="0,350!", label="use dates"];
+        name_components [pos="0,290!", label="components"];
+        language        [pos="20,250!", label="language"];
+        script          [pos="40,200!", label="script"];
+
+        an1 -> language;
+        an1 -> script;
+
+        ed1 [pos="150,200!"];
+        biog [pos="160,400!" label="biog hist"] ;
+        cr1 [pos="590,310!"];
+        et [pos="220,100!" label="entity type"];
+        occ1 [pos="430,250!"];
+        subject [pos="340,180!" label="topical subject(R)"];
+        rr1 [pos="600,200!"];
+        src [pos="550,400!" label="source(R)"];
+        citation [pos="570,450!" label="citation(R)"];
+
+        root1 -> subject;
+        root1 -> citation;
+        root1 -> et;
+        root1 -> src;
+        root1 -> place;
+        root1 -> an1;
+        root1 -> ed1;
+        root1 -> occ1;
+        root1 -> cr1;
+        root1-> rr1;
+        root1 -> biog;
+        an1 -> usedate;
+        an1 -> name_components;
+}
