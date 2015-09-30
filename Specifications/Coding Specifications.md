@@ -21,6 +21,10 @@ Source code must match the following style guidelines:
 * Filenames must match the name of the class defined within (exactly)
 * Directory structure must mirror the namespace structure (PHP)
 
+## Test-Driven Development
+
+Each class that is written should have matching and appropriate unit tests written.  For PHP code, those tests will be executed using the [PHPUnit](https://phpunit.de/index.html) unit testing framework.
+
 ## Internal Documentation of Code
 
 All code will be internally-documented using [Javadoc](http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html) style documentation, which has been ported to PHP as [phpdoc](http://www.phpdoc.org/docs/latest/guides/docblocks.html) and XSLT as [XSLTdoc](http://www.pnp-software.com/XSLTdoc/).  Tools to generate documentation from the code is also available for [Java](http://www.oracle.com/technetwork/java/javase/documentation/index-jsp-135444.html), [PHP](http://www.phpdoc.org/), and [XSLT](http://www.pnp-software.com/XSLTdoc/).
