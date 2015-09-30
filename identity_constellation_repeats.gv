@@ -25,27 +25,43 @@ digraph States {
         "rr1" [label="resource relation(R)"];
         
 
-        root1 [pos="350,400!" label="identity root"];
-        place [pos="200,450!" label="related place(R)"];
+        root1 [pos="470,400!" label="identity root"];
+        place [pos="320,450!" label="related place(R)"];
 
-        an1             [pos="150,350!" ];
-        usedate         [pos="0,350!", label="use dates"];
-        name_components [pos="0,290!", label="components"];
-        language        [pos="20,250!", label="language"];
-        script          [pos="40,200!", label="script"];
+        an1             [pos="270,350!" ];
+        pref            [pos="120,410!" label="preferred"];
+        usedate         [pos="120,350!", label="use dates"];
+        name_components [pos="140,300!", label="components"];
+        language        [pos="150,250!", label="language"];
+        script          [pos="180,200!", label="script"];
+        authorized_form [pos="210,140!", label="authorized\nform"];
 
         an1 -> language;
         an1 -> script;
+        an1 ->authorized_form;
+        an1 -> pref;
 
-        ed1 [pos="150,200!"];
-        biog [pos="160,400!" label="biog hist"] ;
-        cr1 [pos="590,310!"];
-        et [pos="220,100!" label="entity type"];
-        occ1 [pos="430,250!"];
-        subject [pos="340,180!" label="topical subject(R)"];
-        rr1 [pos="600,200!"];
-        src [pos="550,400!" label="source(R)"];
-        citation [pos="570,450!" label="citation(R)"];
+        name_components -> surname;
+        name_components -> forename;
+        name_components -> numeration;
+        name_components -> prefix;
+        name_components -> suffix;
+
+        surname [pos="0,350!", label="surname(R)"];
+        forename [pos="0,300!", label="forename(R)"];
+        numeration [pos="0,250!", label="numeration"];
+        prefix [pos="0,200!", label="prefix(R)"];
+        suffix [pos="0,150!", label="suffix(R)"];
+
+        ed1 [pos="330,270!"];
+        biog [pos="280,400!" label="biog hist"] ;
+        cr1 [pos="730,310!"];
+        et [pos="340,100!" label="entity type"];
+        occ1 [pos="550,250!"];
+        subject [pos="460,180!" label="topical subject(R)"];
+        rr1 [pos="720,200!"];
+        src [pos="670,400!" label="source(R)"];
+        citation [pos="690,450!" label="citation(R)"];
 
         root1 -> subject;
         root1 -> citation;
