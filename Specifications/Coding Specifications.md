@@ -18,20 +18,22 @@ Source code must match the following style guidelines:
     * Class names start with upper-case letters
     * Variable and field names start with lower-clase letters
     * No underscores allowed in variable names
+* Filenames must match the name of the class defined within (exactly)
+* Directory structure must mirror the namespace structure (PHP)
 
 ## Internal Documentation of Code
 
 All code will be internally-documented using [Javadoc](http://www.oracle.com/technetwork/java/javase/documentation/index-137868.html) style documentation, which has been ported to PHP as [phpdoc](http://www.phpdoc.org/docs/latest/guides/docblocks.html) and XSLT as [XSLTdoc](http://www.pnp-software.com/XSLTdoc/).  Tools to generate documentation from the code is also available for [Java](http://www.oracle.com/technetwork/java/javase/documentation/index-jsp-135444.html), [PHP](http://www.phpdoc.org/), and [XSLT](http://www.pnp-software.com/XSLTdoc/).
 
 * All files, regardless of language,  must have javadoc-style documentation with author attribution, definition of the file, and short-text of the code license, as defined below (in PHP):
-    
+
     ```php
     <?php
     /**
      * File Description Headline
      *
      * Paragraphs describing the file
-     * 
+     *
      * License:
      * ....
      *
@@ -57,7 +59,7 @@ All code will be internally-documented using [Javadoc](http://www.oracle.com/tec
      */
     class ReconciliationEngine {
 
-        
+
         /**
          * Main reconciliation function
          *
@@ -65,8 +67,8 @@ All code will be internally-documented using [Javadoc](http://www.oracle.com/tec
          * the engine.  Other top identities and their corresponding score vectors
          * may be obtained by other functions within this class.  
          *
-         * @param identity $identity The identity to be searched. This identity 
-         * must be in the proper form 
+         * @param identity $identity The identity to be searched. This identity
+         * must be in the proper form
          * @return identity The top identity by the reconciliation
          * engine
          */
@@ -83,7 +85,7 @@ Each code repository must contain the full BSD 3-Clause license below.  It must 
 
 ```
 Copyright (c) 2015, the Rector and Visitors of the University of Virginia, and
-the Regents of the University of California 
+the Regents of the University of California
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -111,5 +113,3 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
-
-
