@@ -1,5 +1,5 @@
 digraph States {
-        // neato -n2 -Tsvg identity_constellation.gv -O
+        // neato -n2 -Tsvg identity_constellation_repeats.gv -O
         // 
         // Absolute positioning appears to only work with neato, and only if all nodes are pinned,
         // but not always. neato -n2 units are points, and inputscale appears to be ignored
