@@ -43,3 +43,13 @@ In this organization, the codebase will be kept together.  The `index.php` marke
 ```
 
 A key note here is that the client applications (web ui and rest api) will then need to make internal server API calls over the local server API to handle any back-end requests.  This addresses a separation of concerns and keeps the server more secure.
+
+### Alternative 1 (Preferred)
+
+We may use the architecture above, but without the index.php files in respective namespaces.  In this case, all endpoints will share the same codebase, but with an index.php that includes the codebase and instantiates and executes the appropriate class.  Then, we may have:
+
+```
+/var/www/html       instantiates \snac\client\webui\WebUI
+/var/www/api        instantiates \snac\client\rest\RestAPI
+/var/www/internal   instantiates \snac\server\Server
+```
