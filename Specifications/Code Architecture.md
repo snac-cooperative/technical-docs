@@ -53,3 +53,18 @@ We may use the architecture above, but without the index.php files in respective
 /var/www/api        instantiates \snac\client\rest\RestAPI
 /var/www/internal   instantiates \snac\server\Server
 ```
+### Repo Organization
+
+```
+/
+    /src                % containing all snac sourcecode
+        /snac           % ...
+        /virtualhosts
+            /web
+            /rest
+            /server
+    /test               % containing all unit tests (mirrors /src)
+        /snac           % ...
+    LICENSE             % code license
+    README.md           % readme file for the repo
+```
