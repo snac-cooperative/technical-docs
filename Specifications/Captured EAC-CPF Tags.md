@@ -17,6 +17,7 @@ cpf
             maintenanceEvent
                 eventType
                 eventDateTime
+                    @standardDateTime
                 agentType
                 agent
                 eventDescription
@@ -25,15 +26,33 @@ cpf
             source
                 @type
                 @href
-                ??objectXMLWrap
     cpfDescription
         identity
             entityType
             nameEntry
                 @preferenceScore
+                @lang
+                @scriptCode
                 part
                 alternativeForm
                 authorizedForm
+                useDates
+                    dateRange
+                        fromDate
+                            @standardDate
+                            @localType
+                            @notBefore
+                            @notAfter
+                        toDate
+                            @standardDate
+                            @localType
+                            @notBefore
+                            @notAfter
+                    date
+                        @standardDate
+                        @localType
+                        @notBefore
+                        @notAfter
         description
             existDates
                 dateSet
@@ -161,6 +180,12 @@ cpf
                         @notBefore
                         @notAfter
             biogHist
+            generalContext
+            legalStatus
+                term
+                    @vocabularySource
+            mandate
+            structureOrGenealogy
         relations
             cpfRelation
                 @arcrole
@@ -169,6 +194,7 @@ cpf
                 @type
                 @cpfRelationType
                 relationEntry
+                descriptiveNote
                 dateRange
                     fromDate
                         @standardDate
