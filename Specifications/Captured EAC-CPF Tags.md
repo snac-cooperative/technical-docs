@@ -1,7 +1,7 @@
 The following tags and attribute structure is currently being parsed by SNAC's EAC-CPF parser:
 
 <ul>
-    <li><code>cpf</code>
+    <li><code>eac-cpf</code>
     <ul>
         <li><code>control</code>
         <ul>
