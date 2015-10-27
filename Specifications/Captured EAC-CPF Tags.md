@@ -1,223 +1,221 @@
 The following tags and attribute structure is currently being parsed by SNAC's EAC-CPF parser:
 
-```
-cpf
-    control
-        recordId
-        otherRecordId
-            @localType
-        maintenanceStatus
-        maintenanceAgency
-            agencyName
-        languageDeclaration
-            language
-                @languageCode
-                @scriptCode
-        maintenanceHistory
-            maintenanceEvent
-                eventType
-                eventDateTime
-                    @standardDateTime
-                agentType
-                agent
-                eventDescription
-        conventionDeclaration
-        sources
-            source
-                @type
-                @href
-    cpfDescription
-        identity
-            entityType
-            nameEntry
-                @preferenceScore
-                @lang
-                @scriptCode
-                part
-                alternativeForm
-                authorizedForm
-                useDates
-                    dateRange
-                        fromDate
-                            @standardDate
-                            @localType
-                            @notBefore
-                            @notAfter
-                        toDate
-                            @standardDate
-                            @localType
-                            @notBefore
-                            @notAfter
-                    date
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-        description
-            existDates
-                dateSet
-                    dateRange
-                        fromDate
-                            @standardDate
-                            @localType
-                            @notBefore
-                            @notAfter
-                        toDate
-                            @standardDate
-                            @localType
-                            @notBefore
-                            @notAfter
-                    date
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-                dateRange
-                    fromDate
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-                    toDate
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-                date
-                    @standardDate
-                    @localType
-                    @notBefore
-                    @notAfter
-                descriptiveNote
-            place
-                dateRange
-                    fromDate
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-                    toDate
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-                date
-                    @standardDate
-                    @localType
-                    @notBefore
-                    @notAfter
-                descriptiveNote
-                placeRole
-                placeEntry
-                    @latitude
-                    @longitude
-                    @localType
-                    @administrationCode
-                    @countryCode
-                    @vocabularySource
-                    @certaintyScore
-                    placeEntry
-                    placeEntryBestMaybeSame
-                        @latitude
-                        @longitude
-                        @localType
-                        @administrationCode
-                        @countryCode
-                        @vocabularySource
-                        @certaintyScore
-                    placeEntryLikelySame
-                        @latitude
-                        @longitude
-                        @localType
-                        @administrationCode
-                        @countryCode
-                        @vocabularySource
-                        @certaintyScore
-                    placeEntryMaybeSame
-                        @latitude
-                        @longitude
-                        @localType
-                        @administrationCode
-                        @countryCode
-                        @vocabularySource
-                        @certaintyScore
-            localDescription
-                @localType (AssociatedSubject, nationalityOfEntity, gender)
-                term
-            languageUsed
-                language
-                    @languageCode
-                    @scriptCode
-            occupation
-                term
-                    @vocabularySource
-                descriptiveNote
-                dateRange
-                    fromDate
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-                    toDate
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-            function
-                @localType
-                term
-                    @vocabularySource
-                descriptiveNote
-                dateRange
-                    fromDate
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-                    toDate
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-            biogHist
-            generalContext
-            legalStatus
-                term
-                    @vocabularySource
-            mandate
-            structureOrGenealogy
-        relations
-            cpfRelation
-                @arcrole
-                @href
-                @role
-                @type
-                @cpfRelationType
-                relationEntry
-                descriptiveNote
-                dateRange
-                    fromDate
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-                    toDate
-                        @standardDate
-                        @localType
-                        @notBefore
-                        @notAfter
-                date
-                    @standardDate
-                    @localType
-                    @notBefore
-                    @notAfter
-            resourceRelation
-                @role
-                @href
-                @type
-                @arcrole
-                relationEntry
-                    @localType
-                objectXMLWrap
-                descriptiveNote
-```
+* `cpf`
+    * `control`
+        * `recordId`
+        * `otherRecordId`
+            * `@localType`
+        * `maintenanceStatus`
+        * `maintenanceAgency`
+            * `agencyName`
+        * `languageDeclaration`
+            * `language`
+                * `@languageCode`
+                * `@scriptCode`
+        * `maintenanceHistory`
+            * `maintenanceEvent`
+                * `eventType`
+                * `eventDateTime`
+                    * `@standardDateTime`
+                * `agentType`
+                * `agent`
+                * `eventDescription`
+        * `conventionDeclaration`
+        * `sources`
+            * `source`
+                * `@type`
+                * `@href`
+    * `cpfDescription`
+        * `identity`
+            * `entityType`
+            * `nameEntry`
+                * `@preferenceScore`
+                * `@lang`
+                * `@scriptCode`
+                * `part`
+                * `alternativeForm`
+                * `authorizedForm`
+                * `useDates`
+                    * `dateRange`
+                        * `fromDate`
+                            * `@standardDate`
+                            * `@localType`
+                            * `@notBefore`
+                            * `@notAfter`
+                        * `toDate`
+                            * `@standardDate`
+                            * `@localType`
+                            * `@notBefore`
+                            * `@notAfter`
+                    * `date`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+        * `description`
+            * `existDates`
+                * `dateSet`
+                    * `dateRange`
+                        * `fromDate`
+                            * `@standardDate`
+                            * `@localType`
+                            * `@notBefore`
+                            * `@notAfter`
+                        * `toDate`
+                            * `@standardDate`
+                            * `@localType`
+                            * `@notBefore`
+                            * `@notAfter`
+                    * `date`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+                * `dateRange`
+                    * `fromDate`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+                    * `toDate`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+                * `date`
+                    * `@standardDate`
+                    * `@localType`
+                    * `@notBefore`
+                    * `@notAfter`
+                * `descriptiveNote`
+            * `place`
+                * `dateRange`
+                    * `fromDate`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+                    * `toDate`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+                * `date`
+                    * `@standardDate`
+                    * `@localType`
+                    * `@notBefore`
+                    * `@notAfter`
+                * `descriptiveNote`
+                * `placeRole`
+                * `placeEntry`
+                    * `@latitude`
+                    * `@longitude`
+                    * `@localType`
+                    * `@administrationCode`
+                    * `@countryCode`
+                    * `@vocabularySource`
+                    * `@certaintyScore`
+                    * `placeEntry`
+                    * `placeEntryBestMaybeSame`
+                        * `@latitude`
+                        * `@longitude`
+                        * `@localType`
+                        * `@administrationCode`
+                        * `@countryCode`
+                        * `@vocabularySource`
+                        * `@certaintyScore`
+                    * `placeEntryLikelySame`
+                        * `@latitude`
+                        * `@longitude`
+                        * `@localType`
+                        * `@administrationCode`
+                        * `@countryCode`
+                        * `@vocabularySource`
+                        * `@certaintyScore`
+                    * `placeEntryMaybeSame`
+                        * `@latitude`
+                        * `@longitude`
+                        * `@localType`
+                        * `@administrationCode`
+                        * `@countryCode`
+                        * `@vocabularySource`
+                        * `@certaintyScore`
+            * `localDescription`
+                * `@localType (AssociatedSubject, nationalityOfEntity, gender)`
+                * `term`
+            * `languageUsed`
+                * `language`
+                    * `@languageCode`
+                    * `@scriptCode`
+            * `occupation`
+                * `term`
+                    * `@vocabularySource`
+                * `descriptiveNote`
+                * `dateRange`
+                    * `fromDate`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+                    * `toDate`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+            * `function`
+                * `@localType`
+                * `term`
+                    * `@vocabularySource`
+                * `descriptiveNote`
+                * `dateRange`
+                    * `fromDate`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+                    * `toDate`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+            * `biogHist`
+            * `generalContext`
+            * `legalStatus`
+                * `term`
+                    * `@vocabularySource`
+            * `mandate`
+            * `structureOrGenealogy`
+        * `relations`
+            * `cpfRelation`
+                * `@arcrole`
+                * `@href`
+                * `@role`
+                * `@type`
+                * `@cpfRelationType`
+                * `relationEntry`
+                * `descriptiveNote`
+                * `dateRange`
+                    * `fromDate`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+                    * `toDate`
+                        * `@standardDate`
+                        * `@localType`
+                        * `@notBefore`
+                        * `@notAfter`
+                * `date`
+                    * `@standardDate`
+                    * `@localType`
+                    * `@notBefore`
+                    * `@notAfter`
+            * `resourceRelation`
+                * `@role`
+                * `@href`
+                * `@type`
+                * `@arcrole`
+                * `relationEntry`
+                    * `@localType`
+                * `objectXMLWrap`
+                * `descriptiveNote`
