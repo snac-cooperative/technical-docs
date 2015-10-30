@@ -1,0 +1,58 @@
+digraph States {
+        // neato -n2 -Tsvg identity_constellation.gv -O
+        // 
+        // Absolute positioning appears to only work with neato, and only if all nodes are pinned,
+        // but not always. neato -n2 units are points, and inputscale appears to be ignored
+        // sep=0.2 splines=polyline overlap=false allows the pos values to be followed,
+        // while getting the lines to go around nodes.
+
+	label = "\n\nIdentity Constellation";
+        labelloc="t";
+	fontsize=20;
+        // inputscale=75;
+        sep=0.08;
+        splines=polyline;
+        overlap=false;
+
+        "an1" [label="alt name"];
+        "an2", "an3" [label="alt name"];
+        "ed1" [label="exist dates"];
+        "occ1", "occ2" [label="occupation\nor function"];
+        "cr1", "cr2" [label="cpf relation"];
+        "rr1" [label="resource relation"];
+        
+
+        root1 [pos="350,400!" label="identity root"];
+        place [pos="200,450!" label="related place"];
+        an1 [pos="100,320!" ];
+        an2 [pos="100,250!" ]; 
+        an3 [pos="100,240!" ];
+        ed1 [pos="200,200!"];
+        biog [pos="160,400!" label="biog hist"] ;
+        cr1 [pos="500,300!"];
+        cr2 [pos="600,200!"];
+        et [pos="300,100!" label="entity type"];
+        occ1 [pos="350,250!"];
+        occ2 [pos="450,200!"];
+        rr1 [pos="550,350!"];
+        src [pos="550,400!" label="source"];
+        usedate [pos="105,315]", label="use dates"];
+
+        an1 -> usedate;
+        root1 -> et;
+        root1 -> src;
+        root1 -> place;
+        root1 -> an1;
+        root1 -> an2;
+        root1 -> an3;
+        root1 -> ed1;
+        root1 -> occ1;
+        root1 -> occ2;
+        root1 -> cr1;
+        root1-> rr1;
+        root1 -> biog;
+
+        cr1 -> cr2 ;
+        cr2 -> cr1 ;
+
+}

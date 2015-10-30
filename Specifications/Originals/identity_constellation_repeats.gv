@@ -1,0 +1,79 @@
+digraph States {
+        // neato -n2 -Tsvg identity_constellation_repeats.gv -O
+        // 
+        // Absolute positioning appears to only work with neato, and only if all nodes are pinned,
+        // but not always. neato -n2 units are points, and inputscale appears to be ignored
+        // sep=0.2 splines=polyline overlap=false allows the pos values to be followed,
+        // while getting the lines to go around nodes.
+
+	label = "\n\nIdentity Constellation\n(R) repeatable fields";
+        labelloc="t";
+	fontsize=20;
+        // inputscale=75;
+        sep=0.05;
+
+        // nodesep is a synonym for sep?
+        // nodesep=0.1;
+
+        splines=polyline;
+        overlap=false;
+
+        "an1" [label="name/alt(R)"];
+        "ed1" [label="exist dates"];
+        "occ1" [label="occupation\nor function(R)"];
+        "cr1" [label="identity relation(R)"];
+        "rr1" [label="resource relation(R)"];
+        
+
+        root1 [pos="470,400!" label="identity root"];
+        place [pos="320,450!" label="related place(R)"];
+
+        an1             [pos="270,350!" ];
+        pref            [pos="120,410!" label="preferred"];
+        usedate         [pos="120,350!", label="use dates"];
+        name_components [pos="140,300!", label="components"];
+        language        [pos="150,250!", label="language"];
+        script          [pos="180,200!", label="script"];
+        authorized_form [pos="210,140!", label="authorized\nform"];
+
+        an1 -> language;
+        an1 -> script;
+        an1 ->authorized_form;
+        an1 -> pref;
+
+        name_components -> surname;
+        name_components -> forename;
+        name_components -> numeration;
+        name_components -> prefix;
+        name_components -> suffix;
+
+        surname [pos="0,350!", label="surname(R)"];
+        forename [pos="0,300!", label="forename(R)"];
+        numeration [pos="0,250!", label="numeration"];
+        prefix [pos="0,200!", label="prefix(R)"];
+        suffix [pos="0,150!", label="suffix(R)"];
+
+        ed1 [pos="330,270!"];
+        biog [pos="280,400!" label="biog hist"] ;
+        cr1 [pos="730,310!"];
+        et [pos="340,100!" label="entity type"];
+        occ1 [pos="550,250!"];
+        subject [pos="460,180!" label="topical subject(R)"];
+        rr1 [pos="720,200!"];
+        src [pos="670,400!" label="source(R)"];
+        citation [pos="690,450!" label="citation(R)"];
+
+        root1 -> subject;
+        root1 -> citation;
+        root1 -> et;
+        root1 -> src;
+        root1 -> place;
+        root1 -> an1;
+        root1 -> ed1;
+        root1 -> occ1;
+        root1 -> cr1;
+        root1-> rr1;
+        root1 -> biog;
+        an1 -> usedate;
+        an1 -> name_components;
+}
