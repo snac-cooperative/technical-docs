@@ -26,6 +26,8 @@ limited set of conventions to denote headers, lists, URLs and so on. When upload
 markdown files are rendered into nicely styled HTML. Tools are available to convert markdown into .doc, .pdf,
 LaTex and other formats. For more information on Markdown, see [this guide](Help/Markdown.md).
 
+[Files](http://gitlab.iath.virginia.edu/snac/Documentation/tree/master).![Screen_Shot_2015-12-08_at_12.41.42_PM](http://gitlab.iath.virginia.edu/snac/Documentation/uploads/3f118da019479233820a3bbd6790f9fe/Screen_Shot_2015-12-08_at_12.41.42_PM.png)
+
 #### Help Links
 
 * [Git and Gitlab](Help/Git-and-Gitlab.md)
