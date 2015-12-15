@@ -21,7 +21,13 @@ Requests should be of the form:
 
 ### Request API Definitions
 
-* `command` : the request command, such as `search`.  A full list of available options is available [here]()
+* `command` : the command to issue to the server.  The following commands are allowed:
+    * `edit` - edit the given constellation
+    * `search` - return a list of constellations matching the given constellation
+    * `login` - log in with the given credentials
+    * `user_info` - get the user information for the given user
+* `user` : the current user's information
+* `token` : the current session token
 * `constellation` : all available parts of the constellation to enact the command over.  If the interaction does not utilize a constellation, this may be omitted.  The full specification for the constellation structure may be viewed [here]().
     * Example: to request a constellation, the client may use the portions of the constellation that are known (`id` or `ark_id`)
             
@@ -67,4 +73,3 @@ The Server response API has the following form:
                 { "...":"..." }
             ]
         }
-        
