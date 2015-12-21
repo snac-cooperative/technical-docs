@@ -22,8 +22,15 @@ Requests should be of the form:
 ### Request API Definitions
 
 * `command` : the command to issue to the server.  The following commands are allowed:
-    * `edit` - edit the given constellation
-    * `search` - return a list of constellations matching the given constellation
+    * `edit` - Edit a constellation.  Read the constellation `"id"` from the given constellation object
+    and return all pieces of the constellation object to the client for editing.  Sets the state
+    of the server to note that this user is editing this constellation.
+    * `insert` - Insert the given constellation in the database.  Returns the full constellation
+    out of SNAC with ID and version numbers within the Constellation structure.
+    * `update` - Update a constellation.  Read the constellation `"id"` from the given constellation
+    object and make the requested changes to the constellation.
+    * `search` - Return a list of constellations matching the given constellation.  Read all the data available
+    in the given constellation object and return a list of constellations that match (or are similar)
     * `login` - log in with the given credentials
     * `user_info` - get the user information for the given user
 * `user` : the current user's information
