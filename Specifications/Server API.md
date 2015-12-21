@@ -51,11 +51,13 @@ Requests should be of the form:
 The constellation structure has the following components:
 
 * `dataType` : the type of this object.  It should always be "Constellation" for constellations.
+    * *required for ALL commands*
 * `id` : snac identity number for this constellation
     * *required for the update command*
 * `version` : snac version number for the state of this constellation
     * *required for the update command*
 * `ark` : ark identifier for this constellation
+    * *required for the update command*
 * `entityType` : type of entity described, must be "person", "corporateBody", or "family"
     * *required for the update command*
 * `nationality` : nationality of the entity
