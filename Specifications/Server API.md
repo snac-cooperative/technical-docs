@@ -22,17 +22,19 @@ Requests should be of the form:
 ### Request API Definitions
 
 * `command` : the command to issue to the server.  The following commands are allowed:
-    * `edit` - Edit a constellation.  Read the constellation `"id"` from the given constellation object
-    and return all pieces of the constellation object to the client for editing.  Sets the state
-    of the server to note that this user is editing this constellation.
-    * `insert` - Insert the given constellation in the database.  Returns the full constellation
-    out of SNAC with ID and version numbers within the Constellation structure.
-    * `update` - Update a constellation.  Read the constellation `"id"` from the given constellation
-    object and make the requested changes to the constellation.
-    * `search` - Return a list of constellations matching the given constellation.  Read all the data available
-    in the given constellation object and return a list of constellations that match (or are similar)
-    * `login` - log in with the given credentials
-    * `user_info` - get the user information for the given user
+    * User-level Commands
+        * `login` - log in with the given credentials
+        * `user_info` - get the user information for the given user
+    * Constellation Management Commands
+        * `edit` - Edit a constellation.  Read the constellation `"id"` from the given constellation object
+        and return all pieces of the constellation object to the client for editing.  Sets the state
+        of the server to note that this user is editing this constellation.
+        * `insert` - Insert the given constellation in the database.  Returns the full constellation
+        out of SNAC with ID and version numbers within the Constellation structure.
+        * `update` - Update a constellation.  Read the constellation `"id"` from the given constellation
+        object and make the requested changes to the constellation.
+        * `search` - Return a list of constellations matching the given constellation.  Read all the data available
+        in the given constellation object and return a list of constellations that match (or are similar)
 * `user` : the current user's information
 * `token` : the current session token
 * `constellation` : all available parts of the constellation to enact the command over.  If the interaction does not utilize a constellation, this may be omitted.  The full specification for the constellation structure may be viewed [here]().
