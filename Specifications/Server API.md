@@ -37,7 +37,7 @@ Requests should be of the form:
         in the given constellation object and return a list of constellations that match (or are similar)
 * `user` : the current user's information
 * `token` : the current session token
-* `constellation` : all available parts of the constellation to enact the command over.  If the interaction does not utilize a constellation, this may be omitted.  The full specification for the constellation structure may be viewed [here]().
+* `constellation` : all available parts of the constellation over which to enact the command.  Certain commands require different amounts of the constellation object to be given.  The full specification for the constellation structure may be viewed [here]().
     * Example: to request a constellation, the client may use the portions of the constellation that are known (`id` or `ark_id`)
             
             {
@@ -45,6 +45,56 @@ Requests should be of the form:
                 "constellation" : {"id" : 12345}
             }
             
+
+### Constellation Structure
+
+The constellation structure has the following components:
+
+* `dataType` : the type of this object.  It should always be "Constellation" for constellations.
+* `id` : snac identity number for this constellation
+    * *required for the update command*
+* `version` : snac version number for the state of this constellation
+    * *required for the update command*
+* `ark` : ark identifier for this constellation
+* `entityType` : type of entity described, must be "person", "corporateBody", or "family"
+    * *required for the update command*
+* `nationality` : nationality of the entity
+    * *required for the update command*
+* `gender` : gender of the entity, if applicable
+    * *required for the update command*
+* `language` : human readable language name
+    * *required for the update command*
+* `languageCode` : 3-digit language code
+    * *required for the update command*
+* `script` : human readable script name
+    * *required for the update command*
+* `scriptCode` : 4-digit script code
+    * *required for the update command*
+* `biogHists` : *note, should be singular and store only one (nrd)*
+    * *required for the update command*
+* `existDates` : exist dates for this entity
+    * *required for the update command*
+* `generalContext` : xml-formatted text from the general context tags
+    * *required for the update command*
+* `structureOrGenealogy` : xml-formatted text from the structure or genealogy tags
+    * *required for the update command*
+* `conventionDeclaration` : xml-formatted text from the convention declaration tag
+    * *required for the update command*
+* `mandate` : xml-formatted text from the mandate tags
+    * *required for the update command*
+* `otherRecordIDs` : list of URIs that also describe this identity
+* `legalStatuses` : xml-formatted text from the legal status tags
+* `sources` : list of sources for this constellation
+* `nameEntries` : list of name entries of this entity
+* `occupations` : list of occupations for this entity
+* `functions` : list of functions for this entity
+* `subjects` : list of subjects for this entity
+* `places` : list of places
+* `relations` : list of constellation relations (within SNAC)
+* `resourceRelations` : list of resource relations
+
+
+*Notes: do we need language, script, and constellationLanguage/Script(Code)?  We can deduce the language and script from the codes (controlled vocab), but do we need to store the language this CPF was written in?*
 
 
 ## Server Responses
