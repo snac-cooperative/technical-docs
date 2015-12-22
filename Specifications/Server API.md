@@ -32,7 +32,7 @@ Requests should be of the form:
         * `insert` - Insert the given constellation in the database.  Returns the full constellation
         out of SNAC with ID and version numbers within the Constellation structure.
         * `update` - Update a constellation.  Read the constellation `"id"` from the given constellation
-        object and make the requested changes to the constellation.
+        object and make the requested changes to the constellation.  In an update **many** of the non-repeating portions of the constellation object are required.  Also, any subcomponent given, such as nameEntry objects, must be given in full.  Except for the outer constellation object, any subcomponents must either be given with all fields or left out completely.  **Partial components will result in data loss.**
         * `search` - Return a list of constellations matching the given constellation.  Read all the data available
         in the given constellation object and return a list of constellations that match (or are similar)
 * `user` : the current user's information
