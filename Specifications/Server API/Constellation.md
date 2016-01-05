@@ -78,6 +78,8 @@ Each name Entry must be an object (surrounded by `{}`) and have the following ke
 * `language` : Controlled vocabulary term for the language of this name entry.
 * `scriptCode` : Controlled vocabulary term for this name entry's script.
 * `useDates` : Use dates of this name.  See the SNAC Date Structure section for date format.
+* `operation` : The operation ("insert", "update", or "delete") to perform on this object when updating a constellation.  The value for `id` above is required for "update" or "delete".
+    * *required for the update command*
 
 ## Occupations
 
@@ -90,6 +92,8 @@ Each occupation must be an object (surrounded by `{}`) and have the following ke
 * `vocabularySource` : Source for the controlled vocabulary.
 * `dates` : Dates this person held the occupation. See the SNAC Date Structure section for date format.
 * `note` : Text note about this date.
+* `operation` : The operation ("insert", "update", or "delete") to perform on this object when updating a constellation.  The value for `id` above is required for "update" or "delete".
+    * *required for the update command*
 
 ## Functions
 
@@ -103,6 +107,8 @@ Each function must be an object (surrounded by `{}`) and have the following keys
 * `type` : EAC's localType of this function.
 * `dates` : Dates this entity held the occupation. See the SNAC Date Structure section for date format.
 * `note` : Text note about this function.
+* `operation` : The operation ("insert", "update", or "delete") to perform on this object when updating a constellation.  The value for `id` above is required for "update" or "delete".
+    * *required for the update command*
 
 ## Places
 
@@ -116,6 +122,8 @@ Each place must be an object (surrounded by `{}`) and have the following keys:
 * `role` : Role of the place, from EAC-CPF's placeRole tag.
 * `entries` : List of PlaceEntry objects for this place.
 * `note` : Text descriptive note about this place.
+* `operation` : The operation ("insert", "update", or "delete") to perform on this object when updating a constellation.  The value for `id` above is required for "update" or "delete".
+    * *required for the update command*
 
 ## Place Entries
 
@@ -134,6 +142,8 @@ Each place entry must be an object (surrounded by `{}`) and have the following k
 * `bestMatch` : A complete place entry object that is the best match for this place entry object.
 * `maybeSame` : A list of place entry objects that are match candidates for this place entry object.
 * `type` : Controlled vocabulary term for the type of this place entry.
+* `operation` : The operation ("insert", "update", or "delete") to perform on this object when updating a constellation.  The value for `id` above is required for "update" or "delete".
+    * *required for the update command*
 
 
 ## Constellation Relations
@@ -154,6 +164,8 @@ Each constellation relation must be an object (surrounded by `{}`) and have the 
 * `content` : Text or XML content of this relation.  This should be what is listed in the EAC-CPF describing the relation.
 * `dates` : Dates these entities were in this relationship. See the SNAC Date Structure section for date format.
 * `note` : Text note about this relation.
+* `operation` : The operation ("insert", "update", or "delete") to perform on this object when updating a constellation.  The value for `id` above is required for "update" or "delete".
+    * *required for the update command*
 
 
 ## Resource Relations
@@ -171,6 +183,8 @@ Each resource relation must be an object (surrounded by `{}`) and have the follo
 * `content` : Text or XML content of this relation. This should be what is listed in the EAC-CPF describing the relation.
 * `source` : XML source note from this resource relation.
 * `note` : Text descriptive note about this relation.
+* `operation` : The operation ("insert", "update", or "delete") to perform on this object when updating a constellation.  The value for `id` above is required for "update" or "delete".
+    * *required for the update command*
 
 
 ## Date Structure
@@ -196,6 +210,6 @@ Each date or date range given must be an object (surrounded by `{}`) and have th
     * `notBefore` : Machine-actionable date in the form `YYYY-MM-DD` for the beginning of the fuzzy range
     * `notAfter` : Machine-actionable date in the form `YYYY-MM-DD` for the end of the fuzzy range
 * `note` : Text descriptive note for this date or date range.
-
-
+* `operation` : The operation ("insert", "update", or "delete") to perform on this object when updating a constellation.  The value for `id` above is required for "update" or "delete".
+    * *required for the update command*
 
