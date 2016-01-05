@@ -1,4 +1,11 @@
-# Constellation Structure
+# JSON Constellation Structure
+
+This document defines the entire structure of the API constellation object.  For reference, we provide the following examples:
+
+* [Partial constellation structure](/Specifications/Server API/Examples/Partial Constellation.json)
+* [Full constellation structure](/Specifications/Server API/Examples/Full Constellation.json)
+
+## Constellation API Definition
 
 The constellation structure has the following components:
 
