@@ -119,10 +119,19 @@ The constellation structure has the following components:
         * `term` : Controlled vocabulary term for this function.
         * `vocabularySource` : Source for the controlled vocabulary.
         * `type` : EAC's localType of this function.
-        * `dates` : Dates this person held the occupation. See the SNAC Date Structure section for date format.
+        * `dates` : Dates this entity held the occupation. See the SNAC Date Structure section for date format.
         * `note` : Text note about this function.
 * `subjects` : List of subjects for this entity.
 * `places` : List of places.
+    * Each place must be an object (surrounded by `{}`) and have the following keys:
+        * `dataType` : The type of this object. It should always be "Place" for place entry objects.
+        * `id` : SNAC identity number for this place.
+        * `version` : SNAC version number for the state of this place.
+        * `dates` : Dates this entity was associated with this place.  See the SNAC Date Structure section for date format.
+        * `type` : Controlled vocabulary term type of the place.
+        * `role` : Role of the place, from EAC-CPF's placeRole tag.
+        * `entries` : List of PlaceEntry objects for this place.
+        * `note` : Text descriptive note about this place.
 * `relations` : List of constellation relations (within SNAC).
     * Each constellation relation must be an object (surrounded by `{}`) and have the following keys:
         * `dataType` : The type of this object. It should always be "ConstellationRelation" for constellation relations.
@@ -133,13 +142,25 @@ The constellation structure has the following components:
         * `sourceArkID` : Ark identifier for the source constellation.
         * `targetArkID` : Ark identifier for the target constellation.
         * `targetEntityType` : Controlled vocabulary entity type of the target constellation.
-        * `type` :
-        * `altType` :
-        * `cpfRelationType` :
+        * `type` : Controlled vocabulary for the type of the constellation relation, such as "associatedWith."
+        * `altType` : *This should always be ignored.  It is the xlink:type from the EAC-CPF cpfRelation tag.*
+        * `cpfRelationType` : The cpfRelation type, from the EAC-CPF cpfRelation tag's cpfRelationType attribute.
         * `content` : Text or XML content of this relation.  This should be what is listed in the EAC-CPF describing the relation.
         * `dates` : Dates these entities were in this relationship. See the SNAC Date Structure section for date format.
         * `note` : Text note about this relation.
 * `resourceRelations` : List of resource relations.
+    * Each resource relation must be an object (surrounded by `{}`) and have the following keys:
+        * `dataType` : The type of this object. It should always be "ResourceRelation" for resource relations.
+        * `id` : SNAC identity number for this relation.
+        * `version` : SNAC version number for the state of this relation.
+        * `documentType` : Controlled vocabulary term for document type of this resource.
+        * `linkType` : *This should always be ignored.  It is the xlink:type from the EAC-CPF resourceRelation tag.*
+        * `entryType` : Controlled vocabulary term for the type of the resource entry, such as "archival."
+        * `link` : URI link to the resource.
+        * `role` : Controlled vocabulary term for the role this entity played in the relation, such as "authorOf."
+        * `content` : Text or XML content of this relation. This should be what is listed in the EAC-CPF describing the relation.
+        * `source` : XML source note from this resource relation.
+        * `note` : Text descriptive note about this relation.
 
 
 *Notes: do we need language, script, and constellationLanguage/Script(Code)?  We can deduce the language and script from the codes (controlled vocab), but do we need to store the language this CPF was written in?*
