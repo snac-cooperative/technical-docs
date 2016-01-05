@@ -39,12 +39,12 @@ Requests should be of the form:
 * `token` : the current session token
 * `constellation` : all available parts of the constellation over which to enact the command.  Certain commands require different amounts of the constellation object to be given.  The full specification for the constellation structure may be viewed [here]().
     * Example: to request a constellation, the client may use the portions of the constellation that are known (`id` or `ark_id`)
-            
+
             {
                 "command" : "get",
                 "constellation" : {"id" : 12345}
             }
-            
+
 
 ### Constellation Structure
 
@@ -52,8 +52,8 @@ The constellation structure has the following components:
 
 * `dataType` : the type of this object.  It should always be "Constellation" for constellations.
     * *required for ALL commands*
-* `id` : snac identity number for this constellation
-    * *required for the update command*
+* `id` : snac identity number for this constellation. Returned after a successful `insert` command.
+    * *required for the update and edit commands*
 * `version` : snac version number for the state of this constellation
     * *required for the update command*
 * `ark` : ark identifier for this constellation
@@ -74,7 +74,7 @@ The constellation structure has the following components:
     * *required for the update command*
 * `biogHists` : *note, should be singular and store only one (nrd)*
     * *required for the update command*
-* `existDates` : exist dates for this entity
+* `existDates` : exist dates for this entity.  See the SNAC Date Structure section for date format
     * *required for the update command*
 * `generalContext` : xml-formatted text from the general context tags
     * *required for the update command*
@@ -87,7 +87,21 @@ The constellation structure has the following components:
 * `otherRecordIDs` : list of URIs that also describe this identity
 * `legalStatuses` : xml-formatted text from the legal status tags
 * `sources` : list of sources for this constellation
+    * Each source must be an array (surrounded by `[]`) and have the following two keys:
+        * `type` : type of the source
+        * `href` : URI to the source
 * `nameEntries` : list of name entries of this entity
+    * Each name Entry must be an object (surrounded by `{}`) and have the following keys:
+        * `dataType` : the type of this object. It should always be "NameEntry" for name entries.
+          * *required for ALL commands using a name entry*
+        * `id` : snac identity number for this name entry
+        * `version` : snac version number for the state of this name entry
+        * `original` : the original name as it was typed
+        * `preferenceScore` :
+        * `contributors` :
+        * `language` :
+        * `scriptCode` :
+        * `useDates` : use dates of this name.  See the SNAC Date Structure section for date format
 * `occupations` : list of occupations for this entity
 * `functions` : list of functions for this entity
 * `subjects` : list of subjects for this entity
@@ -98,6 +112,10 @@ The constellation structure has the following components:
 
 *Notes: do we need language, script, and constellationLanguage/Script(Code)?  We can deduce the language and script from the codes (controlled vocab), but do we need to store the language this CPF was written in?*
 
+
+### SNAC Date Structure
+
+Snac dates
 
 ## Server Responses
 
@@ -126,7 +144,7 @@ The Server response API has the following form:
     * `type` : the type of the error.  A full list of error types are defined [here](http://shannonvm.village.virginia.edu:83).
     * `message` : a detailed error message (in English prose) stating the exact nature of the problem
 * `constellation` : The matching constellation for the client's query.  All portions of the constellation known to the server will be returned to the client.  If there are multiple constellations, this will return a list:
-        
+
         {
             "constellation" : [
                 { "...":"..." },
