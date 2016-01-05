@@ -37,7 +37,7 @@ Requests should be of the form:
         in the given constellation object and return a list of constellations that match (or are similar)
 * `user` : the current user's information
 * `token` : the current session token
-* `constellation` : all available parts of the constellation over which to enact the command.  Certain commands require different amounts of the constellation object to be given.  The full specification for the constellation structure may be viewed [here](Constellation.md).
+* `constellation` : all available parts of the constellation over which to enact the command.  Certain commands require different amounts of the constellation object to be given.  The full specification for the constellation structure may be viewed [here](/Specifications/Server API/Constellation.md).
     * Example: to request a constellation, the client may use the portions of the constellation that are known (`id` or `ark_id`)
 
             {
