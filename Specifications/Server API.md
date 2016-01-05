@@ -50,64 +50,96 @@ Requests should be of the form:
 
 The constellation structure has the following components:
 
-* `dataType` : the type of this object.  It should always be "Constellation" for constellations.
+* `dataType` : The type of this object.  It should always be "Constellation" for constellations.
     * *required for ALL commands*
-* `id` : snac identity number for this constellation. Returned after a successful `insert` command.
+* `id` : SNAC identity number for this constellation. Returned after a successful `insert` command.
     * *required for the update and edit commands*
-* `version` : snac version number for the state of this constellation
+* `version` : SNAC version number for the state of this constellation.
     * *required for the update command*
-* `ark` : ark identifier for this constellation
+* `ark` : Ark identifier for this constellation.
     * *required for the update command*
-* `entityType` : type of entity described, must be "person", "corporateBody", or "family"
+* `entityType` : Type of entity described, must be "person", "corporateBody", or "family".
     * *required for the update command*
-* `nationality` : nationality of the entity
+* `nationality` : Nationality of the entity.
     * *required for the update command*
-* `gender` : gender of the entity, if applicable
+* `gender` : Gender of the entity, if applicable.
     * *required for the update command*
-* `language` : human readable language name
+* `language` : Human readable language name.
     * *required for the update command*
-* `languageCode` : 3-digit language code
+* `languageCode` : 3-digit language code.
     * *required for the update command*
-* `script` : human readable script name
+* `script` : Human readable script name.
     * *required for the update command*
-* `scriptCode` : 4-digit script code
+* `scriptCode` : 4-digit script code.
     * *required for the update command*
 * `biogHists` : *note, should be singular and store only one (nrd)*
     * *required for the update command*
-* `existDates` : exist dates for this entity.  See the SNAC Date Structure section for date format
+* `existDates` : Exist dates for this entity.  See the SNAC Date Structure section for date format.
     * *required for the update command*
-* `generalContext` : xml-formatted text from the general context tags
+* `generalContext` : XML-formatted text from the general context tags.
     * *required for the update command*
-* `structureOrGenealogy` : xml-formatted text from the structure or genealogy tags
+* `structureOrGenealogy` : XML-formatted text from the structure or genealogy tags.
     * *required for the update command*
-* `conventionDeclaration` : xml-formatted text from the convention declaration tag
+* `conventionDeclaration` : XML-formatted text from the convention declaration tag.
     * *required for the update command*
-* `mandate` : xml-formatted text from the mandate tags
+* `mandate` : XML-formatted text from the mandate tags.
     * *required for the update command*
-* `otherRecordIDs` : list of URIs that also describe this identity
-* `legalStatuses` : xml-formatted text from the legal status tags
-* `sources` : list of sources for this constellation
+* `otherRecordIDs` : List of URIs that also describe this identity.
+* `legalStatuses` : XML-formatted text from the legal status tags.
+* `sources` : List of sources for this constellation.
     * Each source must be an array (surrounded by `[]`) and have the following two keys:
-        * `type` : type of the source
-        * `href` : URI to the source
-* `nameEntries` : list of name entries of this entity
+        * `type` : Type of the source.
+        * `href` : URI to the source.
+* `nameEntries` : List of name entries of this entity.
     * Each name Entry must be an object (surrounded by `{}`) and have the following keys:
-        * `dataType` : the type of this object. It should always be "NameEntry" for name entries.
+        * `dataType` : The type of this object. It should always be "NameEntry" for name entries.
           * *required for ALL commands using a name entry*
-        * `id` : snac identity number for this name entry
-        * `version` : snac version number for the state of this name entry
-        * `original` : the original name as it was typed
-        * `preferenceScore` :
-        * `contributors` :
-        * `language` :
-        * `scriptCode` :
-        * `useDates` : use dates of this name.  See the SNAC Date Structure section for date format
-* `occupations` : list of occupations for this entity
-* `functions` : list of functions for this entity
-* `subjects` : list of subjects for this entity
-* `places` : list of places
-* `relations` : list of constellation relations (within SNAC)
-* `resourceRelations` : list of resource relations
+        * `id` : SNAC identity number for this name entry.
+        * `version` : SNAC version number for the state of this name entry.
+        * `original` : The original name as it was typed.
+        * `preferenceScore` : SNAC preference score for this name entry (0-100).
+        * `contributors` : List of contributors.
+        * `language` : Controlled vocabulary term for the language of this name entry.
+        * `scriptCode` : Controlled vocabulary term for this name entry's script.
+        * `useDates` : Use dates of this name.  See the SNAC Date Structure section for date format.
+* `occupations` : List of occupations for this entity.
+    * Each occupation must be an object (surrounded by `{}`) and have the following keys:
+        * `dataType` : The type of this object. It should always be "Occupation" for occupations.
+        * `id` : SNAC identity number for this occupation.
+        * `version` : SNAC version number for the state of this occupation.
+        * `term` : Controlled vocabulary term for this occupation.
+        * `vocabularySource` : Source for the controlled vocabulary.
+        * `dates` : Dates this person held the occupation. See the SNAC Date Structure section for date format.
+        * `note` : Text note about this date.
+* `functions` : List of functions for this entity.
+    * Each function must be an object (surrounded by `{}`) and have the following keys:
+        * `dataType` : The type of this object. It should always be "SNACFunction" for functions.
+        * `id` : SNAC identity number for this function.
+        * `version` : SNAC version number for the state of this function.
+        * `term` : Controlled vocabulary term for this function.
+        * `vocabularySource` : Source for the controlled vocabulary.
+        * `type` : EAC's localType of this function.
+        * `dates` : Dates this person held the occupation. See the SNAC Date Structure section for date format.
+        * `note` : Text note about this function.
+* `subjects` : List of subjects for this entity.
+* `places` : List of places.
+* `relations` : List of constellation relations (within SNAC).
+    * Each constellation relation must be an object (surrounded by `{}`) and have the following keys:
+        * `dataType` : The type of this object. It should always be "ConstellationRelation" for constellation relations.
+        * `id` : SNAC identity number for this relation.
+        * `version` : SNAC version number for the state of this relation.
+        * `sourceConstellation` : SNAC identity number for the source ("from") constellation of this relation.
+        * `targetConstellation` : SNAC identity number for the target ("to") constellation of this relation.
+        * `sourceArkID` : Ark identifier for the source constellation.
+        * `targetArkID` : Ark identifier for the target constellation.
+        * `targetEntityType` : Controlled vocabulary entity type of the target constellation.
+        * `type` :
+        * `altType` :
+        * `cpfRelationType` :
+        * `content` : Text or XML content of this relation.  This should be what is listed in the EAC-CPF describing the relation.
+        * `dates` : Dates these entities were in this relationship. See the SNAC Date Structure section for date format.
+        * `note` : Text note about this relation.
+* `resourceRelations` : List of resource relations.
 
 
 *Notes: do we need language, script, and constellationLanguage/Script(Code)?  We can deduce the language and script from the codes (controlled vocab), but do we need to store the language this CPF was written in?*
