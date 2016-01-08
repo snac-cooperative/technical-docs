@@ -4,7 +4,7 @@ When generating EAC-CPF out of the database, the system should be able to provid
 
 ## Control/Source Data
 
-Daniel has given the following requirement for sources: "What scholars and archivists want is to be able to say who provieded the decriptive data, when, and based on what sources. A description is a constellation of assertions amed by one or more agents/editors based on one or more sources. Thus Source Statement should be repeatable, as any given assertion can be revised over time, or a new editor comes along and simply provides corroborating data from anew source without revising the description otherwise."
+Daniel has given the following requirement for sources: "What scholars and archivists want is to be able to say who provided the descriptive data, when, and based on what sources. A description is a constellation of assertions made by one or more agents/editors based on one or more sources. Thus Source Statement should be repeatable, as any given assertion can be revised over time, or a new editor comes along and simply provides corroborating data from a new source without revising the description otherwise."
 
 A source block should be creatable for the tags for descriptive data (first-order data, FOD) in a constellation. There may be multiple blocks for each piece of data, thus they are repeatable blocks.  Each block must contain:
 
