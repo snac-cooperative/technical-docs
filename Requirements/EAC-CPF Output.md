@@ -8,10 +8,11 @@ Daniel has given the following requirement for sources: "What scholars and archi
 
 A source block should be creatable for the tags for descriptive data (first-order data, FOD) in a constellation. There may be multiple blocks for each piece of data, thus they are repeatable blocks.  Each block must contain:
 
-* Agent responsible for the descriptive assertion (FOD)
+* Scholar or archivist responsible for the descriptive assertion (FOD)
 * Latest transaction date for the source block (the date the assertion was made or updated)
 * Transaction type (was this a new descriptive assertion (FOD) or a revision)
 * Source citation (the URI, citation, or source for this assertion (FOD))
 * Source data (the text of what the scholar or archivist got out of the source)
 * Descriptive rules (any rules that the scholar or activist used to formulate the assertion (FOD) from the source)
+* Language and script associated with the assertion (used by the scholar or archivist, or source)
 * Note (a human-readable note from the scholar or activist about the assertion (FOD))
