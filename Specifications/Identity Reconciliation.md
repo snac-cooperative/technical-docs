@@ -12,3 +12,18 @@ Within the sorted list of resulting candidate constellations, each will report i
 
 * The identity reconciliation engine may be used as a search engine within SNAC by limiting the stages performed and providing a query constellation with only the parts interested in finding.  For example, to search for a name, a query constellation with that name may be passed to the reconciliation engine.  The process would be the same to search for an entity that is associated with a given place, occupation, or exist dates.
 * Based on the highly parallelizable nature of the independent stages followed by the coalescer, the identity reconciliation engine maybe implemented (or enhanced) using the [Map-Reduce Framework](http://static.googleusercontent.com/media/research.google.com/en//archive/mapreduce-osdi04.pdf) on a large cluster.
+
+# Stage Designs
+
+The following stages are proposed for the Identity Reconciliation Engine:
+
+* Candidate Constellation producing stages. *These stages produce lists of candidate constellations.*
+  * Elastic Search Name Entry (Heading)
+  * Elastic Search Name (Name-only)
+  * Exist Dates
+  * Occupation
+  * Place
+* Candidate Constellation list modifying stages. *These stages take lists of candidate constellations and modify or replace the scores for the input results.*
+  * Name Entry Length
+  * SNAC Degree Sort
+* Multi-Stage.  *This stage allows the execution engine to run multiple stages in sequence, feeding the results of one stage as the input to the next.  It results in one final list of candidate constellations from all independent stages it ran.*
