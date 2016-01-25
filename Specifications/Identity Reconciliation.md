@@ -2,6 +2,8 @@
 
 The identity reconciliation engine will operate on SNAC Identity Constellations, as defined in [this specification](/Specifications/Server API/Constellation.md).  The engine will take a partial constellation as input (called the _query constellation_) and find appropriate candidate matches from the SNAC database (called _candidate constellations_).
 
+![Engine Diagram](http://gitlab.iath.virginia.edu/snac/Documentation/raw/ir/Specifications/Originals/IR_Engine.svg =600x)
+
 The engine is architected as an independent multi-stage process, with a coalescing weighting function to produce the final results.  Specifically, the engine will consist of multiple independent stages, which may run in parallel, to produce independent lists of resulting candidate constellations, together with a numeric score for the stage, from the query constellation.  The coalescer will then combine each set of resulting candidate constellations into one list of candidates by combining the scores for each constellation across the executed stages.
 
 Within the sorted list of resulting candidate constellations, each will report its score among the stages.  The coalescer's weighting function may be modified, either by hand or programmatically, to enhance the resulting set of candidate constellations.  A human must verify and accept that the top candidate(s) is the same as the query constellation before any merging may take place. **Therefore, this engine does not and can not guarantee 100% accuracy in its matching.**
