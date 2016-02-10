@@ -1,7 +1,7 @@
-#### Database schema and SQL queries
+### Database schema and SQL queries
 
 
-#### How versioning works.
+### How versioning works.
 
 ```
 create type icstatus as enum ('published', 'needs review', 'rejected', 'being edited', 'bulk ingest');
