@@ -6,5 +6,5 @@ These documents describe the functionality desired of the system.  These should 
 
 http://gitlab.iath.virginia.edu/snac/Documentation/blob/tom/Requirements/Data%20Overview.md
 
-* [Overview of required data](http://gitlab.iath.virginia.edu/snac/Documentation/Requirements/Data Overview.md)
+* [Overview of required data](Requirements/Data Overview.md)
 
