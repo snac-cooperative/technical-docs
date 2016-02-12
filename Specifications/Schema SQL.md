@@ -22,11 +22,13 @@ create table version_history (
 
 The version_history table is the central table to a CPF constellation (aka record). The
 version_history.main_id is the constellation id. By convention, all SNAC tables have a field id, which is the
-record is. Field version_history.id is known by the alias "version" in all locations outside table
+record id. Field version_history.id is known by the alias "version" in all locations outside table
 version_history. All first-order data tables have fields id,version, and main_id. It may help to understand
 some of the following specification by knowing that the unique record key for nearly all tables is
 (id,version). For all tables except nrd, the constellation id is main_id. Table nrd is 1:1 data fields, and is
 special, therefore nrd.id is both record id and constellation id.
+
+
 
 There are some basic traits of versioning
 
