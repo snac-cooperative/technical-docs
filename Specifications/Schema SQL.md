@@ -8,12 +8,12 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 ### Table of contents
 
-[How versioning works.](#How-versioning-works.)
-[Foreign key related records](#Foreign-key-related-records)
-[Vocabulary table history and rationale](#Vocabulary-table-history-and-rationale)
-[Vocabulary separate SQL file](#Vocabulary-separate-SQL-file)
-[Common fields and their meaning](#Common-fields-and-their-meaning)
-[Identical text tables.](#Identical-text-tables.)
+[How versioning works.](#how-versioning-works.)
+[Foreign key related records](#foreign-key-related-records)
+[Vocabulary table history and rationale](#vocabulary-table-history-and-rationale)
+[Vocabulary separate SQL file](#vocabulary-separate-sql-file)
+[Common fields and their meaning](#common-fields-and-their-meaning)
+[Identical text tables.](#identical-text-tables.)
 
 ### How versioning works.
 
