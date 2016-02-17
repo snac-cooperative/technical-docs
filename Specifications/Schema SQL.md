@@ -8,7 +8,7 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 ### Table of contents
 
-[How versioning works.](#how-versioning-works.)
+[How versioning works.](#how-versioning-works)
 
 [Foreign key related records](#foreign-key-related-records)
 
@@ -18,9 +18,9 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 [Common fields and their meaning](#common-fields-and-their-meaning)
 
-[Identical text tables.](#identical-text-tables.)
+[Identical text tables.](#identical-text-tables)
 
-### How versioning works.
+### How versioning works
 
 ```
 create type icstatus as enum ('published', 'needs review', 'rejected', 'being edited', 'bulk ingest');
@@ -365,7 +365,7 @@ Delete is accomplished by getting a new version number, and using it along with 
 insert the "deleted" record. All the normal queries ignore is_deleted records, and only special admin queries
 will ever be able to see deleted records.
 
-### Identical text tables.
+### Identical text tables
 
 We have four tables (and their related classes) that contain identically structured
 textual data:
