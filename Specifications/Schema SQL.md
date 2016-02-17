@@ -6,6 +6,14 @@ You may be interested in the large schema diagram: [Large schema png file](Speci
 
 There is an interactive schema web site: [Schema web site](http://shannonvm.village.virginia.edu/~twl8n/schema_spy_output/)
 
+### Table of contents
+
+[How versioning works.](#How-versioning-works.)
+[Foreign key related records](#Foreign-key-related-records)
+[Vocabulary table history and rationale](#Vocabulary-table-history-and-rationale)
+[Vocabulary separate SQL file](#Vocabulary-separate-SQL-file)
+[Common fields and their meaning](#Common-fields-and-their-meaning)
+[Identical text tables.](#Identical-text-tables.)
 
 ### How versioning works.
 
@@ -263,13 +271,24 @@ Still, inserting values into fk_table seems like a fine, if redundant idea.
 
 All controlled vocabulary terms are in a single table. A vocabularies share a common set of fields:
 value(term), uri, description. Storing all vocabulary in a single tables makes it easy to add a new
-vocabulary.
+vocabulary. At this time, vocabulary is mono-lingual, that is, term and description exist in a single
+language, and might be duplicated in another language.
 
-A proposed alternative would be storing each vocabulary type in a separate table, but there is a down
-side. Adding a new type would require creating a new table with identical field names to existing vocabulary
-tables, and this is more work than simply inserting new vocabulary data with a new type. Tables which are
-identical except for table name means that table name is data. In this case table name would be exactly
-equivalent to vocabulary type.
+```
+create table if not exists vocabulary (
+        id          int primary key default nextval('vocabulary_id_seq'),
+        type        text,        -- Type of the vocab
+        value       text,        -- Value of the controlled vocab term
+        uri         text,        -- URI for this controlled vocab term, if it exists
+        description text         -- Textual description of this vocab term
+        );
+```
+
+A proposed alternative was to store each vocabulary type in a separate table, but that has down side. Adding a
+new type would require creating a new table (with identical field names to existing vocabulary tables) as well
+a new insert and select functions, and this is more work than simply inserting new vocabulary data with a new
+type. When tables are identical except for table name, table name is data. In this case table name would be
+exactly equivalent to vocabulary type.
 
 SQL databases give us an additional hint that vocabulary should be in a single table. We can prepare SQL
 queries, and use placeholders. However, table name is not avaiable as a placeholder. The twenty vocabulary
