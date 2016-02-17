@@ -2,6 +2,10 @@
 
 This file gives detail of schema decisions, and function of the major SQL queries. 
 
+You may be interested in the large schema diagram: [Large schema png file](Originals/Schema Diagram.png)
+
+There is an interactive schema web site: [Schema web site](http://shannonvm.village.virginia.edu/~twl8n/schema_spy_output/)
+
 
 ### How versioning works.
 
