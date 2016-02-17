@@ -8,6 +8,8 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 ### Table of contents
 
+[Multiple names, alternate names, components](#multiple-names,-alternate-names,-components)
+
 [How versioning works](#how-versioning-works)
 
 [Foreign key related records](#foreign-key-related-records)
@@ -19,6 +21,24 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 [Common fields and their meaning](#common-fields-and-their-meaning)
 
 [Identical text tables](#identical-text-tables)
+
+### Multiple names, alternate names, components
+
+A constellation may have multiple names. All names are in table name related to the constellation by main_id
+as with all first order data. Alternate names are names in all senses, and are only distinguished by having a
+less than maximum preference score. We assume that "preferred" name is dependent on context, and that the context
+is outside the name table. There will be a function that when given a constellation and a user's account will
+return names in preferred order. That function may be complex, and its behavior will be determined by
+policy. 
+
+Names are parse by software into components. Primarily, components exist to separate surname from the rest of
+he components, and even then, surname is the "alphabetical listing" name. This concept varies widely by local
+custom. The parser may create many components for a name, but as the concepts of "name" and "component" are
+very fluid, this aspect is nothing more than a software guess. In fact, there may be no canonical list or
+ordering of components. The database allows a single list and a single ordering. As policy evolves this may
+change.
+
+
 
 ### How versioning works
 
