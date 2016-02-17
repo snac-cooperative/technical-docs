@@ -43,9 +43,9 @@ change.
 ### How dates are stored
 
 We have chosen to store date as a comprehensive date range record. This is a single record type, setting
-attributes as appropriate, and leaving unused fields empty when necessary. Thus a single date and date range
-are both the same record type, but the single date lacks a toDate, and is_range=false. Many fields of a date
-range may be missing (and explicitly noted as missing). Lack of precision can be captured as well.
+attribute fields as appropriate, and leaving unused fields empty when necessary. Thus a single date and date
+range are both the same record type, but the single date lacks a toDate, and is_range=false. Many fields of a
+date range may be missing (and explicitly noted as missing). Lack of precision can be captured as well.
 
 Date sets are handled relationally by using multiple date_range records. Relational data modeling needs no
 "date set" table.
@@ -86,10 +86,12 @@ create table date_range (
 To and from dates are ISO strings. to/from _not_before/_not_after deal with lack of precision. Many dates are
 simply not known exactly. Some dates are simply "3rd century" or "1800s". These would be:
 
+```
 date 201, not_before 201, not after 300, 
 date 1800, not_before 1800, not after 1899
+```
 
-Note the subtle 1 year offset between "1800s" and "19th century"
+Note the subtle 1 year offset between "1800s" and "19th century".
 
 Using not_before and not_after also allows us to capture month and day ranges.
 
@@ -100,20 +102,20 @@ rules in the user interface so that there's no guessing (or minimal guessing) la
 from_bc and to_bc identify dates before the common epoch. All date values are represented as positive numbers
 to facilitate date math. 
 
-is_range=false for a single fromDate
+is_range=false for a single fromDate as a single date. This is used when the intention is to capture a single
+event date such as a wedding date, or date of laying a cornerstone. 
 
 missing_from=true and missing_to=true to denote that from or to do exist, but are unknown. This deals with
 cases where either birth or death date is unknown. Every person is known to have been born, but there may be
 florishe date with a known toDate, but missing fromDate. It is possible to know a person is deceased without
 knowing the date. from_missing and to_missing allow us to capture certain types of "unknown but certain" data.
 
-Dates have type-of information: from_type and to_type. These are primarily: birth, death, active. 
+Dates have type-of information: from_type and to_type. These are primarily: birth, death, active. We
+anticipate additional type-of dates added as the system matures.
 
 We allow date to be "from YYYY to present" via the to_present flag. We do this knowing that "to present" may
 only have been true when the record was modified, but record modification date is always avaiable. Policy will
 clearly be necessary to guide use of this field.
-
-
 
 
 
