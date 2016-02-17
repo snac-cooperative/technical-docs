@@ -42,10 +42,10 @@ change.
 
 ### How dates are stored
 
-We have chosen to store date as a comprehensive date range. This is a single record type, setting several
+We have chosen to store date as a comprehensive date range record. This is a single record type, setting
 attributes as appropriate, and leaving unused fields empty when necessary. Thus a single date and date range
 are both the same record type, but the single date lacks a toDate, and is_range=false. Many fields of a date
-range may be missing (and explicitly noted as such) and lack of precision can be captured as well.
+range may be missing (and explicitly noted as missing). Lack of precision can be captured as well.
 
 Date sets are handled relationally by using multiple date_range records. Relational data modeling needs no
 "date set" table.
@@ -81,7 +81,6 @@ create table date_range (
         fk_id           int,                   -- table.id of the related record
         primary         key(id, version)
         );
-
 ```
 
 To and from dates are ISO strings. to/from _not_before/_not_after deal with lack of precision. Many dates are
