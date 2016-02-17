@@ -508,7 +508,7 @@ refactor the code to support the single table paradigm as with vocabulary.
 ### Geographic authority
 
 We are currently working on geographic a authority, based primarily on geonames. The authority table is
-geo_place. We create a related link to anything that needs via place_link to geo_place.
+geo_place. We create a place related link table place_link to geo_place.
 
 ```
 create table geo_place (
