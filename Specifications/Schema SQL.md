@@ -10,6 +10,8 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 [Multiple names, alternate names, components](#multiple-names-alternate-names-components)
 
+[How dates are stored](#how-dates-are-stored)
+
 [How versioning works](#how-versioning-works)
 
 [Foreign key related records](#foreign-key-related-records)
@@ -37,6 +39,82 @@ custom. The parser may create many components for a name, but as the concepts of
 very fluid, this aspect is nothing more than a software guess. In fact, there may be no canonical list or
 ordering of components. The database allows a single list and a single ordering. As policy evolves this may
 change.
+
+### How dates are stored
+
+We have chosen to store date as a comprehensive date range. This is a single record type, setting several
+attributes as appropriate, and leaving unused fields empty when necessary. Thus a single date and date range
+are both the same record type, but the single date lacks a toDate, and is_range=false. Many fields of a date
+range may be missing (and explicitly noted as such) and lack of precision can be captured as well.
+
+Date sets are handled relationally by using multiple date_range records. Relational data modeling needs no
+"date set" table.
+
+We did not consider separating fromDate and toDate into separate records. There is no gain in normalization,
+and the queries would be more complex.
+
+The date_range table:
+
+```
+create table date_range (
+        id              int default nextval('id_seq'),
+        version         int not null,
+        main_id         int not null,
+        is_deleted      boolean default false,
+        is_range        boolean default false, -- distinguish 1 or 2 dates from a range with possibly missing bounds
+        missing_from    boolean default false, -- from date is missing or unknown, only is_range=t
+        from_date       text,                  -- date as an iso string
+        from_type       int,                   -- (fk to vocabulary.id) birth, death, active
+        from_bc         boolean default false, -- just in case we ever run into a BC date
+        from_not_before text,
+        from_not_after  text,
+        from_original   text,                  -- from date tag value
+        missing_to      boolean default false, -- to date is missing or unknown, only is_range=t
+        to_date         text,
+        to_type         int,                   -- (fk to vocabulary.id) birth, death, active
+        to_bc           boolean default false, -- just in case we ever run into a BC date
+        to_not_before   text,
+        to_not_after    text,
+        to_present      boolean,
+        to_original     text,                  -- the to date tag value 
+        fk_table        text,                  -- table name of the related foreign table. Exists only as a backup
+        fk_id           int,                   -- table.id of the related record
+        primary         key(id, version)
+        );
+
+```
+
+To and from dates are ISO strings. to/from _not_before/_not_after deal with lack of precision. Many dates are
+simply not known exactly. Some dates are simply "3rd century" or "1800s". These would be:
+
+date 201, not_before 201, not after 300, 
+date 1800, not_before 1800, not after 1899
+
+Note the subtle 1 year offset between "1800s" and "19th century"
+
+Using not_before and not_after also allows us to capture month and day ranges.
+
+To/From _original is the parsed (or user entered) portion of the date. This is important for CPF import, but
+may have limited use for dates entered in the user interface. We anticipate enforcing some date data entry
+rules in the user interface so that there's no guessing (or minimal guessing) later on.
+
+from_bc and to_bc identify dates before the common epoch. All date values are represented as positive numbers
+to facilitate date math. 
+
+is_range=false for a single fromDate
+
+missing_from=true and missing_to=true to denote that from or to do exist, but are unknown. This deals with
+cases where either birth or death date is unknown. Every person is known to have been born, but there may be
+florishe date with a known toDate, but missing fromDate. It is possible to know a person is deceased without
+knowing the date. from_missing and to_missing allow us to capture certain types of "unknown but certain" data.
+
+Dates have type-of information: from_type and to_type. These are primarily: birth, death, active. 
+
+We allow date to be "from YYYY to present" via the to_present flag. We do this knowing that "to present" may
+only have been true when the record was modified, but record modification date is always avaiable. Policy will
+clearly be necessary to guide use of this field.
+
+
 
 
 
