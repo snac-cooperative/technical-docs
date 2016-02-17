@@ -277,6 +277,7 @@ types differ only by "type", and "type" is data best stored as a field, and not 
 
 Each "vocabulary" is distinguished by vocaulary.type:
 
+```
         type        
 --------------------
  record_type
@@ -299,6 +300,7 @@ Each "vocabulary" is distinguished by vocaulary.type:
  relation_type
  place_match
  source_type
+```
 
 ### Vocabulary separate SQL file
 
