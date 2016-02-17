@@ -8,7 +8,7 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 ### Table of contents
 
-[Multiple names, alternate names, components](#multiple-names,-alternate-names,-components)
+[Multiple names, alternate names, components](#multiple-names-alternate-names-components)
 
 [How versioning works](#how-versioning-works)
 
