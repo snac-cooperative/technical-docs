@@ -8,7 +8,7 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 ### Table of contents
 
-[How versioning works.](#how-versioning-works)
+[How versioning works](#how-versioning-works)
 
 [Foreign key related records](#foreign-key-related-records)
 
@@ -18,7 +18,7 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 [Common fields and their meaning](#common-fields-and-their-meaning)
 
-[Identical text tables.](#identical-text-tables)
+[Identical text tables](#identical-text-tables)
 
 ### How versioning works
 
