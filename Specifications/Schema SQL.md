@@ -24,6 +24,9 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 [Identical text tables](#identical-text-tables)
 
+[Geographic authority](#geographic-authority)
+
+
 ### Multiple names, alternate names, components
 
 A constellation may have multiple names. All names are in table name related to the constellation by main_id
@@ -83,17 +86,18 @@ create table date_range (
         );
 ```
 
-To and from dates are ISO strings. to/from _not_before/_not_after deal with lack of precision. Many dates are
-simply not known exactly. Some dates are simply "3rd century" or "1800s". These would be:
+To and from dates are ISO strings. to/from _not_before/_not_after are also ISO date strings and deal with lack
+of precision. Many dates are simply not known exactly. Some dates are simply "3rd century" or "1800s". These
+would be:
 
 ```
-date 201, not_before 201, not after 300, 
-date 1800, not_before 1800, not after 1899
+date 201, not_before 201-01-01T00:00:00Z, not after 300-12-31T24:00:00Z, 
+date 1800, not_before 1800-01-01T00:00:00Z, not after 1899-12-31T24:00:00Z
 ```
 
 Note the subtle 1 year offset between "1800s" and "19th century".
 
-Using not_before and not_after also allows us to capture month and day ranges.
+Using not_before and not_after also allows us to capture month and day lack of precision.
 
 To/From _original is the parsed (or user entered) portion of the date. This is important for CPF import, but
 may have limited use for dates entered in the user interface. We anticipate enforcing some date data entry
@@ -284,8 +288,8 @@ While there's some subtle behavior here, the where clause is a typical two table
 ### Foreign key related records
 
 Several descriptive tables are related via foreign key back to the main table. These include: language,
-date_range, place_link. All of these tables have some 1:many relation back to their "main" table, so this
-relation is logical. (The list ssed to include source, and scm.)
+date_range, place_link. All of these tables have a 1:many relation back to their "main" table, so this
+relation is logical. (The list used to include source, and scm.)
 
 Note fields fk_id and fk_table. We save fk_table as a backstop in case something goes wrong. More on that
 later.
@@ -500,3 +504,23 @@ arguments is the table name, that is the "term type".
 When the time comes to add a new text item, it will be necessary to add new wrapper insert and select
 functions, as well as adding a new table. It is probably better at that time to join the tables together, and
 refactor the code to support the single table paradigm as with vocabulary.
+
+### Geographic authority
+
+We are currently working on geographic a authority, based primarily on geonames. The authority table is
+geo_place. We create a related link to anything that needs via place_link to geo_place.
+
+```
+create table geo_place (
+    id                  int default nextval('id_seq'),
+    version             int not null,  -- not an fk to version_history.id. 
+    uri                 text,          -- URI/URL, geoname_id, or vocabularySource attribute
+    name                text,          -- The geonames name; we do not have alt names yet
+    latitude            numeric(10,7), -- Fixed precision
+    longitude           numeric(10,7), -- Fixed precision
+    admin_code          text,          -- later change to an fk to geo_place.id for the encompassing admin_code?
+    country_code        text,          -- later change to an geo_place.id for the encompassing country_code?
+    primary key(id, version)
+    );
+```
+
