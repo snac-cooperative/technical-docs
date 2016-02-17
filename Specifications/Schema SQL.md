@@ -508,7 +508,15 @@ refactor the code to support the single table paradigm as with vocabulary.
 ### Geographic authority
 
 We are currently working on geographic a authority, based primarily on geonames. The authority table is
-geo_place. We create a place related link table place_link to geo_place.
+geo_place. Table place_link hold relations between original data tables and geo_place.
+
+Currently ony table nrd (the Constellation) has place links. 
+
+In theory, place via <place>, <places>, or <placeEntry> can occur in elements: description, chronItem,
+cpfRelation, function, functionRelation, legalStatus, localDescription, mandate, occupation, place,
+resourceRelation.
+
+
 
 ```
 create table geo_place (
