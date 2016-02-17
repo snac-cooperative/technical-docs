@@ -7,7 +7,7 @@ For our purposes the simplest controlled vocabulary is a flat (non-hierarchal) l
 An ontology is a heirarchy of controlled vocabulary terms that explicitly encodes both relatedness and category.
 
 Using the example of subject (aka "topical subject"), either technology allows us to make assertions about the
-data and relations between identities. 
+data and relations between identities.
 
 - Both technologies can be used simultaneously to describe identities, however, doing double data entry would
   be irksome.
@@ -47,7 +47,7 @@ data and relations between identities.
 
 It might also be sensible to design the terms with multilingual vocabulary terms. By multilingual I mean:
 multiple terms for each unique ID where each term is specific to a specific language, and all terms with the
-same ID share a definition. 
+same ID share a definition.
 
 Each term has a unique id, and a definition (implied or explicit). This is a simple dictionary. Explicit
 definition would improve the vocabulary, but takes more work.
@@ -147,3 +147,33 @@ performed based on ID number, not text string.
 
 Interestingly, we might be able to apply Markov matrices to identities marked up via ontology, with the same
 sort of relatedness building that occurs with a flat vocabulary list.
+
+
+
+
+# Alternative Strategies
+
+## Controlled vocabularies and tag system
+
+Can/should we create a tag system to deal with ad-hoc requirements later in the project? [Tag system](#controlled-vocabularies-and-tag-system)
+
+Tags are simply terms. When implemented as fixed terms with persistent IDs and some modify/add policy, tags
+become a flat (non-hierarchal) controlled vocabulary.
+
+The difference being a weaker moderation of tags and more readiness to create new tags (types). The tag table
+would consist of tag term and an ID value. Tag systems lack data type, and generally have no policy or less
+restrictive policies about creating new tags
+
+Below are some subject examples. It is unclear if these are each topics, or if "--" is used to join granular
+topics into a topic list. Likewise it is unclear if this list relies on some explicit hierarchy.
+
+```
+American literature--19th century--Periodicals
+American literature--20th century--Periodicals
+Periodicals
+Periodicals--19th century
+World politics--Periodicals
+World politics--Pictorial works
+World politics--Societies, etc.
+World politics--Study and teaching
+```

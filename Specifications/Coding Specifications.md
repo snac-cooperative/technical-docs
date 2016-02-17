@@ -89,7 +89,7 @@ Each code repository must contain the full BSD 3-Clause license below.  It must 
 
 ```
 Copyright (c) 2015, the Rector and Visitors of the University of Virginia, and
-the Regents of the University of California
+the Regents of the University of California.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
