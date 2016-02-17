@@ -23,16 +23,43 @@ create table version_history (
 ```
 
 The version_history table is the central table to a CPF constellation (aka record). The
-version_history.main_id is the constellation id. By convention, all SNAC tables have a field id, which is the
-record id. Field version_history.id is known by the alias "version" in all locations outside table
-version_history. All first-order data tables have fields id,version, and main_id. It may help to understand
-some of the following specification by knowing that the unique record key for nearly all tables is
-(id,version). For all tables except nrd, the constellation id is main_id. Table nrd is 1:1 data fields, and is
-special, therefore nrd.id is both record id and constellation id.
+version_history.main_id is the constellation id. By convention, all SNAC tables have a field 'id', which is
+the record id. Field version_history.id is known by the alias "version" in all locations outside table
+version_history. All first-order data tables have fields id,version, and main_id. 
+
+No data is ever updated or deleted. All operations are insert, although some inserts are "update" and some
+inserts are "delete". Every insert has a record in table version_history describing the intellectual nature:
+insert, update, or delete. Version number always increases. There is a single sequence supplying version
+numbers, so all version numbers are always unique to a particular version. A constellation is always composed
+of data from the several tables, and each of those tables may have a different current version number. The
+"current" version is the version <= max(version_history.id) for a given main_id and record id in a table. 
+
+If we imagine a simplified view of version_history and name, data would look as follows after insert, update,
+and delete:
 
 
+| version | comment               | name               | is_deleted |   |
+|---------+-----------------------+--------------------+------------+---|
+|       1 | insert initial import | George Warshington | false      |   |
+|       2 | update fix spelling   | George Washington  | false      |   |
+|       3 | update delete         | George Washington  | true       |   |
 
-There are some basic traits of versioning
+
+After insert, the database contains row 1, with the name misspelled.
+
+After update, the database contains rows 1 and 2, where row 2 is the "current" record now corrected. There are
+two record for name, but only the most current record is visible to users.
+
+After delete, the database contains all 3 rows, and is_deleted is now true. This deleted record will not be
+normally be displayed to users. An "undelete" feature would show this record, and a review of modification
+history of the record would reveal this. Users authorizef for the role "data administrator" can see all data
+including deleted records.
+
+It may help to understand some of the following specification by knowing that the unique record key for nearly
+all tables is (id,version). For all tables except nrd, the constellation id is main_id. Table nrd is special,
+with has 1:1 data fields with the constellation, therefore nrd.id is both record id and constellation id.
+
+There are some basic traits of versioning:
 
 1) No record is ever deleted. Old versions of every record are left in the database.
 
@@ -228,17 +255,61 @@ update language set fk_table='nrd' where fk_id in (select id from nrd);
 Still, inserting values into fk_table seems like a fine, if redundant idea.
 
 
-### Why vocabulary is in a separate schema file
+### Vocabulary table history and rationale
 
-We have moved all vocabulary related table and sequence related SQL into a separate file, install/sql_files/vocabulary_init.sql.
+All controlled vocabulary terms are in a single table. A vocabularies share a common set of fields:
+value(term), uri, description. Storing all vocabulary in a single tables makes it easy to add a new
+vocabulary.
 
-This was done in order to facilitate rebuilding the development copies of the database. Vocabulary is fairly large, and takes between 20 seconds and a minute to load. Developers may wipe their copy of the database several times per day, but if the aren't working on any vocabulary code, it saves time to leave the vocabulary tables intact.
+A proposed alternative would be storing each vocabulary type in a separate table, but there is a down
+side. Adding a new type would require creating a new table with identical field names to existing vocabulary
+tables, and this is more work than simply inserting new vocabulary data with a new type. Tables which are
+identical except for table name means that table name is data. In this case table name would be exactly
+equivalent to vocabulary type.
+
+SQL databases give us an additional hint that vocabulary should be in a single table. We can prepare SQL
+queries, and use placeholders. However, table name is not avaiable as a placeholder. The twenty vocabulary
+types differ only by "type", and "type" is data best stored as a field, and not as name of twenty tables.
+
+Each "vocabulary" is distinguished by vocaulary.type:
+
+        type        
+--------------------
+ record_type
+ script_code
+ entity_type
+ event_type
+ name_type
+ occupation
+ language_code
+ gender
+ nationality
+ maintenance_status
+ agent_type
+ document_role
+ document_type
+ function_type
+ function
+ subject
+ date_type
+ relation_type
+ place_match
+ source_type
+
+### Vocabulary separate SQL file
+
+The vocabulary related table and sequence SQL schema is in separate file, install/sql_files/vocabulary_init.sql.
+
+This was done in order to facilitate rebuilding the development copies of the database. Vocabulary is fairly
+large, and takes between 20 seconds and a minute to load. Developers may wipe their copy of the database
+several times per day, but if they aren't working on any vocabulary code, it saves time to leave the vocabulary
+tables intact.
 
 See the install script: install/install.php
 
 
-### Common fields and their meaning
 
+### Common fields and their meaning
 
 Fields id, main_id, version, and is_deleted are common to all first order data tables.
 
@@ -263,3 +334,40 @@ does not have a single update.
 Delete is accomplished by getting a new version number, and using it along with setting is_deleted to true to
 insert the "deleted" record. All the normal queries ignore is_deleted records, and only special admin queries
 will ever be able to see deleted records.
+
+### Identical text tables.
+
+We have four tables (and their related classes) that contain identically structured
+textual data:
+
+```
+convention_declaration
+structure_genealogy
+general_context
+mandate
+```
+
+
+As noted above, when the only difference between tables is table name, those tables should be combined. We may
+eventually combine all the tables holding data from AbstractTextData class into a single table, but that has
+not been done yet.
+
+Each table looks like mandate, differing only by table name:
+
+```
+create table mandate (
+    id            int default nextval('id_seq'),
+    version       int not null,
+    main_id       int not null, -- fk to version_history.main_id
+    is_deleted    boolean default false,
+    text text                   -- the text term
+);
+```
+
+
+Insert to these is handled by insertTextCore(), and selecte via selectTextCore(). The only difference in the
+arguments is the table name, that is the "term type". 
+
+When the time comes to add a new text item, it will be necessary to add new wrapper insert and select
+functions, as well as adding a new table. It is probably better at that time to join the tables together, and
+refactor the code to support the single table paradigm as with vocabulary.
