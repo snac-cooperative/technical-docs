@@ -13,139 +13,200 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 ### New DBUtil and initialization
 
-When creating a DBUtil object, you must supply the application user credentials in the form of the numberic
-user id and numeric role.
+When creating a DBUtil object, DBUtil currently calls $this->getAppUserInfo('system') to determine the user id
+and role id. This function simply reads the database for user 'system'. When we have an authentiation and
+authorization system, application code will supply the user information to DBUtil.
 
-DBUtil will automatically, internally mint new version and constellation main_id as necessary. For batch
+DBUtil will automatically, internally mint new version and constellation main_id as necessary. For constellation
 inserts you should create a single DBUtil object and use it for all inserts of every record in the
 batch. Passing in a constellation with no ID or version and asking for an "insert" operation will result in a
 new ID being minted. In other words, for a new constellation written to the database for the first time, a new
 version will be minted if none exists. 
 
-If a version exists in the current DBUtil object, it will be used for all operations during the life of the
-DBUtil object. This is intentional. While the database is not appreciably effected by minting large numbers of
-versions, it does make the data harder for humans to read and debug. For example, a programmer trying to
-figure out a dozen operations that take place from a single session will have an easier time if all those
-operations share a version number.
+A new version is minted for each constellation written. While we could use the same version during the life of
+an instance of DBUtil, it was decided to mint fresh versions. Programmer reading the database records need to
+be aware of this, and always check version_history.main_id and version_history.id (aka version).
+
 
 ### Constellation ID discovery
 
-Methods to discover the ID or ARK of existing constellations needs work. DBUtil must have a constellation ID
-in order to read a constellation from the database. Presumably, some search or browse function(s) will exist
-that returns a list of constellation ID. The function will have some constraints so that a manageable list
-will be return, and not all 4.5 million records.
+Methods to discover the ID or ARK of existing constellations need work, and are evolving as use cases
+emerge. DBUtil must have a constellation ID in order to read a constellation from the database. Presumably,
+some search or browse function(s) exist that return a list of constellation ID. With some constraints a
+manageable length list will be return, and not all 4.5 million records.
 
-In the future we will support reading old versions of a constellation. In that case, some function must return
-a list of prior version numbers for a given constellation ID. Starting now, readConstellation() takes a version
-number argument, but the only available version number is the most current. (As of Mar 2 2016.)
+W support reading old versions of a constellation via allVersion() which returns a list of prior version
+numbers for a given constellation ID. readConstellation() takes a version number argument.
+
 
 
 ### Reading and writing constellations
 
 Constellation insert, update, or delete is controlled by the getOperation() of the constellation and each
-component object. To save a constellation, call writeConstellation() with the constellation object, a string
-for status, and a string for the history note. To retrieve a constellation, call readConstellation() with
+component object. To save a constellation, call writeConstellation() with the constellation object, and a
+string for the history note. The version history status is detemined via heuristic in the code, and the status
+can be set via writeConstellationStatus(). To retrieve a constellation, call readConstellation() with
 constellation ID (aka main_id, $mainID) and version number.
 
 We can use readConstellation() for any version numbe. Requirements for reading old versions are
 incomplete. Companion functions will retrieve ID and version, but for the most part, they version number is
-only the most recent. Only allVersions() returns a full list of versions for a given ID.
+only the most recent. Only allVersion() returns a full list of versions for a given ID.
 
-See function signatures and calls below. 
+See function signatures and example calls below. 
 
-$cObj is a constellation object
+$cObj constellation object
 
-$note is a string
+$note string
 
-$mainID is a constellation ID, an integer
+$mainID constellation ID, an integer
 
-$version is a version number, an integer
+$version version number, an integer
 
-$arkID is an ARK, a string.
+$arkID ARK, a string.
 
-$appUserID is a numeric user identifier
+$appUserID numeric user identifier
 
-Status is a (more or less?) controlled vocabulary. Examples include: 'published', 'needs review', 'rejected',
-'being edited', 'bulk ingest'.
+$status constellation status from a controlled vocabulary (more or less?). Examples include: 'published', 'needs review', 'rejected',
+'locked editing', 'bulk ingest'.
 
 
 ```
-public function writeConstellation($cObj, $status, $note)
+// public function, write a constellation to the db, where "write" is taken broadly
+$cObj = writeConstellation($cObj, $note)
 
-public function readConstellation($mainID, $version)
+// public function, return a constellation read from the db
+$cObj = readConstellation($mainID, $version)
+<
+// public function, return the published constellation by ARK
+$cObj = readPublishedConstellationByARK($arkID);
 
-list($mainID, $version) = publishedConstellationByARK($arkID);
+// public function, return the published constellation by ID
+$cObj = readPublishedConstellationByID($mainID);
 
-list($mainID, $version) = publishedConstellationByID($mainID);
+// public function, return the list of constellations I'm editing
+// uses $this->appUserID in the DBUtil object
+$cObjList = editConstellationList();
 
-list($mainID, $version) = editingConstellationByARK($arkID);
+$status = 'locked editing';
+$newVersion = writeConstellationStatus($mainID, $status, 'optional arg, version note');
 
-list($mainID, $version) = editingConstellationByID($mainID);
+$status = readConstellationStatus($mainID);
+$status = readConstellationStatus($mainID, $version);
 
-$idVersionList = editList($appUserID);
+
+// private function, return id and version for each constellation I'm editing, private?
+// Relies on the $appUserID property in DBUtil, and thus does not take an argument.
+$idVersionList = editList();
 
 $idVersionList = array(
                array('main_id' => 1, 'version' => 2),
                array('main_id' => 3, 'version' => 2),
                array('main_id' => 4, 'version' => 5));
 
-function loadDash($appUserID)
+// This is the actual function to return all constellations with status 'locked editing'. 
+// Eventually this will support other status args.
+function listConstellationsLockedToUser($status=null)
 {
-    $idVersionList = editList($appUserID);
-
-    $constellationList = array();
-    foreach ($idVersionList as $iver)
+    $infoList = $this->editList();
+    if ($infoList)
     {
-        $cObj = readConstellation($iver['main_id'], $iver['version']);
-        array_push($constellationList, $cObj);              
+        $constellationList = array();
+        foreach ($infoList as $idVer)
+        {
+            $cObj = $this->readConstellation($idVer['main_id'], $idVer['version']);
+            array_push($constellationList, $cObj);              
+        }
+        return $constellationList;
     }
+    return false;
 }
 
-$versionList = allVersions($mainID);
+$versionList = allVersion($mainID);
 
 
 ```
 
-The SNAC dashboard will do the logical equivalent of calling editList() followed by calling
-readConstellation() for each entry in $idVersionList. A list of constellations results. The dashboard web page
-is populated from the big list of constellations. See function loadDash() in the example above.
+public function readConstellation($mainID, $version)
 
+Returns a full constellation, or false upon failure. The UI can be built from the full constellation as
+necessary. This is better than having functions specifically only returning partial data for the UI, but full
+data for other uses. The functions that return ID and version work alongside readConstellation() as part of a
+small tool kit.
 
-publishedConstellationByARK($arkID), publishedConstellationByID($mainID)
+public function writeConstellation($argObj, $note)
+
+Writes a constellation to the database, returning the same constellation with ID and versions as
+appropriate. It will probably crash if the first argument is not a constellation. The constellation must pass
+validation tests which writeConstellation() calls before doing any other work.
+
+public function readPublishedConstellationByARK($arkID)
+public function readPublishedConstellationByID($mainID)
 
 Given an ARK/ID, return the current publicly available constellation ID and version. This will only return the
-current published version.  Have equivalent functions for constellations locked-for-edit aka editing. The
-"editing" will only return a list that the user has permissions to edit, and that means constellations locked
-by that user. Admins can change the lock to another user, but we will not allow two users access to edit the
-same constellation.
-
-editList($appUserID)
-
-Given a user, get a list of the constellations that are currently "checked out" to that user. In other words,
-constellations that user is editing. Return a list of constellation objects.
-
-We may want a function that returns the X most recently updated constellations, where X is a parameter.  That
-would also be useful on the dashboard. Will this only return constellations locked by the user, or does this
-list any constellation? Are these only constellations being edited, or are they published? Or a mix of
-locked-for-edit and published?
-
-There are several functions that only return mainID and version (but not a full constellation) The application
-programmer calls readConstellation() to read the full constellation. This mix and match approach is more
-flexible than a hoarde of functions which variously return: an id, lists of id, a version, lists of version, a
-single constellation, or lists of constellation.
-
-readConstellation() returns a full constellation, and the UI can be built from that as necessary. This is
-better than having functions specificly only returning partial data for the UI, but full data for other
-uses. The functions that return ID and version work alongside readConstellation() as part of a small tool kit.
+current published version. Returns a single constellation or false upon failure.
 
 Functions return the most recent version so that a user can continue editing where they left off. By
-definition, a locked-for-edit constellation is not public.  By having a number of functions that only return a
-mainID and version (or a list of mainID and version) the UI and dashboard programmers can use those in
-combination with functions that return full constellations as the programmers wish.
+definition, a locked-for-edit constellation is not public. 
 
-The special allVersions() returns all versions (in order from lowest to highest) in a list for a given
-ID. This is a utility function available to build user interfaces for diff of two versions, and reversion to a
-previous version.
+public function listConstellationsLockedToUser($status=null)
+
+The SNAC dashboard will call listConstellationsLockedToUser() or the logical equivalent, which returns a list
+of constellations. The dashboard web page is populated from this list of constellations. The user who has the
+lock, or admins can change the lock to another user, but we will not allow two users edit the same
+constellation.
+
+We may want a function that returns the X most recently updated constellations, where X is a parameter.  That
+would also be useful on the dashboard. We are already planning for listConstellationsLockedToUser() to take a
+status parameter, which will be usefor for the dashboard.
+
+public function readConstellationStatus($mainID, $version=null)
+
+Read the status for constellation ID $mainID, with optional $version arg. If no version then it defaults to
+the most recent version, deleted or not (logically) since 'deleted' is one of the status values. Returns false
+on failure.
+
+public function writeConstellationStatus($mainID, $status, $note="")
+
+Modify the status of a constellation. Returns the new version number for the status update, or false on
+failure. Cannot set a status to 'deleted', but can modify a deleted status to some other value. Only known
+status values are accepted.
+
+```
+    private $statusList = array('published' => 1,
+                                'needs review' => 1,
+                                'rejected' => 1,
+                                'locked editing' => 1,
+                                'bulk ingest' => 1,
+                                'deleted' =>1);
+```
+
+Valid status values are stored in a private var in DBUtil.php.
+
+public function allVersion($mainID)
+
+Returns all versions (in order, from lowest to highest) in a list for a given ID. This is a utility function
+available to build user interfaces for diff of two versions, or reversion to a previous version.
+
+There are several functions that only return mainID and version (but not a full constellation). After getting
+mainID and version, the application programmer calls readConstellation() to read the full constellation. This
+mix and match approach is more flexible than a hoarde of functions which variously return: an id, lists of id,
+a version, lists of version, a single constellation, or lists of constellation.
+
+### Private functions
+
+Currently, functions which return lists of mainID and version are private to DBUtil. These granular, low-ish
+level functions may be useful for application programmers, but since the use case is currently unclear, we
+have made these functions private.
+
+Many other functions in DBUtil have no use case outside the class and are private.
+
+private function editList()
+
+Return a list of the mainID and version that are currently "locked editing" for the user.  DBUtil determines
+who is the current user. Long term, the code calling DBUtil will probably feed the user id to DBUtil.
+
+
+
 
 
 ### Utility functions
