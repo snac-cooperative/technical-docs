@@ -20,21 +20,26 @@ especially our roles, and those will not be found in other system. There is not 
 user profiles. We might want their social networking profile, but social networking is not a core function of
 SNAC.
 
-By default users can't do anything that isn't exposed to the non-authenticated public users. Privileges are
-added and users are given roles (aka groups) from which they inherit privileges. The authorization system is
-involved in every transaction with the server to the extent that every request to the server is checked for
-authorization before being passed to the code doing the real work.
+By default, the lowest privileged users can't do anything that isn't exposed to the non-authenticated public
+users. Privileges are added and users are given roles (aka groups) from which they inherit privileges. The
+authorization system is involved in every transaction with the server to the extent that every request to the
+server is checked for authorization before being passed to the code doing the real work. (Every request is
+also checked for authentication as well, naturally.)
 
 The Linux model of three privilege types "user", "group", and "other" works well for authorization permissions
-and we should use this model.  "User" is an authenticated user. "Group" is a set of users, and a user may
-belong to several groups. In SNAC and the non-Linux world "group" is known as "role", so SNAC will call them
-"roles". "Other" privileges apply to SNAC as public, non-authenticated users, although we don't really have
-"other", and the "researcher" role applies to public users.
+and we should use this model, albeit somewhat simplfied.  "User" is an authenticated user. "Group" is a set of
+users, and a user may belong to several groups. In SNAC and the non-Linux world "group" is known as "role", so
+SNAC will call them "roles". "Other" privileges apply to SNAC as public, non-authenticated users, although we
+don't really have "other", and the "researcher" role applies to public users.
 
-Users can have several roles, and will have all the privileges of all their roles. Role membership is managed
-by an administrative UI (part of the dashboard) and related API code. User information such as name, phone
-number, and even password can also change. User ID values cannot be changed, and a user ID is never reused,
-even after account deletion.
+Each feature has a list of one or more authorized roles which may access that feature.
+
+Users can have several roles, and will have all the privileges (access to features) of all their roles. Role
+membership is managed by an administrative UI (part of the dashboard) and related API code. Our system allows
+access to every feature associated with any user role. (Just an aside: some high-security systems restrict
+access to the least privileged role; like Linux, SNAC has a different model.) User information such as name,
+phone number, and even password can also change. User ID values cannot be changed, and a user ID is never
+reused, even after account deletion.
 
 We expect to create additional roles as necessary for application functions.
 

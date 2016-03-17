@@ -11,6 +11,32 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 [New DBUtil and initialization](#new-dbutil-and-initialization)
 
 
+### Notes on undelete
+
+Undelete is not currently implemented. There is a function clearDeleted(), but it is almost certainly is not
+quite right, and we need agreement on how to call it.
+
+As of Mar 10 2016 we have functioning object operation via setOperation() and getOperation() with valid
+operations insert, update, delete. In this new world, undelete should be yet another operation, and should be
+integrated into the existing operation code.
+
+There are two problems:
+
+1) delete and undelete are different for constellation vs component
+
+2) it would be wrong for undelete to incorrectly undelete a component that was deleted before a constellation
+was deleted
+
+Issue (1) is typical for delete, and we need undelete code that is symmetrical with the delete operations.
+
+Issue (2) is interesting. If a constellation is being undeleted, we should not also apply the undelete
+operation to each component. Delete of a component is granular and undelete should be granular in the same
+sense. That is: delete of a component happens independently of all other operations.
+
+Likewise, constellation level delete should not allow component operations, thus it is probably best that
+constellation delete not traverse the components. Likewise, constellation level undelete should only undelete
+the constellation, and not traverse the components doing any operation, especially not component undelete.
+
 ### New DBUtil and initialization
 
 When creating a DBUtil object, DBUtil currently calls $this->getAppUserInfo('system') to determine the user id
@@ -85,7 +111,7 @@ $cObj = readPublishedConstellationByID($mainID);
 
 // public function, return the list of constellations I'm editing
 // uses $this->appUserID in the DBUtil object
-$cObjList = editConstellationList();
+$cObjList = listConstellationsLockedToUser();
 
 $status = 'locked editing';
 $newVersion = writeConstellationStatus($mainID, $status, 'optional arg, version note');
