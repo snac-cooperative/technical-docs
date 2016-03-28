@@ -52,8 +52,6 @@ TBD set of basic privileges including: search history, certain researcher report
 to use SNAC. Members of the public are mostly identical to Researchers. The primary feature gained by having
 an account is a persistent dashboard.
 
-(sync this prose with "user management.md")
-
 
 | Role                         | Role Description                                                       |
 |------------------------------+------------------------------------------------------------------------|
@@ -75,33 +73,34 @@ an account is a persistent dashboard.
 | Web administrator            | (duplicate? historical?) May perform admin tasks via the web interface |
 | Database administrator       | Create and maintain the SQL database                                   |
 | Block upload                 | May do bulk uploads of EAC-CPF, finding aids, etc.                     |
-| Institutional reporter       | May run own institutional reports                                      |
+| Institutional reporter       | May run own-institutional reports                                      |
 | Super reporter               | May run any report                                                     |
 
 
-| User type                  | Role(s)                                          | User Description                                             |
-|----------------------------+--------------------------------------------------+--------------------------------------------------------------|
-| Sysadmin                   | System administrator                             | Maintain server, backups, etc.                               |
-| Database Administrator     | DBA                                              | Schema maintenance, data dumps, etc.                         |
-| Software engineer          | Developer + DBA                                  | Coding, testing, QA, release management, data loading, etc.  |
-| Manager                    | Enroll + Role assign + Inst. Reporter            | SNAC accounts: create, manage, assign roles, run reports     |
-| Peer vetting               | Enroll                                           | Approve moderators, reviewers, content experts               |
-| Moderator                  | Editor-publish                                   | Approve maintenance changes, posting those changes           |
-| Reviewer/editor            | Contributor + Editor-publish                     | Maintainer privileges, interacts with moderators             |
-| Content expert             | Contributor                                      | Domain expert, may have zero institutional roles             |
-| Documentary editor         | Contributor                                      | (Any distinguishing roles?)                                  |
-| Maintenance                | Contributor, constellation                       | May be older terminology for "contributor"                   |
-| Researcher                 | Researcher                                       | Use the discovery interface and history dashboard            |
-| Archival description donor | Block upload                                     | May do bulk uploads of EAC-CPF, finding aids, etc.           |
-| Name authority manager     | Name authority                                   | (superceded by Editor-NACO?)                                 |
-| Institutional admins       | Institutional reporter                           | May run institutional reports                                |
-| Public                     | Public                                           | No SNAC account, single session dashboard                    |
-| Contributor                | Create/edit + Ontology propose                   | Creates/edit constellations, propose ontology headings       |
-| Author                     | Create/edit+Publish+Propose Del/Emb+Propose NACO | A contributor, with additional privileges                    |
-| Editor                     | Create/edit+Publish+Delete/embargo+NACO          | Review constellations, approve and publish                   |
-| Author-NACO                | Create provisional NACO                          | Creates NACO entries, sends to editor for submission         |
-| Administrator              | Author + editor + enroll + assign                | Everything, only own institution                             |
-| Administrator-super        | Administrator + any institution                  | Admin plus assign roles for any user of any institution      |
+
+| User type                  | Role(s)                                          | User Description                                            |
+|----------------------------+--------------------------------------------------+-------------------------------------------------------------|
+| Sysadmin                   | System administrator                             | Maintain server, backups, etc.                              |
+| Database Administrator     | DBA                                              | Schema maintenance, data dumps, etc.                        |
+| Software engineer          | Developer + DBA                                  | Coding, testing, QA, release management, data loading, etc. |
+| Manager                    | Enroll + Role assign + Inst. Reporter            | SNAC accounts: create, manage, assign roles, run reports    |
+| Peer vetting               | Enroll                                           | Approve moderators, reviewers, content experts              |
+| Moderator                  | Editor-publish                                   | Approve maintenance changes, posting those changes          |
+| Reviewer/editor            | Contributor + Editor-publish                     | Maintainer privileges, interacts with moderators            |
+| Content expert             | Contributor                                      | Domain expert, may have zero institutional roles            |
+| Documentary editor         | Contributor                                      | (Any distinguishing roles?)                                 |
+| Maintenance                | Contributor, constellation                       | May be older terminology for "contributor"                  |
+| Researcher                 | Researcher                                       | Use the discovery interface and history dashboard           |
+| Archival description donor | Block upload                                     | May do bulk uploads of EAC-CPF, finding aids, etc.          |
+| Name authority manager     | Name authority                                   | (superceded by Editor-NACO?)                                |
+| Institutional admins       | Institutional reporter                           | May run own-institutional reports                           |
+| Public                     | Public                                           | No SNAC account, single session dashboard                   |
+| Contributor                | Create/edit + Ontology propose                   | Creates/edit constellations, propose ontology headings      |
+| Author                     | Create/edit + Publish + Propose Del/Emb+Propose NACO | A contributor, with additional privileges                   |
+| Editor                     | Create/edit + Publish + Delete/embargo + NACO    | Review constellations, approve and publish                  |
+| Author-NACO                | Create provisional NACO                          | Creates NACO entries, sends to editor for submission        |
+| Administrator              | Author + editor + enroll + assign                | Everything, only own institution                            |
+| Administrator-super        | Administrator + any institution                  | Admin plus assign roles for any user of any institution     |
 
 
 ### What data has to be stored for the user

@@ -1,18 +1,19 @@
 # User Management
 
-Authentication is validating user logins to the system. Authorization is the related aspect of controlling
-which parts of the system users may access (or even which parts they may know exist).
+### Introduction
 
-We can use OpenID for authentication, but we will need a user profile for SNAC roles and authorization. There
-are examples of PHP code to implement OpenID at stackexchange:
+Authentication is: "validating user logins to the system." Authorization is: "privileges
+allowing user access to system features."
 
-http://stackoverflow.com/questions/4459509/how-to-use-open-id-as-login-system
+We are using OpenID for authentication, but we need a user profile for SNAC roles and authorization. 
 
-OpenID seems to constantly be changing, and sites using change frequently. Google has (apparently) deprecated
-OpenID 2.0 in favor of Open Connect. Facebook is using something else, but apparently FB still works with
-OpenID. Stackexchange supports several authentication schemes. If they can do it, so can we. Or we can support
-one scheme for starters and add others as necessary. The SE code is not open source, so we can't see how much
-work it was to support the various OpenID partners.
+OpenID seems to constantly be changing, and sites using it change frequently. Google has (apparently)
+deprecated OpenID 2.0 in favor of Open Connect. Facebook is using something else, but apparently FB still
+works with OpenID. Stackexchange supports several authentication schemes. If they can do it, so can we. Or we
+can support one scheme for starters and add others as necessary. The SE code is not open source, so we can't
+see how much work it was to support the various OpenID partners.
+
+### Authorization
 
 Authorization involves controlling what users can do once they are in the system. That function is sort of
 more solved by OAuth or OpenID by sharing the user profile. However, SNAC has specific requirements,
@@ -26,11 +27,15 @@ authorization system is involved in every transaction with the server to the ext
 server is checked for authorization before being passed to the code doing the real work. (Every request is
 also checked for authentication as well, naturally.)
 
+### Roles analagouse to groups
+
 The Linux model of three privilege types "user", "group", and "other" works well for authorization permissions
 and we should use this model, albeit somewhat simplfied.  "User" is an authenticated user. "Group" is a set of
 users, and a user may belong to several groups. In SNAC and the non-Linux world "group" is known as "role", so
 SNAC will call them "roles". "Other" privileges apply to SNAC as public, non-authenticated users, although we
 don't really have "other", and the "researcher" role applies to public users.
+
+### Roles and privileged application features
 
 Each feature has a list of one or more authorized roles which may access that feature.
 
@@ -56,35 +61,22 @@ session related discovery tools requires an account. It is technically possible 
 dashboard. Although that has not been mentioned as a requirement and is probably a low priority, it might be
 almost trivial to implement.
 
+### Tables of roles and user types
+
 Every account will be in the "Researcher" role which has the same privileges as the general public, but with a
 TBD set of basic privileges including: search history, certain researcher reports.
 
 
-| User type                  | Role                | Description                                                           |
-|----------------------------+---------------------+-----------------------------------------------------------------------|
-| Sysadmin                   | Server admin        | Maintain server, backups, etc.                                        |
-| Database Administrator     | DBA                 | Schema maintenance, data dumps, etc.                                  |
-| Software engineer          | Developer           | Coding, testing, QA, release management, data loading, etc.           |
-| Manager                    | Web admin           | Web accounts: create, manage, assign roles, run reports               |
-| Peer vetting               | Vetting             | Approve moderators, reviewers, content experts                        |
-| Moderator                  | Moderator           | Approve maintenance changes, posting those changes                    |
-| Reviewer/editor            | Maintenance         | Maintainer privileges, interacts with moderators                      |
-| Content expert             | Maintenance         | Domain expert, may have zero institutional roles                      |
-| Documentary editor         | Maintenance         | Distinguished by?                                                     |
-| Maintenance                | Maintenance         | Distinguished by?                                                     |
-| Researcher                 | Researcher          | Use the discovery interface and history dashboard                     |
-| Archival description donor | Block upload        | Bulk uploads of CPF or finding aids                                   |
-| Name authority manager     | Name authority      | Donates name authority data perhaps via bulk upload                   |
-| Institutional admins       | Institutional admin | Instutional role admin dashboard, institutional reports               |
-| Public                     | Researcher          | No account, researcher role, no dashboard or single session dashboard |
+See the two tables "Role" and "User type" in the "DBUser API" documentation:
 
+[Role in Database User API](Requirements/DBUser API.md#roles)
 
-Remember: institutional affiliation roles aren't in the table above. There will be many of those roles, and
-users may have zero, one, or several institutional roles that define which insitutions that user is a member
-of.
+Remember: institutional affiliation roles aren't in the tables. There will be many of those institutional
+affiliation roles, and users may have zero, one, or several institutional roles that define insitutions
+with which the user is affiliated.
 
-It is possible for an institutional admin to be a member of more than one institution. Institutional Admins
-have abilities:
+It is possible for an institutional administrator to also be a member of more than one
+institution. Institutional Admins have abilities:
 
 - view membership lists of their institution(s)
 - add or remove their instutional role for users.
