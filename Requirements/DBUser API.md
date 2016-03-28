@@ -53,28 +53,30 @@ to use SNAC. Members of the public are mostly identical to Researchers. The prim
 an account is a persistent dashboard.
 
 
-| Role                         | Role Description                                                       |
-|------------------------------+------------------------------------------------------------------------|
-| Public HRT                   | No account, but may use HRT public interfaces to SNAC                  |
-| Researcher                   | May use the discovery interface and history dashboard, has an account  |
-| Create/edit                  | Create and edit constellations but cannot publish (contributor)        |
-| Publish                      | May approve constellation publication (editor)                         |
-| Delete/embargo               | May delete or embargo constellations  (editor)                         |
-| Propose delete/embargo       | May propose delete or embargo                                          |
-| Ontology propose             | May propose headings in ontologies, but cannot approve headings        |
-| Ontology approve             | May approve ontology headings (editor)                                 |
-| Propose NACO                 | May create(?) NACO contributions, but not push(?) to NACO              |
-| NACO approve/finalize/submit | May approve NACO contributions (editor)                                |
-| Enroll                       | May enroll new SNAC participants, create new users                     |
-| Role assign own institution  | May assign new roles for own-institution users                         |
-| Role assign any institution  | May assign new roles for any institution users                         |
-| System administrator         | Maintains server hardware and operating systems                        |
-| Developer                    | Writes the SNAC application, a programmer                              |
-| Web administrator            | (duplicate? historical?) May perform admin tasks via the web interface |
-| Database administrator       | Create and maintain the SQL database                                   |
-| Block upload                 | May do bulk uploads of EAC-CPF, finding aids, etc.                     |
-| Institutional reporter       | May run own-institutional reports                                      |
-| Super reporter               | May run any report                                                     |
+| Role                          | Role Description                                                       |
+|-------------------------------+------------------------------------------------------------------------|
+| Public HRT                    | No account, but may use HRT public interfaces to SNAC                  |
+| Researcher                    | May use the discovery interface and history dashboard, has an account  |
+| Create/edit                   | Create and edit constellations but cannot publish (contributor)        |
+| Publish                       | May approve constellation publication (editor)                         |
+| Delete/embargo                | May delete or embargo constellations  (editor)                         |
+| Propose delete/embargo        | May propose delete or embargo                                          |
+| Ontology propose              | May propose headings in ontologies, but cannot approve headings        |
+| Ontology approve              | May approve ontology headings (editor)                                 |
+| Propose NACO                  | May create(?) NACO contributions, but not push(?) to NACO              |
+| NACO approve/finalize/submit  | May approve NACO contributions (editor)                                |
+| Enroll                        | May enroll new SNAC participants, create new users                     |
+| Role assign own institution   | May assign new roles for own-institution users                         |
+| Role assign any institution   | May assign new roles for any institution users                         |
+| System administrator          | Maintains server hardware and operating systems                        |
+| Developer                     | Writes the SNAC application, a programmer                              |
+| Web administrator             | (duplicate? historical?) May perform admin tasks via the web interface |
+| Database administrator        | Create and maintain the SQL database                                   |
+| Block upload                  | May do bulk uploads of EAC-CPF, finding aids, etc.                     |
+| Institutional reporter        | May run own-institutional reports                                      |
+| Super reporter                | May run any report                                                     |
+| Instutional affiliation X     | Affiliated with institution X.                                         |
+| Instutional affiliation super | Affiliated with all instutions, a super role (discuss?)                |
 
 
 
@@ -104,6 +106,9 @@ an account is a persistent dashboard.
 
 
 ### What data has to be stored for the user
+
+Accounts need an active flag. Deleted accounts might be kept inactive, in order to prevent accidentally
+creating an account wiht the same name at some future time.
 
 ### What data is bookkeeping
 
