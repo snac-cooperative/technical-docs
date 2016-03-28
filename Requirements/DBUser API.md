@@ -30,60 +30,78 @@ their base data.
 
 #### Roles
 
-- Roles
-    - Created and maintained by admins with role privileges
-    - Single privilege per role, must be coordinated with workflows and application functions
-    - At least one role exists per institution
-    - At least one role per user (HRT user)
-    - Potentially, roles for ad-hoc groups (sub-institution, department, professional orgs, etc.)
-    - Need explicit, on-going policy guidance
+Roles are somewhat synonymous with Linux groups. Users have a primary group, but may have several groups. The
+user has all privileges associated with each group of which they are a member.
 
-Every account will be in the "Researcher" role which has the same privileges as the general public, but with a
-TBD set of basic privileges including: search history, certain researcher reports.
+Roles have a number of traits:
 
+- Created and maintained by admins with role-granting privileges
+- There is (ideally) a single privilege per role
+- Roles and privileges must be coordinated with workflows and application features
+- At least one role exists per institution
+- At least one role per user, Public aka History Research Tool (HRT) user
+- Potentially we can have roles for ad-hoc groups (sub-institution, department, professional orgs, etc.)
+- Can be deprecated, but it repurposing roles is inadvisable from a security standpoint
+- Need explicit, on-going policy guidance
+   
+Unlike Linux where every file and directory is "owned" by a user and group, SNAC constellations have no
+ownership.
 
-| User type                  | Role                               | Description                                                           |
-|----------------------------+------------------------------------+-----------------------------------------------------------------------|
-| Sysadmin                   | Server admin                       | Maintain server, backups, etc.                                        |
-| Database Administrator     | DBA                                | Schema maintenance, data dumps, etc.                                  |
-| Software engineer          | Developer                          | Coding, testing, QA, release management, data loading, etc.           |
-| Manager                    | Web admin                          | Web accounts: create, manage, assign roles, run reports               |
-| Peer vetting               | Vetting                            | Approve moderators, reviewers, content experts                        |
-| Moderator                  | Moderator                          | Approve maintenance changes, posting those changes                    |
-| Reviewer/editor            | Maintenance                        | Maintainer privileges, interacts with moderators                      |
-| Content expert             | Maintenance                        | Domain expert, may have zero institutional roles                      |
-| Documentary editor         | Maintenance                        | Distinguished by?                                                     |
-| Maintenance                | Maintenance                        | Distinguished by?                                                     |
-| Researcher                 | Researcher                         | Use the discovery interface and history dashboard                     |
-| Archival description donor | Block upload                       | Bulk uploads of CPF or finding aids                                   |
-| Name authority manager     | Name authority                     | Donates name authority data perhaps via bulk upload                   |
-| Institutional admins       | Institutional admin                | Instutional role admin dashboard, institutional reports               |
-| Public                     | Researcher                         | No account, researcher role, no dashboard or single session dashboard |
-| Contributor, constellation | Constellation create/edit          | Create and edit constellations but cannot publish                     |
-| Contributor, ontology      | Ontology propose heading           | May propose headings in ontologies, but cannot approve headings       |
-| Editor-publish             | Constellation publish              | May approve constellation publication                                 |
-| Editor-ontology            | Ontology approve                   | May approve ontology headings                                         |
-| Editor-NACO                | NACO approve/finalize/submit       | May approve NACO contributions                                        |
-| Editor-delete-embargo      | Constellation delete/embargo       | May delete or embargo constellations                                  |
-| Author-constellation       | Contrib+Editor-publish             | Create, edit and publish constellations                               |
-| Author-NACO                | Create provisional NACO            | May create(?) NACO contributions, but not push(?) to NACO             |
-| Administrator              | Contributor + Editor-constellation | May create, edit, publish, delete, and embargo constellations         |
-| Administrator-enroll       | Create new users                   | May enroll new SNAC participants                                      |
-| Administrator-assign       | Role assign own institution        | May assign new roles for own-institution individuals                  |
-| Superuser                  | Admin-enroll+Admin-assign+Any-inst | Admin plus assign roles for any user of any institution               |
+Every account will have the "Researcher" role which has the same privileges as the general public, but with a
+TBD set of basic privileges including: search history, certain researcher reports. An account is not necessary
+to use SNAC. Members of the public are mostly identical to Researchers. The primary feature gained by having
+an account is a persistent dashboard.
 
-Constellation create/edit
-Constellation publish
-Constellation delete/embargo
-Ontology propose heading
-Ontology approve heading
-Create provisional NACO
-Approve/finalize/submit NACO
-Create new users
-Role assign own institution
-Role assign any institution
+(sync this prose with "user management.md")
 
 
+| Role                         | Role Description                                                       |
+|------------------------------+------------------------------------------------------------------------|
+| Public HRT                   | No account, but may use HRT public interfaces to SNAC                  |
+| Researcher                   | May use the discovery interface and history dashboard, has an account  |
+| Create/edit                  | Create and edit constellations but cannot publish (contributor)        |
+| Publish                      | May approve constellation publication (editor)                         |
+| Delete/embargo               | May delete or embargo constellations  (editor)                         |
+| Propose delete/embargo       | May propose delete or embargo                                          |
+| Ontology propose             | May propose headings in ontologies, but cannot approve headings        |
+| Ontology approve             | May approve ontology headings (editor)                                 |
+| Propose NACO                 | May create(?) NACO contributions, but not push(?) to NACO              |
+| NACO approve/finalize/submit | May approve NACO contributions (editor)                                |
+| Enroll                       | May enroll new SNAC participants, create new users                     |
+| Role assign own institution  | May assign new roles for own-institution users                         |
+| Role assign any institution  | May assign new roles for any institution users                         |
+| System administrator         | Maintains server hardware and operating systems                        |
+| Developer                    | Writes the SNAC application, a programmer                              |
+| Web administrator            | (duplicate? historical?) May perform admin tasks via the web interface |
+| Database administrator       | Create and maintain the SQL database                                   |
+| Block upload                 | May do bulk uploads of EAC-CPF, finding aids, etc.                     |
+| Institutional reporter       | May run own institutional reports                                      |
+| Super reporter               | May run any report                                                     |
+
+
+| User type                  | Role(s)                                          | User Description                                             |
+|----------------------------+--------------------------------------------------+--------------------------------------------------------------|
+| Sysadmin                   | System administrator                             | Maintain server, backups, etc.                               |
+| Database Administrator     | DBA                                              | Schema maintenance, data dumps, etc.                         |
+| Software engineer          | Developer + DBA                                  | Coding, testing, QA, release management, data loading, etc.  |
+| Manager                    | Enroll + Role assign + Inst. Reporter            | SNAC accounts: create, manage, assign roles, run reports     |
+| Peer vetting               | Enroll                                           | Approve moderators, reviewers, content experts               |
+| Moderator                  | Editor-publish                                   | Approve maintenance changes, posting those changes           |
+| Reviewer/editor            | Contributor + Editor-publish                     | Maintainer privileges, interacts with moderators             |
+| Content expert             | Contributor                                      | Domain expert, may have zero institutional roles             |
+| Documentary editor         | Contributor                                      | (Any distinguishing roles?)                                  |
+| Maintenance                | Contributor, constellation                       | May be older terminology for "contributor"                   |
+| Researcher                 | Researcher                                       | Use the discovery interface and history dashboard            |
+| Archival description donor | Block upload                                     | May do bulk uploads of EAC-CPF, finding aids, etc.           |
+| Name authority manager     | Name authority                                   | (superceded by Editor-NACO?)                                 |
+| Institutional admins       | Institutional reporter                           | May run institutional reports                                |
+| Public                     | Public                                           | No SNAC account, single session dashboard                    |
+| Contributor                | Create/edit + Ontology propose                   | Creates/edit constellations, propose ontology headings       |
+| Author                     | Create/edit+Publish+Propose Del/Emb+Propose NACO | A contributor, with additional privileges                    |
+| Editor                     | Create/edit+Publish+Delete/embargo+NACO          | Review constellations, approve and publish                   |
+| Author-NACO                | Create provisional NACO                          | Creates NACO entries, sends to editor for submission         |
+| Administrator              | Author + editor + enroll + assign                | Everything, only own institution                             |
+| Administrator-super        | Administrator + any institution                  | Admin plus assign roles for any user of any institution      |
 
 
 ### What data has to be stored for the user
