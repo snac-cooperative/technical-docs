@@ -186,7 +186,7 @@ More example user types, with their role(s) and description.
 
 ### API 
 
-createUser(snac\data\User $user) 
+`createUser(snac\data\User $user) 
 
 Add a user record. Minimal requirements is user id or email (which ever is used to login). Return true for
 success.
