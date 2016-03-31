@@ -12,12 +12,12 @@ For background about users, please see:
 ### What data and features must be provided
 
 - user must have a unique id 
-- user must be able to authenticate (login)
-- user msut be authorized for specific system features
+- user must be able to authenticate (log in)
+- user must be authorized for specific system features
 
-Userid must be unique for all time, and thus, userids may not be reused. A unique userid internal to the
+User id must be unique for all time, and thus, user ids may not be reused. A unique user id internal to the
 system may be a good idea. The textual user id such as "mst3k" or "mst3k@example.com" should probably also be
-unique for all time, but (in theory) could be reused witn a new, unique system userid.
+unique for all time, but (in theory) could be reused with a new, unique system use rid.
 
 Accounts need an active flag. Deleted accounts might be kept inactive, as an easy way to prevent accidentally
 creating an account with the same name at some future time. 
@@ -45,7 +45,7 @@ could be multiple simultaneous sessions per user, and each session needs its own
 Current session data includes:
 
 - access token from the authentication (OAuth?)
-- expiration timestamp when the session will expire
+- expiration time stamp when the session will expire
 
 The REST API requires the same session data. REST API users will have the same Au/Az constraints
 
@@ -55,7 +55,7 @@ The system has roles conceptually, extensively integrated throughout. Each user 
 
 The SNAC permission system is based entirely on roles (groups). SNAC is authorizing uses to run various
 functions. Ownership is a non-concept, but essentially the system (sort of "root") owns all functions. When
-there is only one owner, it has no use designing authorization partions. That leaves SNAC with a
+there is only one owner, it has no use designing authorization partitions. That leaves SNAC with a
 role-only system.
 
 In a global sense, the cumulative users and roles is complex. On a per-user or per-role basis, things are very
@@ -65,15 +65,15 @@ manageable. When managing the system, imagine asking these fairly constrained (m
 
 - List all user affiliated with UC Irvine.
 
-- List all users who can enrole new users.
+- List all users who can enroll new users.
 
 - List all users who can publish constellations.
 
 - List all users who may run reports for their own affiliation.
 
-Below is an example. Anyone who can login can get a dashboard, so there are no specific dashboard permissions
-(yet). The userid public and the role "researcher" may not any sense. Everyone has it, so there's no reason to
-mention/restrict/authorize it. This table initially had a userid "public" with role "Public HRT", and every
+Below is an example. Anyone who can log in can get a dashboard, so there are no specific dashboard permissions
+(yet). The user id public and the role "researcher" may not any sense. Everyone has it, so there's no reason to
+mention/restrict/authorize it. This table initially had a user id "public" with role "Public HRT", and every
 user also had the role "Public HRT", but that is simply redundant. When it comes to implementation, the
 authorization system will actually use some convention for testing role. The feature "Public HRT" can call a
 role test that always returns true.
@@ -81,7 +81,7 @@ role test that always returns true.
 The roles below are real, but do not imply any actual policy or any relation to persons living or dead.
 
 Pulling some random details, and wording them in English, the table below says that Casey at CDL can approve
-NACO submissions (NACO approve). Jessy at NYPL is limited to assigning roles only for NYPL (affiliation-nypl
+NACO submissions (NACO approve). Jessie at NYPL is limited to assigning roles only for NYPL (affiliation-nypl
 and role-assign-own).
 
 
@@ -108,11 +108,11 @@ Roles have a number of traits:
 
 - Created and maintained by admins with role-granting privileges
 - There is (ideally) a single privilege per role
-- Roles and privileges must be coordinated with workflows and application features
+- Roles and privileges must be coordinated with work flows and application features
 - At least one role exists per institutional affiliation
 - Every user has the implied role Public HRT
-- Potentially we can have roles for ad-hoc groups (sub-institution, department, professional orgs, etc.)
-- Roles can be deprecated, but it repurposing roles is inadvisable from a security standpoint
+- Potentially we can have roles for ad hoc groups (sub-institution, department, professional orgs, etc.)
+- Roles can be deprecated, but it re-purposing roles is inadvisable from a security standpoint
 - Need explicit, on-going policy guidance
    
 
@@ -129,7 +129,7 @@ an account is a persistent dashboard.
 | Contribute                    | Create and edit constellations but cannot publish (contributor)           |
 | Publish                       | Approve constellation publication (editor)                                |
 | Change status any             | Change status, removing locks, and so on, any affiliation                 |
-| Change owner any              | Change constellation user, changing which user has a lock, any affilation |
+| Change owner any              | Change constellation user, changing which user has a lock, any affiliation |
 | Change status own             | Change status, removing locks, and so on, own affiliation only            |
 | Change owner own              | Change constellation user, changing user lock, own affiliation only       |
 | Delete/embargo                | Delete or embargo constellations  (editor)                                |
@@ -137,7 +137,7 @@ an account is a persistent dashboard.
 | Ontology propose              | Propose headings in ontologies, but cannot approve headings               |
 | Ontology approve              | Approve ontology headings (editor)                                        |
 | Propose NACO                  | Create(?) NACO contributions, but not push(?) to NACO                     |
-| NACO approve/finalize/submit  | Appprove NACO contributions (editor)                                      |
+| NACO approve/finalize/submit  | Approve NACO contributions (editor)                                      |
 | Enroll                        | Enroll new SNAC participants, create new users                            |
 | Role assign own institution   | Assign new roles for own-institution users                                |
 | Role assign any institution   | Assign new roles for any institution users                                |
@@ -148,8 +148,8 @@ an account is a persistent dashboard.
 | Block upload                  | Do bulk uploads of EAC-CPF, finding aids, etc.                            |
 | Institutional reporter        | Run own-institutional reports                                             |
 | Super reporter                | Run any report                                                            |
-| Instutional affiliation X     | Affiliated with institution X.                                            |
-| Instutional affiliation super | Affiliated with all instutions, a super role (discuss?)                   |
+| Institutional affiliation X     | Affiliated with institution X.                                            |
+| Institutional affiliation super | Affiliated with all institution, a super role (discuss?)                   |
 
 
 More example user types, with their role(s) and description.
@@ -169,7 +169,7 @@ More example user types, with their role(s) and description.
 | Maintenance                | Contributor, constellation                       | May be older terminology for "contributor"                  |
 | Researcher                 | Researcher                                       | Use the discovery interface and history dashboard           |
 | Archival description donor | Block upload                                     | May do bulk uploads of EAC-CPF, finding aids, etc.          |
-| Name authority manager     | Name authority                                   | (superceded by Editor-NACO?)                                |
+| Name authority manager     | Name authority                                   | (superseded by Editor-NACO?)                                |
 | Institutional admins       | Institutional reporter                           | May run own-institutional reports                           |
 | Public                     | Public                                           | No SNAC account, single session dashboard                   |
 | Contributor                | Contribute + Ontology propose                   | Creates/edit constellations, propose ontology headings      |
