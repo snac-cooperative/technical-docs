@@ -69,7 +69,7 @@ See the two tables "Role" and "User type" in the "DBUser API" documentation:
 [Role in Database User API](Requirements/DBUser API.md#roles)
 
 Remember: institutional affiliation roles aren't all listed in the tables. There will be one institutional
-affiliation roles per institution. Users may have zero, one, or several institutional roles that define
+affiliation role per institution. Users may have zero, one, or several institutional roles that define
 insitutions with which the user is affiliated.
 
 It is possible for an institutional administrator to also be a member of more than one
