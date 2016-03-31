@@ -246,3 +246,11 @@ Add a new session token $accessToken with expiration time $expire for $user. Upd
 
 Check that a session is active (not expired) for $user and $accessToken. Time is assumed to be "now". Return
 true for success (session is active now).
+
+----
+
+`clearAllSessions(snac\data\User $user)`
+
+Delete all session records for $user.
+
+----
