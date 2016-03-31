@@ -27,6 +27,7 @@ roles. Requirements here will cover implementation of authorization, and of mana
 Each user has account info: 
 
 - id (not editable, database assigned record id)
+- active (boolean)
 - first name
 - last name
 - full name
@@ -37,10 +38,8 @@ Each user has account info:
 - avatar large
 - password, stored encrypted
 
-Each user has one or more roles, as many as necessary.
-
-When logged in, a user as a "session", and the session has some associated data. We anticipate that there
-could be multiple simultaneous sessions per user, and each session needs its own unique data. 
+When logged in, a user has at least one "session", and the session has some associated data. We anticipate
+that there could be multiple simultaneous sessions per user, and each session needs its own unique data.
 
 Current session data includes:
 
@@ -50,18 +49,31 @@ Current session data includes:
 The REST API requires the same session data. REST API users will have the same Au/Az constraints
 
 The system has roles conceptually, extensively integrated throughout. Each user is granted one or more roles.
+Each user has one or more roles, as many as necessary.
+
 
 ### Roles
 
 The SNAC permission system is based entirely on roles (groups). SNAC is authorizing uses to run various
-functions. Ownership is a non-concept, but essentially the system (sort of "root") owns all functions. When
-there is only one owner, it has no use designing authorization partitions. That leaves SNAC with a
-role-only system.
+functions. Ownership is a non-concept, but essentially the system ("root") owns all functions. In a situation
+like SNAC where there is a single owner, the concept of "owner" has no use in authorization. That leaves SNAC
+with a role-only system.
 
-In a global sense, the cumulative users and roles is complex. On a per-user or per-role basis, things are very
-manageable. When managing the system, imagine asking these fairly constrained (manageable) questions:
+(Optional paragraph) Not having "files", there is no concept of "file has no privileges" for user, group, or
+other. An example of what SNAC does not have is the shared web server situation where user grants privileges
+and group removes privileges. In a shared web server, users are all assigned to a group "users". Web
+accessible directories have no group permissions and are owned by group user. Lacking permissions for group
+user, no one in group user has any access. Actual access then is granted only to the owner who has
+read-write-execute (rwx) for that directory. Apache runs as suexec for each user, and thus each user's CGI
+scripts gain access to only that user's directory via the user privs.
 
-- List all users affiliated with CDL.
+SNAC lacks this "subtractive" permission, and instead has only additive permissions.
+
+In a global sense, the cumulative collection of users and roles is complicated. However, that complexity is
+essential (not accidental) and on a per-user or per-role basis, things are very manageable. When managing the
+system, imagine asking these typical, and manageable questions:
+
+- List all users affiliated with California Digital Library (CDL).
 
 - List all user affiliated with UC Irvine.
 
@@ -72,17 +84,18 @@ manageable. When managing the system, imagine asking these fairly constrained (m
 - List all users who may run reports for their own affiliation.
 
 Below is an example. Anyone who can log in can get a dashboard, so there are no specific dashboard permissions
-(yet). The user id public and the role "researcher" may not any sense. Everyone has it, so there's no reason to
-mention/restrict/authorize it. This table initially had a user id "public" with role "Public HRT", and every
-user also had the role "Public HRT", but that is simply redundant. When it comes to implementation, the
-authorization system will actually use some convention for testing role. The feature "Public HRT" can call a
-role test that always returns true.
+(yet). The user id "public" and the role "researcher" may not make any sense. Everyone has role "Public HRT",
+so there's no reason to restrict or authorize it. This table initially had a user id "public" with role
+"Public HRT", and every user also had the role "Public HRT", but that is simply redundant. When it comes to
+implementation, the authorization system will use some convention for testing role. The feature "Public HRT"
+can call a role test that always returns true.
 
 The roles below are real, but do not imply any actual policy or any relation to persons living or dead.
 
-Pulling some random details, and wording them in English, the table below says that Casey at CDL can approve
-NACO submissions (NACO approve). Jessie at NYPL is limited to assigning roles only for NYPL (affiliation-nypl
-and role-assign-own).
+Pulling a couple of random details from the table below, and wording them in English:
+
+- Casey at CDL can approve NACO submissions (NACO approve)
+- Jessie at NYPL is limited to assigning roles only for NYPL (affiliation-nypl and role-assign-own)
 
 
 | user             | description    | roles                                                                                           |
@@ -94,62 +107,53 @@ and role-assign-own).
 | Avery Valenzuela | super admin    | enroll-any, reporter-any, role-assign-any                                                       |
 
 
-
-Not having "files", there is no concept of "file has no privs" for user, group, or other. An example of what
-SNAC does not have is the shared web server situation. In a shared web server, users are all assigned to a
-group "users". Web accessible directories have no group permissions and are owned by group user. Lacking
-permissions for group user, no one in group user has any access. Actual access then is granted only to the
-owner who has rwx for that directory. Apache runs as suexec for each user, and thus each users CGI scripts
-gain access to only that user's directory via the user privs.
-
-SNAC lacks this "subtractive" permission, and instead has only additive permissions.
-
 Roles have a number of traits:
 
-- Created and maintained by admins with role-granting privileges
+- Created by developers, and maintained by admins with role-granting privileges
 - There is (ideally) a single privilege per role
 - Roles and privileges must be coordinated with work flows and application features
-- At least one role exists per institutional affiliation
+- One role exists per institutional affiliation
 - Every user has the implied role Public HRT
-- Potentially we can have roles for ad hoc groups (sub-institution, department, professional orgs, etc.)
-- Roles can be deprecated, but it re-purposing roles is inadvisable from a security standpoint
+- Potentially, we can have roles for ad hoc groups (sub-institution, department, professional orgs, etc.)
+- Roles can be deprecated, but re-purposing roles is inadvisable from a security standpoint
 - Need explicit, on-going policy guidance
    
 
-Every account will have the "Researcher" role which has the same privileges as the general public, but with a
+Every account will have the "Public HRT" role which has the same privileges as the general public, but with a
 TBD set of basic privileges including: search history, certain researcher reports. An account is not necessary
 to use SNAC. Members of the public are mostly identical to Researchers. The primary feature gained by having
 an account is a persistent dashboard.
 
 
-| Role                          | Role Description                                                          |
-|-------------------------------+---------------------------------------------------------------------------|
-| Public HRT                    | No account, but may use HRT public interfaces to SNAC                     |
-| Researcher                    | May use the discovery interface and history dashboard, has an account     |
-| Contribute                    | Create and edit constellations but cannot publish (contributor)           |
-| Publish                       | Approve constellation publication (editor)                                |
-| Change status any             | Change status, removing locks, and so on, any affiliation                 |
-| Change owner any              | Change constellation user, changing which user has a lock, any affiliation |
-| Change status own             | Change status, removing locks, and so on, own affiliation only            |
-| Change owner own              | Change constellation user, changing user lock, own affiliation only       |
-| Delete/embargo                | Delete or embargo constellations  (editor)                                |
-| Propose delete/embargo        | Propose delete or embargo                                                 |
-| Ontology propose              | Propose headings in ontologies, but cannot approve headings               |
-| Ontology approve              | Approve ontology headings (editor)                                        |
-| Propose NACO                  | Create(?) NACO contributions, but not push(?) to NACO                     |
-| NACO approve/finalize/submit  | Approve NACO contributions (editor)                                      |
-| Enroll                        | Enroll new SNAC participants, create new users                            |
-| Role assign own institution   | Assign new roles for own-institution users                                |
-| Role assign any institution   | Assign new roles for any institution users                                |
-| System administrator          | Maintains server hardware and operating systems                           |
-| Developer                     | Writes the SNAC application, a programmer                                 |
-| Web administrator             | (duplicate? historical?) May perform admin tasks via the web interface    |
-| Database administrator        | Create and maintain the SQL database                                      |
-| Block upload                  | Do bulk uploads of EAC-CPF, finding aids, etc.                            |
-| Institutional reporter        | Run own-institutional reports                                             |
-| Super reporter                | Run any report                                                            |
-| Institutional affiliation X     | Affiliated with institution X.                                            |
-| Institutional affiliation super | Affiliated with all institution, a super role (discuss?)                   |
+
+| Role                         | Role Description                                                            |
+|------------------------------+-----------------------------------------------------------------------------|
+| Public HRT                   | No account, but may use HRT public interfaces to SNAC                       |
+| Researcher                   | (Same as Public HRT?) Use discovery interface and dashboard, has an account |
+| Contribute                   | Create and edit constellations but cannot publish (contributor)             |
+| Publish                      | Approve constellation publication (editor)                                  |
+| Change status any            | Change status, removing locks, and so on, any affiliation                   |
+| Change owner any             | Change constellation user, changing which user has a lock, any affiliation  |
+| Change status own            | Change status, removing locks, and so on, own affiliation only              |
+| Change owner own             | Change constellation user, changing user lock, own affiliation only         |
+| Delete/embargo               | Delete or embargo constellations  (editor)                                  |
+| Propose delete/embargo       | Propose delete or embargo                                                   |
+| Ontology propose             | Propose headings in ontologies, but cannot approve headings                 |
+| Ontology approve             | Approve ontology headings (editor)                                          |
+| Propose NACO                 | Create(?) NACO contributions, but not push(?) to NACO                       |
+| NACO approve/finalize/submit | Approve NACO contributions (editor)                                         |
+| Enroll                       | Enroll new SNAC participants, create new users                              |
+| Role assign own institution  | Assign new roles for own-institution users                                  |
+| Role assign any institution  | Assign new roles for any institution users                                  |
+| System administrator         | Maintains server hardware and operating systems                             |
+| Developer                    | Writes the SNAC application, a programmer                                   |
+| Web administrator            | (duplicate? historical?) May perform admin tasks via the web interface      |
+| Database administrator       | Create and maintain the SQL database                                        |
+| Block upload                 | Do bulk uploads of EAC-CPF, finding aids, etc.                              |
+| Reporter own                 | Run own-institutional reports                                               |
+| Reporter any                 | Run any report, super reporter                                              |
+| Affiliation X                | Affiliated with institution X.                                              |
+| Affiliation any              | Affiliated with all institutions, a super role (discuss?)                   |
 
 
 More example user types, with their role(s) and description.
