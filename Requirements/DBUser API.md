@@ -200,6 +200,13 @@ object. Return true for success.
 
 ---
 
+`findUserID($email)`
+
+Get the user id if you only know the email address. We must be assuming the email addresses are unique.
+
+---
+
+
 `readUser($userID or $email)`
 
 Return a User object for the user id or email. Return false on failure.
