@@ -159,31 +159,72 @@ an account is a persistent dashboard.
 More example user types, with their role(s) and description.
 
 
-| User type                  | Role(s)                                          | User Description                                            |
-|----------------------------+--------------------------------------------------+-------------------------------------------------------------|
-| Sysadmin                   | System administrator                             | Maintain server, backups, etc.                              |
-| Database Administrator     | DBA                                              | Schema maintenance, data dumps, etc.                        |
-| Software engineer          | Developer + DBA                                  | Coding, testing, QA, release management, data loading, etc. |
-| Manager                    | Enroll + Role assign + Inst. Reporter            | SNAC accounts: create, manage, assign roles, run reports    |
-| Peer vetting               | Enroll                                           | Approve moderators, reviewers, content experts              |
-| Moderator                  | Editor-publish                                   | Approve maintenance changes, posting those changes          |
-| Reviewer/editor            | Contributor + Editor-publish                     | Maintainer privileges, interacts with moderators            |
-| Content expert             | Contributor                                      | Domain expert, may have zero institutional roles            |
-| Documentary editor         | Contributor                                      | (Any distinguishing roles?)                                 |
-| Maintenance                | Contributor, constellation                       | May be older terminology for "contributor"                  |
-| Researcher                 | Researcher                                       | Use the discovery interface and history dashboard           |
-| Archival description donor | Block upload                                     | May do bulk uploads of EAC-CPF, finding aids, etc.          |
-| Name authority manager     | Name authority                                   | (superseded by Editor-NACO?)                                |
-| Institutional admins       | Institutional reporter                           | May run own-institutional reports                           |
-| Public                     | Public                                           | No SNAC account, single session dashboard                   |
-| Contributor                | Contribute + Ontology propose                   | Creates/edit constellations, propose ontology headings      |
+| User type                  | Role(s)                                             | User Description                                            |
+|----------------------------+-----------------------------------------------------+-------------------------------------------------------------|
+| Sysadmin                   | System administrator                                | Maintain server, backups, etc.                              |
+| Database Administrator     | DBA                                                 | Schema maintenance, data dumps, etc.                        |
+| Software engineer          | Developer + DBA                                     | Coding, testing, QA, release management, data loading, etc. |
+| Manager                    | Enroll + Role assign + Inst. Reporter               | SNAC accounts: create, manage, assign roles, run reports    |
+| Peer vetting               | Enroll                                              | Approve moderators, reviewers, content experts              |
+| Moderator                  | Editor-publish                                      | Approve maintenance changes, posting those changes          |
+| Reviewer/editor            | Contributor + Editor-publish                        | Maintainer privileges, interacts with moderators            |
+| Content expert             | Contributor                                         | Domain expert, may have zero institutional roles            |
+| Documentary editor         | Contributor                                         | (Any distinguishing roles?)                                 |
+| Maintenance                | Contributor, constellation                          | May be older terminology for "contributor"                  |
+| Researcher                 | Researcher                                          | Use the discovery interface and history dashboard           |
+| Archival description donor | Block upload                                        | May do bulk uploads of EAC-CPF, finding aids, etc.          |
+| Name authority manager     | Name authority                                      | (superseded by Editor-NACO?)                                |
+| Institutional admins       | Institutional reporter                              | May run own-institutional reports                           |
+| Public                     | Public                                              | No SNAC account, single session dashboard                   |
+| Contributor                | Contribute + Ontology propose                       | Creates/edit constellations, propose ontology headings      |
 | Author                     | Contribute + Publish + Propose Del/Emb+Propose NACO | A contributor, with additional privileges                   |
-| Editor                     | Contribute + Publish + Delete/embargo + NACO    | Review constellations, approve and publish                  |
-| Author-NACO                | Create provisional NACO                          | Creates NACO entries, sends to editor for submission        |
-| Administrator              | Author + editor + enroll + assign                | Everything, only own institution                            |
-| Administrator-super        | Administrator + any institution                  | Admin plus assign roles for any user of any institution     |
+| Editor                     | Contribute + Publish + Delete/embargo + NACO        | Review constellations, approve and publish                  |
+| Author-NACO                | Create provisional NACO                             | Creates NACO entries, sends to editor for submission        |
+| Administrator              | Author + editor + enroll + assign                   | Everything, only own institution                            |
+| Administrator-super        | Administrator + any institution                     | Admin plus assign roles for any user of any institution     |
 
 
+### API 
 
+createUser(snac\data\User $user) 
 
+Add a user record. Minimal requirements is user id or email (which ever is used to login). Return true for
+success.
+---
+saveUser(snac\data\User $user) 
 
+Update a user record. Verify that read-only fields match, overwrite everthing else with values from the User
+object. Return true for success.
+---
+readUser($userID or $email) 
+
+Return a User object for the user id or email. Return false on failure.
+---
+disableUser(snac\data\User $user) 
+
+Disable log in to this account. Update table appuser.active to false. Return true on success.
+---
+addUserRole(snac\data\User $user, $newRole) 
+
+Add a role to the User via table appuser_role_link. Return true on success.
+---
+listRoles()
+
+List all system roles. The simpliest form would be an associative list with keys: id, label, description.
+---
+createRole($label, $description) 
+
+Create a new role with $label and $description. Return true on success.
+---
+checkPassword(snac\data\User $user, $passwd) 
+
+Check $passwd matches the password stored for snac\data\User. Return true on success.
+---
+addSession(snac\data\User $user, $accessToken, $expire) 
+
+Add a new session token $accessToken with expiration time $expire for $user. Update if $accessToken exists.
+---
+checkSessionActive(snac\data\User $user, $accessToken) 
+
+Check that a session is active (not expired) for $user and $accessToken. Time is assumed to be "now". Return
+true for success (session is active now).
