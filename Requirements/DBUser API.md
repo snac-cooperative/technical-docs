@@ -225,7 +225,7 @@ Add a role to the User via table appuser_role_link. Return true on success.
 
 ---
 
-`listRoles()`
+`roleList()`
 
 List all system roles. The simpliest form would be an associative list with keys: id, label, description.
 

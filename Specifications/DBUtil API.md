@@ -152,21 +152,21 @@ $versionList = allVersion($mainID);
 
 ```
 
-public function readConstellation($mainID, $version)
+`public function readConstellation($mainID, $version)`
 
 Returns a full constellation, or false upon failure. The UI can be built from the full constellation as
 necessary. This is better than having functions specifically only returning partial data for the UI, but full
 data for other uses. The functions that return ID and version work alongside readConstellation() as part of a
 small tool kit.
 
-public function writeConstellation($argObj, $note)
+`public function writeConstellation($argObj, $note)`
 
 Writes a constellation to the database, returning the same constellation with ID and versions as
 appropriate. It will probably crash if the first argument is not a constellation. The constellation must pass
 validation tests which writeConstellation() calls before doing any other work.
 
-public function readPublishedConstellationByARK($arkID)
-public function readPublishedConstellationByID($mainID)
+`public function readPublishedConstellationByARK($arkID)`
+`public function readPublishedConstellationByID($mainID)`
 
 Given an ARK/ID, return the current publicly available constellation ID and version. This will only return the
 current published version. Returns a single constellation or false upon failure.
@@ -174,7 +174,7 @@ current published version. Returns a single constellation or false upon failure.
 Functions return the most recent version so that a user can continue editing where they left off. By
 definition, a locked-for-edit constellation is not public. 
 
-public function listConstellationsLockedToUser($status=null)
+`public function listConstellationsLockedToUser($status=null)`
 
 The SNAC dashboard will call listConstellationsLockedToUser() or the logical equivalent, which returns a list
 of constellations. The dashboard web page is populated from this list of constellations. The user who has the
@@ -185,17 +185,17 @@ We may want a function that returns the X most recently updated constellations, 
 would also be useful on the dashboard. We are already planning for listConstellationsLockedToUser() to take a
 status parameter, which will be usefor for the dashboard.
 
-public function readConstellationStatus($mainID, $version=null)
+`public function readConstellationStatus($mainID, $version=null)`
 
 Read the status for constellation ID $mainID, with optional $version arg. If no version then it defaults to
 the most recent version, deleted or not (logically) since 'deleted' is one of the status values. Returns false
 on failure.
 
-public function writeConstellationStatus($mainID, $status, $note="")
+`public function writeConstellationStatus($mainID, $status, $note="")`
 
 Modify the status of a constellation. Returns the new version number for the status update, or false on
-failure. Cannot set a status to 'deleted', but can modify a deleted status to some other value. Only known
-status values are accepted.
+failure. Writing a constellation status of deleted will "functionally delete" that constellation.
+
 
 ```
     private $statusList = array('published' => 1,
@@ -203,12 +203,13 @@ status values are accepted.
                                 'rejected' => 1,
                                 'locked editing' => 1,
                                 'bulk ingest' => 1,
-                                'deleted' =>1);
+                                'deleted' =>1,
+                                'currently editing' => 1);
 ```
 
 Valid status values are stored in a private var in DBUtil.php.
 
-public function allVersion($mainID)
+`public function allVersion($mainID)`
 
 Returns all versions (in order, from lowest to highest) in a list for a given ID. This is a utility function
 available to build user interfaces for diff of two versions, or reversion to a previous version.
@@ -226,12 +227,10 @@ have made these functions private.
 
 Many other functions in DBUtil have no use case outside the class and are private.
 
-private function editList()
+`private function editList()`
 
 Return a list of the mainID and version that are currently "locked editing" for the user.  DBUtil determines
 who is the current user. Long term, the code calling DBUtil will probably feed the user id to DBUtil.
-
-
 
 
 
