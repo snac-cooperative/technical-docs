@@ -11,16 +11,19 @@ For background about users, please see:
 
 ### What data and features must be provided
 
-- user must have a unique id 
-- user must be able to authenticate (log in)
-- user must be authorized for specific system features
+- user must have a unique id, which we mint when creating the database record
+- user must be able to authenticate (log in), which is currently handled outside DBUser by OpenID.
+- user must be authorized for specific system features, which relies on role(s).
 
-User id must be unique for all time, and thus, user ids may not be reused. A unique user id internal to the
-system may be a good idea. The textual user id such as "mst3k" or "mst3k@example.com" should probably also be
-unique for all time, but (in theory) could be reused with a new, unique system use rid.
+User id must be unique for all time, and thus, user ids may not be reused. We have a unique user id internal
+to the system, which is the row id from table appuser. We do not currently have (or need) a textual user id
+such as "mst3k", although email address must be unique to our system and serves an identifier. For example:
+"mst3k@example.com" should be unique for all time, but (in theory) could be reused with a new, unique system
+use rid.
 
 Accounts need an active flag. Deleted accounts might be kept inactive, as an easy way to prevent accidentally
 creating an account with the same name at some future time. 
+
 The list of features are described in more detail in other requirements docs although we list them below with
 roles. Requirements here will cover implementation of authorization, and of management of authorization.
 
@@ -31,7 +34,7 @@ Each user has account info:
 - first name
 - last name
 - full name
-- email which may be user id
+- email which serves as a unique identifier in some special contexts
 - user id which may be email, should probably be unique
 - avatar
 - avatar small
@@ -186,30 +189,71 @@ More example user types, with their role(s) and description.
 
 ### API 
 
+Most of the API depends on a User object. That object must at least contain an email address. When creating,
+saving, or updating a user, all available fields are written to the database except id (aka appUserID). The ID
+is generated from the database.
+
+createUser() creates a new id, overwriting any existing id.
+
+saveUser() requires a valid id in order to update. The ID is not changed.
+
+readUser() requires a valid id. The ID is not changed.
+
+A user object has only a single session. There may be several active sessions per account. We assume that each
+HTTP request will include unique session, keeping all concurrent sessions separate. 
+
+Role management works.
+
+---
+
+`checkSessionActive(snac\data\User $user)` 
+
+Check that a session is active (not expired) for $user. Time is assumed to be "now". Return a $user with valid
+appUserID upon success, or false on failure. Adds the user to the db if the user does not already
+exist. Creates a session if a session does not already exist.
+
+If a session exists, that session expires is checked against now() as UTC. If the session has expired, then
+the session is deleted, and the $user token is cleared by setting 'access_token' to '' and expires to zero.
+
+The user is created based on email being unique. Any existing userID inside $user is ignored, then
+overwritten.
+
+The new user is not assigned a default role, but there is a function to add a default role if we need that.
+
+---
+
 `createUser(snac\data\User $user)`
 
-Add a user record. Minimal requirements is user id or email (which ever is used to login). Return true for
-success.
+Add a user record. Minimal requirements is a unique email. Return the new User object. The current
+implementation has no concept of failure. Adds a default role if we have one. We do not currently have a
+default role.
+
 
 ---
 
 `saveUser(snac\data\User $user)`
 
-Update a user record. Verify that read-only fields match, overwrite everthing else with values from the User
-object. Return true for success.
+Update a user record. Overwrite everthing else with values from the User object. Please contact the developers
+before using this function.
 
 ---
 
 `findUserID($email)`
 
-Get the user id if you only know the email address. We must be assuming the email addresses are unique.
+Get the user id if you only know the email address. We assume the email addresses are unique. Returns integer appUserID or false.
 
 ---
 
 
-`readUser($userID or $email)`
+`readUser($userID)`
 
-Return a User object for the user id or email. Return false on failure.
+Return a User object for the user id or email. Return false on failure. Fills in the role list in the User object.
+
+---
+
+`readUserByEmail($email)`
+
+Return a User object based on email address. Return false on failure.
 
 ---
 
@@ -217,23 +261,51 @@ Return a User object for the user id or email. Return false on failure.
 
 Disable log in to this account. Update table appuser.active to false. Return true on success.
 
----
-
-`addUserRole(snac\data\User $user, $newRole)` 
-
-Add a role to the User via table appuser_role_link. Return true on success.
+Proably has not been tested. The concept of inactive accounts is not well defined.
 
 ---
 
 `roleList()`
 
-List all system roles. The simpliest form would be an associative list with keys: id, label, description.
+List all system roles as a list of Role objects.
 
 ---
 
+`addUserRole(snac\data\User $user, $newRole)` 
+
+Add a role to the User via table appuser_role_link. Return true on success. $newRole is a Role object.
+
+---
+
+`addDefaultRole($user)`
+
+Add default roles to $user, if any default roles exist. Currently does nothing. If we had default roles, it
+would change $user in place. Would return true on success, false otherwise.
+
+---
+
+`listUserRole($user)`
+
+List all the roles a user currently has as an array of Role objects.
+
+----
+
+`checkRoleByLabel($user, $label)`
+
+Check for role by label. Returns the role if user has it, else false;
+
+----
+
+`removeUserRole($user, $role)`
+
+Remove a role from the User by deleting the role link from table appuser_role_link.
+
+----
+
 `createRole($label, $description)` 
 
-Create a new role with $label and $description. Return true on success.
+Create a new role with $label and $description. Return the role on success. Currently, it has no concept of
+failure.
 
 ---
 
@@ -243,16 +315,23 @@ Check $passwd matches the password stored for snac\data\User. Return true on suc
 
 ---
 
-`addSession(snac\data\User $user, $accessToken, $expire)` 
+`addSession(snac\data\User $user)` 
 
-Add a new session token $accessToken with expiration time $expire for $user. Update if $accessToken exists.
+Add a new session token $user->getToken()['access_token'] with expiration time $user->getToken()['expires']
+for $user. Update the session if $accessToken exists.
 
 ---
 
-`checkSessionActive(snac\data\User $user, $accessToken)` 
+`sessionExists($user)`
 
-Check that a session is active (not expired) for $user and $accessToken. Time is assumed to be "now". Return
-true for success (session is active now).
+Find out if a session exists and if that session is associated with $user, and has not expired.
+
+---
+
+`removeSession($user)`
+
+ Remove a session. Assume that tokens are unique, which is important. Delete all sessions with the token
+ $user->getToken()['access_token'] matter what user has that token.
 
 ----
 
