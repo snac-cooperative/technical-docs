@@ -122,21 +122,19 @@ only have been true when the record was modified, but record modification date i
 clearly be necessary to guide use of this field.
 
 
-
 ### How versioning works
 
 ```
-create type icstatus as enum ('published', 'needs review', 'rejected', 'being edited', 'bulk ingest');
 
 create table version_history (
         id int default nextval('version_history_id_seq'),
         main_id int default nextval('id_seq'), -- main constellation id, when inserting a new identity, allow this to default
-        is_locked boolean default false,       -- boolean, true is locked by version_history.user_id
+        is_locked boolean default false,       -- (not used, see status) boolean, true is locked by version_history.user_id
         user_id int,                           -- fk to appuser.id
         role_id int,                           -- fk to role.id, defaults to users primary role, but can be any role the user has
         timestamp timestamp default now(),     -- now()
         status icstatus,                       -- enum icstatus note: an enum is a data type like int or text
-        is_current boolean,                    -- most current published, optional field to enhance performance
+        is_current boolean,                    -- (not used) most current published, optional field to enhance performance
         note text,                             -- checkin message
         primary key (id, main_id)
         );
@@ -144,15 +142,17 @@ create table version_history (
 
 The version_history table is the central table to a CPF constellation (aka record). The
 version_history.main_id is the constellation id. By convention, all SNAC tables have a field 'id', which is
-the record id. Field version_history.id is known by the alias "version" in all locations outside table
-version_history. All first-order data tables have fields id,version, and main_id. 
+the record id. (Except nrd which use nrd.main_id as record id, and may not have field nrd.id.) Field
+version_history.id is known by the alias "version" in all locations outside table version_history. All
+first-order data tables have fields id, version, and main_id. (Except nrd as noted above.)
 
 No data is ever updated or deleted. All operations are insert, although some inserts are "update" and some
-inserts are "delete". Every insert has a record in table version_history describing the intellectual nature:
-insert, update, or delete. Version number always increases. There is a single sequence supplying version
-numbers, so all version numbers are always unique to a particular version. A constellation is always composed
-of data from the several tables, and each of those tables may have a different current version number. The
-"current" version is the version <= max(version_history.id) for a given main_id and record id in a table. 
+inserts are "delete". Every insert is associated with a record in table version_history describing the
+intellectual nature: insert, update, or delete. Version number always increases. There is a single sequence
+supplying version numbers, so all version numbers are always unique to a particular version. A constellation
+is always composed of data from the several tables, and each of those tables may have a different current
+version number. The "current" version is the version <= max(version_history.id) for a given main_id and record
+id in a table.
 
 If we imagine a simplified view of version_history and name, data would look as follows after insert, update,
 and delete:
@@ -176,8 +176,15 @@ history of the record would reveal this. Users authorizef for the role "data adm
 including deleted records.
 
 It may help to understand some of the following specification by knowing that the unique record key for nearly
-all tables is (id,version). For all tables except nrd, the constellation id is main_id. Table nrd is special,
-with has 1:1 data fields with the constellation, therefore nrd.id is both record id and constellation id.
+all tables is (id,version). For all tables the constellation id is main_id. Table nrd is special, with has 1:1
+data fields with the constellation and is (naturally) joined to the constellation (table version_history) via
+nrd.main_id. Do not join constellation data to table nrd. The "root" of the constellation is
+version_history. Table nrd is (essentially) a data table. Unlike the other tables which use table.id as their
+foreign key, the "foreign key" of nrd is nrd.main_id.
+
+Note that Constellation->getID() returns main_id. All other classes Object->getID() returns a record id.
+(Actually table.id is a record-group id due to versioning, conceptually it is a "record id" as opposed to a
+"constellation id".)
 
 There are some basic traits of versioning:
 
@@ -187,10 +194,14 @@ There are some basic traits of versioning:
 every record from every table.
 
 3) An update to part of a constellation might update a single table. That update will have a new version
-number. This saves data copying and redundancy.
+number. This saves data copying and redundancy. Every update includes inserting a new record into
+version_history with the existing main_id, but a new version_history.id which is the version number.
 
 4) Due to (3), actual SQL to select a given record is based on selecting that record's version <= the current
 version in table version_history.
+
+5) Table version_history is the core or root of the constellation. The constellation is related to
+version_history.main_id. Related tables include table nrd, which is special, but is not the root table.
 
 The following SQL illustrates the some relationships between version_history and a typical table such as
 "name" for a simplified scenario of a single version for a given fictional constellation id 1234.
@@ -212,10 +223,8 @@ been many changes to this constellation, each change only effecting some parts. 
 updated, the version number incremented. We can go back to any version, but when editing we always use the
 most recent version of each record in each table. That is: <= max(version).
 
-In the case of published, we use a similar query, but constrain by is_current or by status='published'. The
-exact implementation has not been settled, and there are plusses and minuses. Nonetheless, this query
-illustrates the concept for selecting the most recent version number of the most recently published
-constellation id 7:
+In the case of published, we use a similar query, but constrain by status='published'. This query illustrates
+the concept for selecting the most recent version number of the most recently published constellation id 7:
 
 ```
 select max(id) as version, main_id
@@ -223,7 +232,7 @@ from
 version_history
 where
 main_id=7 and
-is_current and
+status='published' and
 group by id,main_id;
 ```
 
@@ -303,7 +312,7 @@ worth, this feature is impossible or difficult in non-Postgres databases. Other 
 
 ```
 create table language (
-        id              int default nextval('id_seq'),
+        id                int default nextval('id_seq'),
         version           int not null,
         main_id           int not null,
         is_deleted        boolean default false,
@@ -313,40 +322,77 @@ create table language (
         note              text,
         fk_table          text, -- table name of the related foreign table. Exists only as a backup
         fk_id             int,  -- table.id of the related record
-        primary         key(id, version)
+        primary           key(id, version)
         );
 ```
 
 This is a simplified example of saving the language of the Constellation, the 'constellation' being table
-nrd. Assume the constellation id is 456, and the language_id is 123. Select is the mirror query.
+version_history. Assume the constellation ID aka main_id is 456, and the language_id is 123. Select is the mirror of insert.
 
 ```
-insert into language (language_id, fk_table, fk_id) values (123, 'nrd', 456);
+insert into language (language_id, fk_table, fk_id) values (123, 'version_history', 456);
 select * from  language where fk_id=456;
 ```
 
-Conceptually, we're doing a join where language.fk_id=nrd.id
+Conceptually, we're doing a join where language.fk_id=version_history.main_id. We use main_id when joining data to "the constellation". 
 
 ```
 select language.* 
-from language, nrd
+from language, version_history
 where
-language.fk_id=nrd.id
+language.fk_id=version_history.main_id
 ```
 
-The insert is essenially as simple as above. However, the select needs to account for version and is_deleted,
-so the select is a bit more complex than the insert. $1 is the record id of the related table, and $2 is the version:
+There are a number of second-order data tables which are related to first order data using table.id as the
+foreign key. We use the single-sided foreign key join in the related table, and we can do that because all our
+record id values come from a single sequence, id_seq.
+
+A few things happen in the background that give us the SCM ID value. Code must have already determined the scm
+record based on constellation id (main_id) version number which gives us the scm.id. In other words, you have
+to read the scm.id out of a SNACControlMetadata object via getSNACControlMetadata() or you must have the id as
+a return value from an SCM insertMeta() function call.
+
+This is a simplified example of saving the language of the SNAC Control Meta or SCM.  Assume the scm.id is
+789, and the language_id is 123. Select is the mirror of insert. (This simplified example ignores version
+number and is_deleted. See below for real-world sql.)
+
+```
+insert into language (language_id, fk_table, fk_id) values (123, 'scm', 789);
+select * from  language where fk_id=789;
+```
+
+Conceptually, we're doing a join where language.fk_id=scm.id.  The insert is essenially this simple,
+conceptually, and in actual sql.
+
+```
+select language.* 
+from language, scm
+where
+language.fk_id=scm.id
+```
+
+
+However, the real-world select needs to account for version and is_deleted, so the select is a bit more
+complex than the insert. $1 is the record id of the related table, and $2 is the version.
+
+Select a meta data record(s). The query relies on a parameter $1 for the foreign key id of the record to which
+this applies. In typical SQL relational fashion this query only needs a foreign key and version number.
+   
+Constrain sub query where fk_id, but group by id and return max(version) by id. Remember, our unique key is
+always id,version. Joining the fk_id constrained subquery with the table on id and version gives us all of the
+relevant id,version records, and nothing else.
+
 
 ```
 select aa.version, aa.main_id, aa.id, aa.language_id, aa.script_id, aa.vocabulary_source, aa.note
 from language as aa,
-(select fk_id,max(version) as version from language where fk_id=$1 and version<=$2 group by fk_id) as bb
+(select id,max(version) as version from language where fk_id=$1 and version<=$2 group by id) as bb
 where 
-not is_deleted and aa.fk_id=bb.fk_id and aa.version=bb.version
+not is_deleted and aa.id=bb.id and aa.version=bb.version
 
 ```
 
-This is fairly similar to a version-aware select from a normal table. We constrain on fk_id and group by fk_id,
+This is fairly similar to a version-aware select from a normal table. We constrain on fk_id and group by id,
 whereas the normal query constrains on main_id and groups by id.
 
 Because we're using php+sql, we have the related table's id in a variable, so we don't do a two table join,
@@ -355,24 +401,26 @@ larger stored procedure).
 
 We save the related table name in language.fk_table. This is redundant, but might be useful for reporting. The
 language.fk_id will be related to many tables, and typically we first query the related table, and second
-query language. However, there may be a circumstance (which I can hardly imagine) where we only have access to
-the language table, but we still want to know all the records relating to nrd. We could do this:
+query language. However, there may be a circumstance (which I cannot imagine) where we only have access to the
+language table, but we still want to know all the records relating to scm. We could do this:
 
 ```
-select * from language where fk_table='nrd';
+select * from language where fk_table='scm';
 ```
 
-That query presupposes that table nrd is not avaiable for a join, which would be extremely odd.
+That query presupposes that table scm is not avaiable for a join, which would be extremely odd.
 
 The fk_table field might be useful if we exported records to a database which lacks sequences, for example
-MySQL, SQLite, or Oracle. Although so many other problems would arise that having fk_table is hardly useful. Besides, we can always populate fk_table with a trivial SQL query:
+MySQL, SQLite, or Oracle. Although so many other problems would arise that having fk_table is hardly
+useful. Besides, we can always populate fk_table with a trivial SQL query which we would run for each possible
+related table:
 
 ```
-update language set fk_table='nrd' where fk_id in (select id from nrd);
+update language set fk_table='scm' where fk_id in (select main_id from scm);
 
 ```
 
-Still, inserting values into fk_table seems like a fine, if redundant idea.
+Still, inserting values into fk_table is a fine, if redundant idea.
 
 
 ### Vocabulary table history and rationale
@@ -446,10 +494,13 @@ See the install script: install/install.php
 
 Fields id, main_id, version, and is_deleted are common to all first order data tables.
 
-table.id is the record id, and (table.id,table.version) forms a unique key.
+table.id is the record id, and (table.id,table.version) forms a unique key. Field nrd.id is not used and may
+not exist, but if it exists it will have the same value as nrd.main_id. If you need to join to "the
+constellation" join on version_history.main_id.
 
-table.main_id=version_history.main_id, and table.main_id is the constellation id for all tables except
-nrd. The constellation id of nrd is nrd.id and nrd.main_id, although it is best to go with nrd.id.
+
+table.main_id=version_history.main_id, and table.main_id is the constellation id for all tables. 
+
 
 table.main_id is a constellation id, that is a grouping column. Across all tables, a single main_id value
 identifies all the records belonging to a single constellation. As a constellation is edited, there will be
@@ -510,7 +561,7 @@ refactor the code to support the single table paradigm as with vocabulary.
 We are currently working on geographic a authority, based primarily on geonames. The authority table is
 geo_place. Table place_link hold relations between original data tables and geo_place.
 
-Currently ony table nrd (the Constellation) has place links. 
+Currently only table version_history (the Constellation) has place links. 
 
 In theory, place via <place>, <places>, or <placeEntry> can occur in elements: description, chronItem,
 cpfRelation, function, functionRelation, legalStatus, localDescription, mandate, occupation, place,
