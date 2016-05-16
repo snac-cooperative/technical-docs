@@ -84,7 +84,9 @@ Below is a flow chart in lovely ascii graphics
 
 #### From the state table we glean that there is one test:
 
+```
 data-empty
+```
 
 This test returns true if the submitted data is empty. There are two likely places to put this test function:
 
@@ -95,9 +97,11 @@ This test returns true if the submitted data is empty. There are two likely plac
 
 #### There are three workers:
 
+```
 save-data
 data-empty-message
 confirm-message
+```
 
 Worker save-data saves "the data", whatever that entails. Worker data-empty-message puts an "empty data"
 message into the user message that will eventually be shown to the user in the UI. Worker confirm-message puts
