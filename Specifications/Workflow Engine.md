@@ -71,7 +71,7 @@ Below is a flow chart in lovely ascii graphics
 ```
 
 
-The corresponding state table is:
+#### The corresponding state table is:
 
 | state   | test       | function           | next-state |
 |---------+------------+--------------------+------------|
@@ -82,13 +82,13 @@ The corresponding state table is:
 | done    |            | exit               |            |
 
 
-From the state table we glean that there is one test:
+#### From the state table we glean that there is one test:
 
 data-empty
 
 It must return true if the submitted data is empty.
 
-There are three workers:
+#### There are three workers:
 
 save-data
 data-empty-message
