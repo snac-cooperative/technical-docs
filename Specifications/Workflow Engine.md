@@ -86,7 +86,12 @@ Below is a flow chart in lovely ascii graphics
 
 data-empty
 
-It must return true if the submitted data is empty.
+This test returns true if the submitted data is empty. There are two likely places to put this test function:
+
+1) In a thin-API existing only to integrate the workflow with the API
+
+2) In the API being integrated with the workflow.
+
 
 #### There are three workers:
 
@@ -94,8 +99,8 @@ save-data
 data-empty-message
 confirm-message
 
-Worker save-data must save "the data", whatever that entails. Worker data-empty-message put an "empty data"
+Worker save-data saves "the data", whatever that entails. Worker data-empty-message puts an "empty data"
 message into the user message that will eventually be shown to the user in the UI. Worker confirm-message puts
-a saved data confirmation message into the user message.
+a "saved data" confirmation message into the user message.
 
 
