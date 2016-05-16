@@ -73,7 +73,7 @@ Below is a flow chart in lovely ascii graphics
 
 #### The corresponding state table is:
 
-| state   | test       | function           | next-state |
+| state   | test       | worker             | next-state |
 |---------+------------+--------------------+------------|
 | start   | data-empty |                    | warn       |
 | start   |            | save-data          | confirm    |
