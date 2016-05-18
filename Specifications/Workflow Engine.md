@@ -2,18 +2,18 @@
 ### How to integrate the workflow engine
 
 The workflow engine (WFE) communicates with the application via functions. There are two kinds of functions
-that the WFE requires: test and workers. The WFE has internal functions: exit, jump, return. 
+that the WFE requires: tests and workers. The WFE has internal functions: exit, jump, return. 
 
 
-The functions do not have arguments, which is by design, to simplify implementation, and use. From a feature
-standpoint, allowing arguments to to functions would enable the possibility of large classes of bugs in the
-workflows, but would not especially enhance the scope of workflow features. Also, as soon as variables and
-arguments are added to a workflow, it is no longer proveable.
+The functions do not have arguments by design for two reasons: to simplify implementation, and simplify
+use. From a feature standpoint, allowing arguments to to functions would enable the possibility of large
+classes of bugs in the workflows, but would not especially enhance the scope of workflow features. Also, as
+soon as variables and arguments are added to a workflow, it is less ameniable to static analysis.
 
-A set of functions integrates the WFE with existing APIs. Integrated APIs need to expose boolean test
+Test and worker functions integrate the WFE with existing APIs. Integrated APIs need to expose boolean test
 functions that in order for the WFE to test extant attributes of the application. Tests should be side-effect
 free. (As regards tests, it is best to say that attributes of the application are being tested, and avoid
-saying "the state of the application" and only refer to "state" as a property of the workflow engine. The WFE
+saying "the state of the application" and reserver the word "state" as a property of the workflow engine. The WFE
 has state, and the application has state, but the contexts are totally separate.) Workers are functions that
 get work done. Workers do things, and often change application attributes as an intentional side effect.
 
@@ -106,5 +106,65 @@ confirm-message
 Worker save-data saves "the data", whatever that entails. Worker data-empty-message puts an "empty data"
 message into the user message that will eventually be shown to the user in the UI. Worker confirm-message puts
 a "saved data" confirmation message into the user message.
+
+
+### Server workflow
+
+Server workflow is currently fairly simple. It is anticipated that some of these worker functions will become
+several states, and will require relevant tests.
+
+
+| state | test                          | worker                | next-state |
+|-------+-------------------------------+-----------------------+------------|
+| start | command-vocabulary            | search-vocabulary     | done       |
+| start | command-reconcile             | reconcile             | done       |
+| start | command-start-session         | start-session         | done       |
+| start | command-end-session           | end-session           | done       |
+| start | command-user-info             | user-info             | done       |
+| start | command-insert-constellation  | insert-constellation  | done       |
+| start | command-update-constellation  | update-constellation  | done       |
+| start | command-unlock-constellation  | unlock-constellation  | done       |
+| start | command-publish-constellation | publish-constellation | done       |
+| start | command-recently-published    | recently-published    | done       |
+| start | command-read                  | read-constellation    | done       |
+| start | command-edit                  | edit-constellation    | done       |
+| start |                               | unknown-command       | done       |
+| done  |                               | exit                  |            |
+
+
+
+### WebUI workflow
+
+When command-login2 is true, the resulting worker might better be split into several states.
+
+Here command-unlock is split into tests and workers: unlock-constellation, if-error, redirect-dashboard,
+return-json. Alternatively, these 4 functions might all be inside a single worker.
+
+
+| state  | test                 | worker                                                     | next-state |
+|--------+----------------------+------------------------------------------------------------+------------|
+| start  | empty-session        | init-and-home                                              | done       |
+| start  |                      | non-empty-start-snac-session                               | do-cmd     |
+| do-cmd | command-login        | destroy-session-and-redirect-home                          | done       |
+| do-cmd | command-login2       | login-start-snac-session-serialize-user-redirect-dashboard | done       |
+| do-cmd | command-logout       | logout-destroy-session-and-redirect-index                  | done       |
+| do-cmd | command-edit         | display-edit-page                                          | done       |
+| do-cmd | command-new          | display-new-edit-page                                      | done       |
+| do-cmd | command-view         | display-view-page                                          | done       |
+| do-cmd | command-preview      | display-preview-page                                       | done       |
+| do-cmd | command-dashboard    | display-dashboard                                          | done       |
+| do-cmd | command-profile      | display-profile                                            | done       |
+| do-cmd | command-save         | save-constellation-return-json                             | done       |
+| do-cmd | command-save-unlock  | save-unlock-return-json                                    | done       |
+| do-cmd | command-unlock       | unlock-constellation                                       | unlock     |
+| do-cmd | command-save-publish | save-publish-return-json                                   | done       |
+| do-cmd | command-publish      | publish-return-json                                        | done       |
+| do-cmd | command-vocabulary   | vocabulary-search-return-json                              | done       |
+| do-cmd | command-search       | name-search-return-json                                    | done       |
+| do-cmd |                      | display-landing-page                                       | done       |
+| unlock | if-error             | redirect-dashboard                                         | done       |
+| unlock |                      | return-json                                                | done       |
+| done   |                      | exit                                                       |            |
+
 
 
