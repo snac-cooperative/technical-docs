@@ -206,7 +206,23 @@ embargo, enroll, assign. It seems like a nice idea to enshrine this as a convent
 | Affiliation any                  | Affiliated with all institutions, a super privilege (discuss?)             |
 
 
-Example role, with their privilege(s) and description.
+### Example roles
+
+In order to make the system tractable and easy to talk about, we plan to allow privilege assigning admins to
+name groups of privileges. We are calling a privilege group a "role". There are two constraints on these names:
+
+1) Role name is unique within that institution. It would be confusing for more than one privilege group to
+have the same name.
+
+2) Because roles are grouped by institution, the same name may be used by another institution, perhaps for the
+same privilege, or perhaps for some totally different set of privileges.
+
+Privilege names are fixed because they are universal to all of SNAC. If the policy team decides that Role is
+also a universal SNAC concept, that works fine within this conceptual framework.
+
+Remember, the table below is only a guess or approximation of real world roles. The software team is very much
+open to expanding the requirements to be as complete as possible. (Although not all requirements will
+necessarily ever become features of SNAC.)
 
 
 | Role                       | Privilege(s)                                        | User Description                                       |
