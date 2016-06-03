@@ -1,8 +1,14 @@
 
 ### Introduction
 
-This document gives background and some commentary about the schema. The details of schema are best seen by
-reading the schema SQL files which contain extensive comments.
+SNAC data is saved and managed in an SQL Relational Database Management System called PostgreSQL or simply
+Postgres.
+
+This document gives background and some commentary about the schema which in the RDBMS sense are the SQL
+commands to create the tables of the database. The details of schema are best seen by reading the schema SQL
+files which contain extensive comments.
+
+There is a brief discussion of RDBMS technology: [Relational Databases](../Discussion/Relational Databases.md)
 
 A related document is the Data Overview: [Data Overview](Data Overview.md)
 
@@ -28,9 +34,10 @@ indexes. The data files are for static data such as controlled vocabulary and pl
 
 ### Background
 
-It is important to realize that SNAC is not a document-oriented system. The database stores all the normal
-EAC-CPF elements and attributes in a relational data model. This vastly improves every aspect of performance,
-and guarantees data integrity as well as handling critical features such as database management.
+It is important to realize that SNAC is not a document-oriented system. We do not save or edit XML files. The
+database stores all the supported EAC-CPF elements and attributes in a relational data database. This vastly
+improves every aspect of performance, and guarantees data integrity as well as handling critical features such
+as database management.
 
 The schema itself is fairly simple. Using Postgres we make extensive use of "sequences". A sequence is a
 special table that exists to generate unique numbers. We use a single sequence across all data tables. This
