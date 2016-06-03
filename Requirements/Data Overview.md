@@ -1,5 +1,5 @@
 
-SNAC Data outline
+### SNAC Data outline
 
 This is a broad view of various kinds of data in the SNAC web application. At the core, SNAC data was
 historically EAC-CPF. Working with the CPF data causes two things to happen. First, CPF data itself becomes
@@ -79,3 +79,58 @@ non-SQL data stores: XTF, Neo4j, Elastic search index
 - XTF full text index
 - Neo4j graph database
 - Elastic search full text index
+
+### Database Schema Notes
+
+The database schema capures all the data in CPF files, as well as meeting extensive additional data
+requirements.
+
+Early on we had the idead that each field within CPF might need provenance meta data. We have added Snac
+control meta data (SCM) to each table on a per-record basis. Per-field is not practical.
+
+The new schema has full versions of all records for all time. The version_history table records each table
+name, record id, user id who modified, and time datestamp.
+
+Every record has a unique id, although the row id is no longer unique. The unique key in most tables is
+id,version.
+
+We have a user table appuser, role table, a role-permission linking table. We allow several permissions per
+group.
+
+Constellations have status "deleted" working now. Status "embargo" is planned although the specific behavior is unclear.
+
+Records have additional status "locked editing" (locked to user) and "currently editing" (currently being edited).
+
+Institutional affiliation is a field in table appuser.
+
+### Planned features
+
+The planned watch system is a query run on some schedule (daily, hourly, ?) that checks
+to see if a watched record has changed. CPF record has links to a “watch” table so users can watch each
+record, and can watch for certain types of changes. Need UI for the watch system. Need an API for the watch
+system.
+
+There was an idea that workflow might be granular to parts of constellations. Some reviewers might review one part of the constellation, not not another. 
+
+Be able to count record views, record downloads. Institutional dashboard reports need the ability to group-by
+user, or even filter to a specific user.
+
+Reporting needs to help managers verify performance metrics. This assumes that all changes have a
+date/timestamp. Once workflow and process decisions are set, performance requirements for users such as
+load/performance (how many updates and changes to records can be handled at once), search response time, edit
+time (outside of review workflow), and update times need to be set.
+
+Effort reporting to allow SNAC and participants to communicate to others the actual level of effort
+involved. This sounds like a report with time span and numbers of records handled in various ways. SNAC might
+use this when going from pilot into production so that everyone knows what effort will be required for X
+number of records/actions (of whatever action type).
+
+Time/activity reporting could allow us to assess viability, utility, and efficiency of maintenance system
+processes.
+
+Similar reports might be generated to evaluate the discovery interface.  Something akin to how much time was
+required to access a certain number of records. Rachael said: Assess viability of access funtionality-
+performance time, available features, and ease of use.
+
+We could try to report on the amount of training necessary before a new user was able to work independently in
+each of various areas (content input, review, etc.)
