@@ -35,28 +35,33 @@ indexes. The data files are for static data such as controlled vocabulary and pl
 ### Background
 
 It is important to realize that SNAC is not a document-oriented system. We do not save or edit XML files. The
-database stores all the supported EAC-CPF elements and attributes in a relational data database. This vastly
+database stores all the supported EAC-CPF elements and attributes in a relational database. This vastly
 improves every aspect of performance, and guarantees data integrity as well as handling critical features such
 as database management.
 
 The schema itself is fairly simple. Using Postgres we make extensive use of "sequences". A sequence is a
-special table that exists to generate unique numbers. We use a single sequence across all data tables. This
-powerful and elegant features simplifies our foreign keys. Every row id of every data table is unique, thus
-foreign keys need only consist of the row id (and version number, as it turns out). We use the data type
-'text' for all text fields. Postgres 'text' performs as well as varchar, but will accept very large strings,
-thus freeing us from varchar size constraints. We do not use foreign key constraints. They carry a large
-performance penalty, and our constraints are handled in the PHP code. We also avoid an entire class of
-constraint-related bugs by using id_seq for all tables.
+special table that exists to generate unique, sequential numbers. We use a single sequence across all data
+tables. This powerful and elegant usage of sequence simplifies our foreign keys. Every row id of every data
+table has a unique sequence number identifier, thus foreign keys need only consist of the row id (and version
+number, as it turns out).
 
 Incidentally, sequences use bigint so the max value of a record id is 9223372036854775807. To put that in
 perspective, 1000 editors making 1000 changes per second would need 294,471 years to cause the row id values
 to roll over. The record id values are never displayed to users, and are only used internally.
+
+We use the data type 'text' for all text fields. Postgres 'text' performs as well as
+varchar, but will accept very large strings, thus freeing us from varchar size constraints. We do not use
+foreign key constraints. They carry a large performance penalty, and our constraints are handled in the PHP
+code. We also avoid an entire category of constraint-related bugs by using id_seq for all tables.
 
 We are currently using very simple SQL. There are no views, triggers, or special data types. We don't use
 stored procedures, and instead have a single PHP function per query which obviates the needs for stored
 procedures, and may actually be faster.
 
 ### About version
+
+Additional detail about the version system can be found in the Specification on Schema SQL:
+[How versioning works] (../Specifications/Schema%20SQL.md#how-versioning-works)
 
 An basic requirement is to save every edit to a constellation. This is fairly unusual. Most systems have
 nightly backups and it is only possible to revert to a given backup, but changes within that time period can't
