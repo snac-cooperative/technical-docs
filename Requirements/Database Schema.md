@@ -47,7 +47,8 @@ number, as it turns out).
 
 Incidentally, sequences use bigint so the max value of a record id is 9223372036854775807. To put that in
 perspective, 1000 editors making 1000 changes per second would need 294,471 years to cause the row id values
-to roll over. The record id values are never displayed to users, and are only used internally.
+to roll over. The record id values are never displayed to users, and are only used internally. (A SQL database
+row is a "record" in the database world, so we will use database terminology in this document.)
 
 We use the data type 'text' for all text fields. Postgres 'text' performs as well as
 varchar, but will accept very large strings, thus freeing us from varchar size constraints. We do not use
@@ -64,24 +65,28 @@ Additional detail about the version system can be found in the Specification on 
 [How versioning works] (../Specifications/Schema%20SQL.md#how-versioning-works)
 
 An basic requirement is to save every edit to a constellation. This is fairly unusual. Most systems have
-nightly backups and it is only possible to revert to a given backup, but changes within that time period can't
-be discovered or reverted to. The SQL schema uses a constellation ID and version number for every row of every
-constellation data table. A version history table tracks all constellations, versions, and per-version
-notes. (These notes are akin to git or svn checkin note, not to be confused with CPF source, citation, or
-control data.)
+nightly backups, and even those are rotated so that there are only certain fixed, historical checkpoints. The
+SNAC SQL schema has a row id, constellation ID, and version number for every row of every constellation data
+table. A version history table tracks all constellations, versions, and per-version notes. (These notes are
+akin to git or svn checkin note, not to be confused with CPF source, citation, or control data.) Update
+operations insert a new record, but the old record remains. Delete operations insert a new record which is
+marked as deleted, but the old records remain. Deleting an entire constellation simply marks the constellation
+as deleted, making no change and deleting nothing.
 
-Every table contains every version of every edit to any data ever made on that table. Happily, PostgreSQL
-(Postgres) and most other SQL databases can easily handle this. Individual record retrieval is generally in
-the sub-millisecond range. (A SQL database row is a "record" in the database world, so we will use database
-terminology in this document.) However, the complexity of the versioning makes the SNAC SQL queries somewhat
-complex. Nearly every query has at least one sub-query. All the queries can be found in SQL.php in the source
-code tree.
+Every table contains every version of every edit to any data ever made on that table, no matter how
+trivial. Happily, Postgres and most other SQL databases can easily handle this situation. Individual record
+retrieval is generally in the sub-millisecond range. However, the complexity of the versioning makes the SNAC
+SQL queries somewhat more complicated, although nothing that would be considered complex compared to many
+truly complex databases. Nearly every query has at least one sub-query. All the queries can be found in
+SQL.php in the source code tree.
 
 The tricky part about version is that the most current version number is the max(version) for the current row
 id. Even more tricky is that the version that matches some constellation version is for the current row,
 max(version) less than or equal to the constellation version. We simplify this by always providing the desired
-constellation version. We don't say "current". If we want current we look up the current for the constellation
-which is simply max(version), and then use <= that version number for all data.
+constellation version. Top level code knows about "current". Low level code is always asked for data less than
+or equal to a specific version number. In other words, if we want current, we look up the current for the
+constellation which is simply max(version), and then call a low level data retrieval functions that return
+row(s) <= that version number.
 
 In SQL the subquery looks like this where data_table is the table name, $1 is the id, $2 is the version:
 
@@ -164,3 +169,5 @@ create table scm (
     fk_table     text  -- table name of the related foreign table. This field exists as backup
 );
 ```
+
+
