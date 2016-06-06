@@ -9,6 +9,12 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 ### Table of contents
 
 [New DBUtil and initialization](#new-dbutil-and-initialization)
+[Notes on undelete](#notes-on-undelete)
+[New DBUtil and initialization](#new-dbutil-and-initialization)
+[Constellation ID discovery](#constellation-id-discovery)
+[Reading and writing constellations](#reading-and-writing-constellations)
+[Private functions](#private-functions)
+[Utility functions](#utility-functions)
 
 
 ### Notes on undelete
@@ -20,18 +26,20 @@ As of Mar 10 2016 we have functioning object operation via setOperation() and ge
 operations insert, update, delete. In this new world, undelete should be yet another operation, and should be
 integrated into the existing operation code.
 
-There are two problems:
+Issue 1: You should be aware that delete and undelete are different for constellation vs component. Deleting a
+constellation is done by setting the status to delete, and status is in table version_history. Deleting data
+is done via the field is_deleted for the data table.
 
-1) delete and undelete are different for constellation vs component
+Issue 2: When implementing undelete, it would be wrong to undelete a data component if the constellation is currently
+deleted.
 
-2) it would be wrong for undelete to incorrectly undelete a component that was deleted before a constellation
-was deleted
 
 Issue (1) is typical for delete, and we need undelete code that is symmetrical with the delete operations.
 
 Issue (2) is interesting. If a constellation is being undeleted, we should not also apply the undelete
 operation to each component. Delete of a component is granular and undelete should be granular in the same
-sense. That is: delete of a component happens independently of all other operations.
+sense. That is: delete of a component happens to a single component, and is orthogonal to other component
+operations happening at the same time (to other components).
 
 Likewise, constellation level delete should not allow component operations, thus it is probably best that
 constellation delete not traverse the components. Likewise, constellation level undelete should only undelete
@@ -43,7 +51,7 @@ When creating a DBUtil object, DBUtil currently calls $this->getAppUserInfo('sys
 and role id. This function simply reads the database for user 'system'. When we have an authentiation and
 authorization system, application code will supply the user information to DBUtil.
 
-DBUtil will automatically, internally mint new version and constellation main_id as necessary. For constellation
+DBUtil will automatically, internally mint new version and constellation ic_id as necessary. For constellation
 inserts you should create a single DBUtil object and use it for all inserts of every record in the
 batch. Passing in a constellation with no ID or version and asking for an "insert" operation will result in a
 new ID being minted. In other words, for a new constellation written to the database for the first time, a new
@@ -51,7 +59,8 @@ version will be minted if none exists.
 
 A new version is minted for each constellation written. While we could use the same version during the life of
 an instance of DBUtil, it was decided to mint fresh versions. Programmer reading the database records need to
-be aware of this, and always check version_history.main_id and version_history.id (aka version).
+be aware of this, and always check version_history.id (was version_history.main_id) and
+version_history.version (was version_history.id).
 
 
 ### Constellation ID discovery
@@ -72,7 +81,7 @@ Constellation insert, update, or delete is controlled by the getOperation() of t
 component object. To save a constellation, call writeConstellation() with the constellation object, and a
 string for the history note. The version history status is detemined via heuristic in the code, and the status
 can be set via writeConstellationStatus(). To retrieve a constellation, call readConstellation() with
-constellation ID (aka main_id, $mainID) and version number.
+constellation ID (aka ic_id which used to be main_id, $mainID) and version number.
 
 We can use readConstellation() for any version numbe. Requirements for reading old versions are
 incomplete. Companion functions will retrieve ID and version, but for the most part, they version number is
@@ -125,9 +134,9 @@ $status = readConstellationStatus($mainID, $version);
 $idVersionList = editList();
 
 $idVersionList = array(
-               array('main_id' => 1, 'version' => 2),
-               array('main_id' => 3, 'version' => 2),
-               array('main_id' => 4, 'version' => 5));
+               array('ic_id' => 1, 'version' => 2),
+               array('ic_id' => 3, 'version' => 2),
+               array('ic_id' => 4, 'version' => 5));
 
 // This is the actual function to return all constellations with status 'locked editing'. 
 // Eventually this will support other status args.
@@ -139,7 +148,7 @@ function listConstellationsLockedToUser($status=null)
         $constellationList = array();
         foreach ($infoList as $idVer)
         {
-            $cObj = $this->readConstellation($idVer['main_id'], $idVer['version']);
+            $cObj = $this->readConstellation($idVer['ic_id'], $idVer['version']);
             array_push($constellationList, $cObj);              
         }
         return $constellationList;
