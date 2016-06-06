@@ -8,7 +8,6 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 ### Table of contents
 
-* [New DBUtil and initialization](#new-dbutil-and-initialization)
 * [Notes on undelete](#notes-on-undelete)
 * [New DBUtil and initialization](#new-dbutil-and-initialization)
 * [Constellation ID discovery](#constellation-id-discovery)
