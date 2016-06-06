@@ -8,13 +8,13 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 ### Table of contents
 
-[New DBUtil and initialization](#new-dbutil-and-initialization)
-[Notes on undelete](#notes-on-undelete)
-[New DBUtil and initialization](#new-dbutil-and-initialization)
-[Constellation ID discovery](#constellation-id-discovery)
-[Reading and writing constellations](#reading-and-writing-constellations)
-[Private functions](#private-functions)
-[Utility functions](#utility-functions)
+* [New DBUtil and initialization](#new-dbutil-and-initialization)
+* [Notes on undelete](#notes-on-undelete)
+* [New DBUtil and initialization](#new-dbutil-and-initialization)
+* [Constellation ID discovery](#constellation-id-discovery)
+* [Reading and writing constellations](#reading-and-writing-constellations)
+* [Private functions](#private-functions)
+* [Utility functions](#utility-functions)
 
 
 ### Notes on undelete
