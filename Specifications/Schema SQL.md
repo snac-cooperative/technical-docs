@@ -25,6 +25,35 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 We need to add a new table snac_institutions which is a linking table identifying which constellations are
 SNAC institutions. This is used by the user admin code to show/search institutional affiliation.
 
+The UI will put these entries into a selector widget allowing admins to assign an constellation id as the
+affiliated SNAC institution of a user, that is appuser.affiliation = snac_institutions.related_id =
+version_history.id.
+
+The SQL function that reads this table (perhaps selectInstitution()) should join on table nrd and include the
+ARK in the results.
+
+The low level sql select function can return constellation id. Then the higher level function in DBUtil will
+call readConstellation() with summary=true for each constellation id. This gives us a list of summary
+constellations that includes name and ARK. The script add_user.php relies on ARK since that is independent
+constellation id.
+
+Related functions:
+
+DBUtil.php writeSNACInstitution() readAllSNACInstitution()
+
+SQL.php insertSNACInstitution() selectAllSNACInstitution()
+
+readAllSNACInstitution() should return a list of summary Constellation objects
+
+```
+create table snac_institutions (
+    id                  int default nextval('id_seq'),
+    related_id          int,  -- fk to version_history.id, aka ic_id of the institution SNAC constellation
+    descriptive_note    text  -- ignore if you wish, but might be useful
+)
+```
+
+
 
 ### Multiple names, alternate names, components
 
