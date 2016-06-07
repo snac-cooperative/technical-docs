@@ -8,23 +8,22 @@ There is an interactive schema web site: [Schema web site](http://shannonvm.vill
 
 ### Table of contents
 
-[Multiple names, alternate names, components](#multiple-names-alternate-names-components)
+* [Constellations that are SNAC institutions](#constellations-that-are-snac-institutions)
+* [Multiple names, alternate names, components](#multiple-names-alternate-names-components)
+* [How dates are stored](#how-dates-are-stored)
+* [How versioning works](#how-versioning-works)
+* [Foreign key related records](#foreign-key-related-records)
+* [Vocabulary table history and rationale](#vocabulary-table-history-and-rationale)
+* [Vocabulary separate SQL file](#vocabulary-separate-sql-file)
+* [Common fields and their meaning](#common-fields-and-their-meaning)
+* [Identical text tables](#identical-text-tables)
+* [Geographic authority](#geographic-authority)
 
-[How dates are stored](#how-dates-are-stored)
 
-[How versioning works](#how-versioning-works)
+### Constellations that are SNAC institutions
 
-[Foreign key related records](#foreign-key-related-records)
-
-[Vocabulary table history and rationale](#vocabulary-table-history-and-rationale)
-
-[Vocabulary separate SQL file](#vocabulary-separate-sql-file)
-
-[Common fields and their meaning](#common-fields-and-their-meaning)
-
-[Identical text tables](#identical-text-tables)
-
-[Geographic authority](#geographic-authority)
+We need to add a new table snac_institutions which is a linking table identifying which constellations are
+SNAC institutions. This is used by the user admin code to show/search institutional affiliation.
 
 
 ### Multiple names, alternate names, components

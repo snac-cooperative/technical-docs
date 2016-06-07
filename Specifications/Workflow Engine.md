@@ -132,6 +132,53 @@ several states, and will require relevant tests.
 | done  |                               | exit                  |            |
 
 
+### Possible server workflow
+
+This is a slight expansion of the current server workflow. This moves authentication from a hard-coded
+function into the WFE. Next we add a new function that updates this users notifications by calling into the
+yet-to-be-created notification system. It ping pending tasks, and updates notices that show up on the
+dashboard. Having gotting these initial tasks out of the way, commands can be processed.
+
+This shows a more detailed view of publishing. Anyone watching this SNAC record gets an update. We also
+notifiy the manager of this user. Finally we publish.
+
+Unlocking also has more detailed steps. Start by unlocking, and immediately re-locking to the reviewer. Notify
+the reviewer, and update notifications for the user. 
+
+
+| state         | test                          | worker                | next-state    |
+|---------------+-------------------------------+-----------------------+---------------|
+| start         | confirm-authentication        |                       | init          |
+| start         |                               | authentication-error  | done          |
+| init          |                               | update-notification   | docmd         |
+|               |                               |                       |               |
+| docmd         | command-vocabulary            | search-vocabulary     | done          |
+| docmd         | command-reconcile             | reconcile             | done          |
+| docmd         | command-start-session         | start-session         | done          |
+| docmd         | command-end-session           | end-session           | done          |
+| docmd         | command-user-info             | user-info             | done          |
+| docmd         | command-insert-constellation  | insert-constellation  | done          |
+| docmd         | command-update-constellation  | update-constellation  | done          |
+| docmd         | command-unlock-constellation  |                       | unlock-tasks  |
+| docmd         | command-publish-constellation |                       | publish-tasks |
+| docmd         | command-recently-published    | recently-published    | done          |
+| docmd         | command-read                  | read-constellation    | done          |
+| docmd         | command-edit                  | edit-constellation    | done          |
+| docmd         |                               | unknown-command       | done          |
+|               |                               |                       |               |
+| publish-tasks |                               | notify-watchers       | pt2           |
+| pt2           |                               | notify-manager        | pt3           |
+| pt3           |                               | publish-constellation | done          |
+|               |                               |                       |               |
+| unlock-tasks  |                               | unlock-constellation  | unlock2       |
+| unlock2       |                               | lock-to-reviewer      | unlock3       |
+| unlock3       |                               | notify-reviewer       | unlock4       |
+| unlock4       |                               | update-notification   | done          |
+|               |                               |                       |               |
+| done          |                               | exit                  |               |
+
+
+
 
 ### WebUI workflow
 
