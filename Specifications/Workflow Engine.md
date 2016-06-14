@@ -187,31 +187,43 @@ When command-login2 is true, the resulting worker might better be split into sev
 Here command-unlock is split into tests and workers: unlock-constellation, if-error, redirect-dashboard,
 return-json. Alternatively, these 4 functions might all be inside a single worker.
 
+Looking at this table you must keep in mind that this is the webUI, and "return" is "send data to web browser"
+or "send data to web template". Unlock is change status from "currently editing" to "locked editing".
 
-| state  | test                 | worker                                                     | next-state |
-|--------+----------------------+------------------------------------------------------------+------------|
-| start  | empty-session        | init-and-home                                              | done       |
-| start  |                      | non-empty-start-snac-session                               | do-cmd     |
-| do-cmd | command-login        | destroy-session-and-redirect-home                          | done       |
-| do-cmd | command-login2       | login-start-snac-session-serialize-user-redirect-dashboard | done       |
-| do-cmd | command-logout       | logout-destroy-session-and-redirect-index                  | done       |
-| do-cmd | command-edit         | display-edit-page                                          | done       |
-| do-cmd | command-new          | display-new-edit-page                                      | done       |
-| do-cmd | command-view         | display-view-page                                          | done       |
-| do-cmd | command-preview      | display-preview-page                                       | done       |
-| do-cmd | command-dashboard    | display-dashboard                                          | done       |
-| do-cmd | command-profile      | display-profile                                            | done       |
-| do-cmd | command-save         | save-constellation-return-json                             | done       |
-| do-cmd | command-save-unlock  | save-unlock-return-json                                    | done       |
-| do-cmd | command-unlock       | unlock-constellation                                       | unlock     |
-| do-cmd | command-save-publish | save-publish-return-json                                   | done       |
-| do-cmd | command-publish      | publish-return-json                                        | done       |
-| do-cmd | command-vocabulary   | vocabulary-search-return-json                              | done       |
-| do-cmd | command-search       | name-search-return-json                                    | done       |
-| do-cmd |                      | display-landing-page                                       | done       |
-| unlock | if-error             | redirect-dashboard                                         | done       |
-| unlock |                      | return-json                                                | done       |
-| done   |                      | exit                                                       |            |
+Things to do: change command-save-unlock to save-constellation then go to state unlock. In other words, create
+granular workers, and use them as building blocks. Workers here are based on what happens in run() in
+WebUI.php.
+
+
+| state           | test                 | worker                                                     | next-state      |
+|-----------------+----------------------+------------------------------------------------------------+-----------------|
+| start           | empty-session        | init-and-home                                              | done            |
+| start           |                      | non-empty-start-snac-session                               | do-cmd          |
+| do-cmd          | command-login        | destroy-session-and-redirect-home                          | done            |
+| do-cmd          | command-login2       | login-start-snac-session-serialize-user-redirect-dashboard | done            |
+| do-cmd          | command-logout       | logout-destroy-session-and-redirect-index                  | done            |
+| do-cmd          | command-edit         | display-edit-page                                          | done            |
+| do-cmd          | command-new          | display-new-edit-page                                      | done            |
+| do-cmd          | command-view         | display-view-page                                          | done            |
+| do-cmd          | command-preview      | display-preview-page                                       | done            |
+| do-cmd          | command-dashboard    |                                                            | dashboard       |
+| do-cmd          | command-profile      | display-profile                                            | done            |
+| do-cmd          | command-save-profile | save-profile                                               | done            |
+| do-cmd          | command-save         | save-constellation                                         | done            |
+| do-cmd          | command-save-unlock  | save-unlock                                                | done            |
+| do-cmd          | command-unlock       | unlock-constellation                                       | unlock          |
+| do-cmd          | command-save-publish | save-publish                                               | done            |
+| do-cmd          | command-save-review  | save-constellation                                         | review          |
+| do-cmd          | command-publish      | publish                                                    | dashboard       |
+| do-cmd          | command-vocabulary   | vocabulary-search                                          | done            |
+| do-cmd          | command-search       | name-search                                                | done            |
+| do-cmd          |                      | display-landing-page                                       | done            |
+| unlock          | if-error             | redirect-dashboard                                         | done            |
+| unlock          |                      | return-json                                                | done            |
+| review          |                      | relock-to-reviewer                                         | notify-reviewer |
+| notify-reviewer |                      | notify-reviewer                                            | dashboard       |
+| dashboard       |                      | display-dashboard                                          | done            |
+| done            |                      | exit                                                       |                 |
 
 
 

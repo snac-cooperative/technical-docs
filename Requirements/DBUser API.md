@@ -175,12 +175,18 @@ embargo, enroll, assign. It seems like a nice idea to enshrine this as a convent
 "administrator" to "administer", and we need to come up with a verbs for the remaining privileges, especially
 "affiliation".)
 
+Note that privileges are granualar, and each privilege must exist only once. Having one privilege does not
+imply having another. The Roles (a bit further below) deal with combinations of privileges.
+
+#### Privilege table
 
 | Privilege                        | Privilege Description                                                      |
 |----------------------------------+----------------------------------------------------------------------------|
 | Research                         | Use discovery interface and dashboard, has an account                      |
-| Contribute                       | Create and edit constellations but cannot publish (contributor)            |
-| Publish                          | Approve constellation publication, change status to "published" (editor)   |
+| Contribute (June 2016)           | Simplfied create                                                           |
+| Edit (June 2016)                 | Edit constellations                                                        |
+| Suggest edits (June 2016)        | Suggest edits, implies a mechanism to send suggestions to Edit             |
+| Publish (June 2016)              | Review, approve, publish, change status to "published"                     |
 | Change status any                | Change any status, removing locks, and so on, any affiliation              |
 | Change owner any                 | Change constellation user, changing which user has a lock, any affiliation |
 | Change status own                | Change any status, removing locks, and so on, own affiliation only         |
@@ -224,30 +230,36 @@ Remember, the table below is only a guess or approximation of real world roles. 
 open to expanding the requirements to be as complete as possible. (Although not all requirements will
 necessarily ever become features of SNAC.)
 
+#### Role table
 
-| Role                       | Privilege(s)                                        | User Description                                       |
-|----------------------------+-----------------------------------------------------+--------------------------------------------------------|
-| Sysadmin                   | System administrator                                | Maintain server, backups, etc.                         |
-| Database Administrator     | DBA                                                 | Schema maintenance, data dumps, etc.                   |
-| Software engineer          | Developer + DBA                                     | Coding, testing, QA, release, data loading, etc.       |
-| Manager                    | Enroll + Privilege assign own + Report own          | Create, manage, assign privileges, run reports         |
-| Peer vetting               | Enroll                                              | Approve moderators, reviewers, content experts         |
-| Moderator                  | Publish                                             | Approve maintenance changes, posting those changes     |
-| Reviewer/editor            | Contribute + publish                                | Maintainer privileges, interacts with moderators       |
-| Content expert             | Contribute                                          | Domain expert, may have zero institutional privileges  |
-| Documentary editor         | Contribute                                          | (Any distinguishing privileges?)                       |
-| Maintenance                | Contribute                                          | Constellation edit, maintain constellations.           |
-| Research                   | Research                                            | Use the discovery interface and history dashboard      |
-| Archival description donor | Block upload                                        | May do bulk uploads of EAC-CPF, finding aids, etc.     |
-| Name authority manager     | Name authority                                      | (superseded by Editor-NACO?)                           |
-| Institutional admins       | Report own                                          | May run own-institutional reports                      |
-| Public                     | n/a                                                 | No SNAC account, single session dashboard              |
-| Contributor                | Contribute + Ontology propose                       | Creates/edit constellations, propose ontology headings |
-| Author                     | Contribute + Publish + Propose Del/Emb+Propose NACO | Contribute, with additional privileges                 |
-| Editor                     | Contribute + Publish + Delete/embargo + NACO        | Review constellations, approve and publish             |
-| Author-NACO                | Propose NACO                                        | Creates NACO entries, sends to editor for submission   |
-| Administrator              | Contributor + Editor privileges + enroll + assign   | Everything, only own institution                       |
-| Administrator-super        | Administrator + any institution                     | Admin+ assign privileges, any user, any institution    |
+
+| Role                           | Privilege(s)                                        | User Description                                       |
+|--------------------------------+-----------------------------------------------------+--------------------------------------------------------|
+| Sysadmin                       | System administrator                                | Maintain server, backups, etc.                         |
+| Database Administrator         | DBA                                                 | Schema maintenance, data dumps, etc.                   |
+| Software engineer              | Developer + DBA                                     | Coding, testing, QA, release, data loading, etc.       |
+| Manager                        | Enroll + Privilege assign own + Report own          | Create, manage, assign privileges, run reports         |
+| Peer vetting                   | Enroll                                              | Approve moderators, reviewers, content experts         |
+| Editor (June 2016)             | Contribute + Publish                                | Same privilges as Reviewer                             |
+| Moderator                      | Publish                                             | Approve maintenance changes, posting those changes     |
+| Reviewer/editor                | Contribute + publish                                | Maintainer privileges, interacts with moderators       |
+| Editor in Training (June 2016) | Contribute                                          | Editor, no publish, training to be Editor              |
+| Contributor (June 2016)        | Simplified Create + Suggest Edits                   | Basic contributor, creator of constellations           |
+| Content expert                 | Contribute                                          | Domain expert, may have zero institutional privileges  |
+| Documentary editor             | Contribute                                          | (Any distinguishing privileges?)                       |
+| Maintenance                    | Contribute                                          | Constellation edit, maintain constellations.           |
+| Research                       | Research                                            | Use the discovery interface and history dashboard      |
+| Archival description donor     | Block upload                                        | May do bulk uploads of EAC-CPF, finding aids, etc.     |
+| Name authority manager         | Name authority                                      | (superseded by Editor-NACO?)                           |
+| Institutional admins           | Report own                                          | May run own-institutional reports                      |
+| Public                         | n/a                                                 | No SNAC account, single session dashboard              |
+| Contributor                    | Contribute + Ontology propose                       | Creates/edit constellations, propose ontology headings |
+| Author                         | Contribute + Publish + Propose Del/Emb+Propose NACO | Contribute, with additional privileges                 |
+| Editor                         | Contribute + Publish + Delete/embargo + NACO        | Review constellations, approve and publish             |
+| Author-NACO                    | Propose NACO                                        | Creates NACO entries, sends to editor for submission   |
+| Administrator                  | Contributor + Editor privileges + enroll + assign   | Everything, only own institution                       |
+| Administrator-super            | Administrator + any institution                     | Admin+ assign privileges, any user, any institution    |
+|                                |                                                     |                                                        |
 
 
 ### API
