@@ -2,6 +2,7 @@
 
 ## Storage and Components
 
+
 Name entries have the following data:
 
 * heading (currently called 'original'): A computed name string based on combining the components given
@@ -14,16 +15,19 @@ Name entries have the following data:
     * form: authorized or alternative
 * preferred: List of languages for which this is the preferred name.  Each language should only show up once per Constellation among the union of all name entries' preferred lists.
 
+
 In this conceptualization, we have removed the following data:
 
 * language and script: A name entry may be the same across multiple languages, so a one-to-one mapping is not sufficient to store the language of the name entry
 * preference score: The numerical value was used as a stop-gap measure for the current version of SNAC and is confusing to enter and maintain going forward
+
 
 General notes:
 
 * EAC-CPF's `<authorizedForm>` and `<alternativeForm>` tags were originally created to hold the rules, such as `RDA`.  SNAC made the decision to put the contributor or authority source in the element since the descriptive rules may not have been known.
 
 ## Conversion and Display
+
 
 On importing an EAC-CPF XML record, especially from SNAC's match/merge, the following steps will need to be taken for the new structure of NameEntry:
 
@@ -42,6 +46,7 @@ On importing an EAC-CPF XML record, especially from SNAC's match/merge, the foll
         * For example, `<authorizedForm>VIAF</authorizedForm>` would be placed in the SCM note as `VIAF: authorizedForm`
     * No other rules or "Contributors" are added to the name entry
 
+
 On viewing in the future HRT, we may make use of the `preferred` list in the Name Entries of a Constellation as follows:
 
 * Originally, we will have SNAC be set to "English" and show the preferred English name as the default
@@ -53,6 +58,7 @@ On viewing in the future HRT, we may make use of the `preferred` list in the Nam
         * Canada -> English, French (Therefore, we display both for a "parallel name" view)
 
 For the EUI, we may use the following mockup
+
 ![Mockup](Originals/nameEntrySketch.png)
 
 On exporting to EAC-CPF XML, we may use the preferred mappings from the HRT view to generate parallel names
