@@ -160,77 +160,131 @@ Pulling a couple of random details from the table below, and wording them in Eng
   privileges only for NYPL (privilege-assign-own).
 
 
-| user             | description             | privileges                                                                   |
-|------------------+-------------------------+------------------------------------------------------------------------------|
-| Marley Turner    | content expert          | contribute,                                                                  |
-| Remy Roberts     | power editor            | contribute, change-status-any, change owner, publish,                        |
-| Casey Miyazaki   | editor, affiliation CDL | contribute, change-status-own, publish, NACO approve, report-own-affiliation |
-| Jessie Coughlin  | admin, affiliation NYPL | enroll-own-affiliation report-own-affiliation, privilege-assign-own          |
-| Avery Valenzuela | super admin             | enroll-any, report-any, privilege-assign-any                                 |
+| user             | description             | privileges                                                      |
+|------------------+-------------------------+-----------------------------------------------------------------|
+| Marley Turner    | content expert          | Create + Edit                                                   |
+| Remy Roberts     | power editor            | Create + Edit + Publish + Change Locks                          |
+| Casey Miyazaki   | editor, affiliation CDL | Create + Edit + Publish + NACO approve + report-own-affiliation |
+| Jessie Coughlin  | admin, affiliation NYPL | Enroll + Assign Roles + report-own-affiliation                  |
+| Avery Valenzuela | super admin             | Enroll + Assign Roles + report-any-affiliation                  |
 
 
 Privileges have a number of traits.
 
 - Privileges are created and maintained by developers to authorize access to application features.
-- Every privilege grants authorization to specific application features, therefore privileges are maintained
+- Every privilege grants authorization to a specific application feature, therefore privileges are maintained
   only by developers.
 - Privileges are additive, and all privileges of a user define that user's authorized functions. Everything not
   explicitly allowed is explicitly forbidden.
 - Privileges (ideally) have a single feature permission per privilege. Privileges are very granular.
 - Privileges must be coordinated with work flows and application features.
 - Privilege is independent of institutional affiliation.
-- Every user has the conceptually privilege Public HRT, although no actual privilege exists for read-only access to published constellations.
+- Every user has the conceptually privilege Researcher, although no actual privilege exists for read-only
+  access to published constellations.
 - Privileges can be deprecated, but re-purposing privileges is inadvisable from a security standpoint.
 - Privileges need explicit, on-going policy guidance.
 - Privilege label must be unique since the code will almost certainly refer to privileges symbolically, that
   is: by name, and the "name" of a privilege is the label field.
    
 
-The minimal (implied?) privilege "Research" grants privileges for search history, and certain research
-reports.  Members of the public are mostly identical to Researchers. The primary feature gained by having an
-account is a persistent dashboard. As already noted, "Public HRT" not an actual privilege, but instead is
-conceptual and implicit.
-
-
-(Comment: I just noticed that privileges are mostly verbs: research, contribute, delete, propose, approve, block,
-embargo, enroll, assign. It seems like a nice idea to enshrine this as a convention. We would have to change
-"administrator" to "administer", and we need to come up with a verbs for the remaining privileges, especially
-"own-affiliation".)
+The minimal (implied?) privilege "Researcher" has privileges for search history, and certain research reports.
+Members of the public are nearly identical to Researchers. The primary feature gained by having an account is
+a persistent dashboard. As already noted, Researcher is not an actual privilege, but instead allows use of
+features which require no authorization.
 
 Note that privileges are granualar, and each privilege must exist only once. Having one privilege does not
 imply having another. The Roles (a bit further below) deal with combinations of privileges.
 
 #### Privilege table
 
-| Privilege                        | Privilege Description                                                      |
-|----------------------------------+----------------------------------------------------------------------------|
-| Research                         | Use discovery interface and dashboard, has an account                      |
-| Contribute (June 2016)           | Simplfied create                                                           |
-| Edit (June 2016)                 | Edit constellations                                                        |
-| Suggest edits (June 2016)        | Suggest edits, implies a mechanism to send suggestions to Edit             |
-| Publish (June 2016)              | Review, approve, publish, change status to "published"                     |
-| Change status any                | Change any status, removing locks, and so on, any affiliation              |
-| Change owner (lock) any          | Change constellation user, changing which user has a lock, any affiliation |
-| Change status own                | Change any status, removing locks, and so on, own affiliation only         |
-| Change owner (lock) own          | Change constellation user, changing user lock, own affiliation only        |
-| Delete/embargo                   | Delete or embargo constellations  (editor)                                 |
-| Propose delete/embargo           | Propose delete or embargo                                                  |
-| Ontology propose                 | Propose headings in ontologies, but cannot approve headings                |
-| Ontology approve                 | Approve ontology headings (editor)                                         |
-| Propose NACO                     | Create(?) NACO contributions, but not push(?) to NACO                      |
-| Approve NACO                     | Approve, finalize, submit NACO contributions (editor)                      |
-| Enroll                           | Enroll new SNAC participants, create new users                             |
-| Privilege assign own affiliation | Assign new privileges for own-institution users                            |
-| Privilege assign any affiliation | Assign new privileges for any institution users                            |
-| System administrator             | Maintains server hardware and operating systems                            |
-| Developer                        | Writes the SNAC application, a programmer                                  |
-| Web administrator                | (duplicate? historical?) May perform admin tasks via the web interface     |
-| Database administrator (DBA)     | Create and maintain the SQL database                                       |
-| Block upload                     | Do bulk uploads of EAC-CPF, finding aids, etc.                             |
-| Report own                       | Run own-institutional reports                                              |
-| Report any                       | Run any report, super reporter                                             |
-| Report admin                     | Run special administrative reports                                         |
-| Role admin                       | Create and modify roles. May be limited to devs.                           |
+Any privilege which modifies data implies that those modifications can be saved, thus there is no privilege
+"Can Save". Some features will require alternative user interfaces, especially Simplified Create and
+Suggest Edits. In cases where there is implied workflow (as in: send for review) there is also an implied
+user interface to support the feature. For example, "sending" a constellation will require a field for the
+recipient's name, a field for a text message and a "Send" button.
+
+Users who can modify or suggest modifications need to be able to lock constellations to themselves. Anyone who
+can lock can also transfer their own locks. 
+
+Question: Who they can transfer the locks to? Minimally, the answer is: Anyone who could have locked the
+constellation.
+
+Several actions lock a constellation. Edit, and Suggest Edits both lock a constellation to the user. In the
+case of Suggest Edits, the lock will later transfer an editor, or to a pool of editors. There may be some
+subtle lock-taking behavior around pools of suggested edits, or taking over someone else's edit (where
+workflow allows). In any case, a user with Change Locks can transfer lock from any user to any other without
+getting permission.
+
+Review is implicit as a workflow for anyone who is able to publish. This system does not solve the governance
+problem of "which editor is more powerful". Every change is recorded in version history, so it is always
+possible to revert, and impossible to "destroy" anyone else's work. We assume at least a minimal level of
+cooperation, and leave dispute resolution as a management problem not enforced by software. 
+
+For example, we have no plans for a feature "prevent user X from editing". In this world, any our miscreant
+user X could wait for a constellation to be unlocked, and then make rogue changes to the
+constellation. Preventing rogue behavior is a governance problem, with which software can merely assist.
+
+The privilege Change Locks is fairly powerful, allowing locks to be transfered from/to/between other
+users. A lock transfering user interface is implied.
+
+Publishing a constellation removes all locks. 
+
+In general, there is no privilege for research, which includes having an account, using the discovery interface
+and dashboard. These are features available to anyone with a login.
+
+Discuss: Why are Edit and Create are separate privileges? It seems like a good idea, and particular examples
+would clarify our intent.
+
+
+| Privilege         | Privilege Description                             |
+|-------------------+---------------------------------------------------|
+| Simplified Create | Create basic, simplified, constellations          |
+| Suggest Edits     | Suggest constellation edits                       |
+| Edit              | Edit constellations                               |
+| Create            | Create new constellations                         |
+| Publish           | Publish or commit a constellation after reviewing |
+| Change Locks      | Change which user has a constellation locked      |
+| Enroll            | Enroll new SNAC participants, create new users    |
+| Assign Roles      | Assign, modify user roles                         |
+
+
+
+#### Additional privileges
+
+The brief table above will require some additional privileges in order to function smoothly. This list is
+almost certainly evolving.
+
+Locking poses the interesting question of where to draw the line on granularity. The ability to transfer a
+lock implies that locking should be a privilege in order to be easily testable. We want to ask: Can this user
+lock? And not: Does this user have Simplified Create, Suggest Edits, Edit, or Create privileges?
+
+Not every privilege implies locking, although several do: Simplified Create, Suggest Edits, Edit, Create,
+Change Locks. Locking involves modifying both the user_id, and the status of a version_history
+record.
+
+
+| Privilege                | Description                                                                |
+|--------------------------+----------------------------------------------------------------------------|
+| Lock                     | Lock a constellation for edit or suggest edit                              |
+| Change status any        | Change any status, removing locks, and so on, any affiliation              |
+| Change Locks (owner) any | Change constellation user, changing which user has a lock, any affiliation |
+| Change status own        | Change any status, removing locks, and so on, own affiliation only         |
+| Change owner (lock) own  | Change constellation user, changing user lock, own affiliation only        |
+| Delete/embargo           | Delete or embargo constellations                                           |
+| Propose delete/embargo   | Suggest delete or embargo                                                  |
+| Ontology propose         | Suggest headings in ontologies, but cannot approve headings                |
+| Ontology approve         | Approve ontology headings                                                  |
+| Propose NACO             | Create(?) NACO contributions, but not push(?) to NACO                      |
+| Approve NACO             | Approve, finalize, submit NACO contributions                               |
+| Assign Roles, own        | Assign and modify roles for own-institution users                          |
+| Assign Roles, any        | Assign and modify roles for any institution users                          |
+| Developer                | Writes the SNAC application, a programmer                                  |
+| Block upload             | Do bulk uploads of EAC-CPF, finding aids, etc.                             |
+| Report own               | Run own-institutional reports                                              |
+| Report any               | Run any report, super reporter                                             |
+| Report admin             | Run special administrative reports                                         |
+| Name authority           | Create name authority records, perhaps external to SNAC                    |
+| Role developer           | Create and modify system roles                                             |
 
 
 
@@ -247,36 +301,23 @@ necessarily ever become features of SNAC.)
 
 #### Role table
 
-As of this writing, some roles have identical privileges. The duplicates should probably not exist.
+After the June 2016 meeting, we have a more focused, smaller set of roles.
+
+Question: Should editors also have privileges Simplified Create and Suggest Edits? The additional privileges
+can easily be added at any time, and are probably better explicitly stated than being conflated somewhere in
+the code.
+
+| Role                      | Privilege(s)                      | User Description                                |
+|---------------------------+-----------------------------------+-------------------------------------------------|
+| Contributor/Basic Creator | Simplified Create + Suggest Edits | Create simplified constellations, suggest edits |
+| Editor, Training          | Edit                              | Editor, no publish, training to be Editor       |
+| Editor, Full              | Edit + Publish                    | Full editor                                     |
+| Reviewer                  | Editor-role + Change Locks        | Editor and moderator                            |
+| Administrator             | Reviewer-role + Enroll + Assign   | Every admin, only own affiliation               |
 
 
-| Role                           | Privilege(s)                                        | User Description                                       |
-|--------------------------------+-----------------------------------------------------+--------------------------------------------------------|
-| Sysadmin                       | System administrator                                | Maintain server, backups, etc.                         |
-| Database Administrator         | DBA                                                 | Schema maintenance, data dumps, etc.                   |
-| Software engineer              | Developer + DBA                                     | Coding, testing, QA, release, data loading, etc.       |
-| Manager                        | Enroll + Privilege assign own + Report own          | Create, manage, assign privileges, run reports         |
-| Peer vetting                   | Enroll                                              | Approve moderators, reviewers, content experts         |
-| Editor (June 2016)             | Contribute + Publish                                | Same privilges as Reviewer                             |
-| Moderator                      | Publish                                             | Approve maintenance changes, posting those changes     |
-| Reviewer/editor                | Contribute + publish                                | Maintainer privileges, interacts with moderators       |
-| Editor in Training (June 2016) | Contribute                                          | Editor, no publish, training to be Editor              |
-| Contributor (June 2016)        | Simplified Create + Suggest Edits                   | Basic contributor, creator of constellations           |
-| Content expert                 | Contribute                                          | Domain expert, may have no affiliation                 |
-| Documentary editor             | Contribute                                          | (Any distinguishing privileges?)                       |
-| Maintenance                    | Contribute                                          | Constellation edit, maintain constellations.           |
-| Research                       | Research                                            | Use the discovery interface and history dashboard      |
-| Archival description donor     | Block upload                                        | May do bulk uploads of EAC-CPF, finding aids, etc.     |
-| Name authority manager         | Name authority                                      | (superseded by Editor-NACO?)                           |
-| Institutional admins           | Report own                                          | May run own-affiliation reports                        |
-| Public                         | n/a                                                 | No SNAC account, single session dashboard              |
-| Contributor                    | Contribute + Ontology propose                       | Creates/edit constellations, propose ontology headings |
-| Author                         | Contribute + Publish + Propose Del/Emb+Propose NACO | Contribute, with additional privileges                 |
-| Editor                         | Contribute + Publish + Delete/embargo + NACO        | Review constellations, approve and publish             |
-| Author-NACO                    | Propose NACO                                        | Creates NACO entries, sends to editor for submission   |
-| Administrator                  | Contributor + Editor privileges + enroll + assign   | Every admin, only own affiliation                      |
-| Administrator-super            | Administrator + any institution                     | Admin+ assign privileges, any user, any affiliation    |
-
+There are certainly additional roles, but the list is evolving. There may be roles related to reporting. Some
+roles will suggest themselves as new features become available.
 
 
 ### API
