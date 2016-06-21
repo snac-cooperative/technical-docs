@@ -15,7 +15,16 @@ For additional background about users, please see:
   supplied by the database as a record id, which is a unique integer. User must have a unique username, which
   is some string; we currently use an email address for username.
 
-- Each user belongs to one or more roles, and roles have privileges, therefore users have privileges.
+- Each user has one or more roles, and roles have privileges, therefore users have privileges.
+
+- User by belong to groups, for the purposes of workflow. For example a group of users who are "All Reviewers"
+  or the smaller group "Reviewers, Welsh".
+
+- Create and destroy Roles
+
+- Add privileges, but this can be done via manual methods since privileges must be integrated with the code.
+
+- Create, destroy, and manage membership of Groups
 
 - Support for data necessary to authenticate (log in), which is currently handled outside DBUser by
   OpenID. This data includes an access token and expires time.
@@ -103,43 +112,46 @@ The system has privileges used to implement authorization in the code, extensive
 DBUser API. Each user belongs to one or more roles, and roles have privileges, therefore users have
 privileges.
 
+### Authorization management
+
+SNAC has Roles, Privileges, and Groups of users. The critical core of authorization is Privilege. Roles exist
+only make the system easier to administer. Groups exist to add flexibiliy and convenience to workflows and
+some user interface.
+
+Roles have privileges. Users have Roles and therefore users indirectly have privileges. Users are optionally
+members of groups. Groups exist to streamline workflow such as "send for review" by any member of a group of
+reviewers. In fact, the primary use case for Groups is the reviewing process.
 
 
 ### Privileges
 
-The SNAC permission system is based entirely on privileges (permissions). Groups of privileges are
+The SNAC permission system is based entirely on privileges (permissions). Sets of privileges are
 roles. Privileges authorize users to run various functions. Ownership of a constellation is a non-concept, and
-essentially the system owns all functions. In a situation like SNAC where there is a single owner, the Linux
-concept of "owner" has no utility in authorization. The Linux concept of "other" doesn't apply to SNAC as
-"other" is only allowed to perform read-only actions such as search. That leaves SNAC needing only a privilege
-system analogous to Linux "group". Note that SNAC role would be analogous to a group of Linux groups.
+essentially the system owns all functions and all constellations. However, a user can have a constellation
+locked, and a constellation can only be locked to a single user.
 
 Note that affiliation is a property of each user account, and there is a single affiliation per user.
 
-(Optional paragraph) Not having "files", there is no concept of "file has no privileges" for user, group, or
-other. An example of what SNAC does not have is the shared web server situation where user grants privileges
-and group removes privileges. In a shared web server, users are all assigned to a group "users". Web
-accessible directories have no group permissions and are owned by group user. Lacking permissions for group
-user, no one in group user has any access. Actual access then is granted only to the owner who has
-read-write-execute (rwx) for that directory. Apache runs as suexec for each user, and thus each user's CGI
-scripts gain access to only that user's directory via the user privileges.
-
-SNAC lacks the Linux "subtractive" permission which is sometimes used with groups permissions. Instead SNAC
-has only additive permissions.
+SNAC privileges are additive. Any privilege not explicitly allowed is explicitly forbidden.
 
 In a global sense, the cumulative collection of users and privileges is complicated. However, that complexity is
-essential (not accidental) and on a per-user or per-privilege basis, things are very manageable. When managing the
+essential (not accidental) and on a per-user, per-role, per-privilege basis, things are very manageable. When managing the
 system, imagine asking these typical, and manageable questions:
+
+- Can user X edit a constellation?
+
+- Can user X publish a constellation?
+
+- Can user X send a constellation for review by user Y?
+
+- List all users who can Add Users
+
+- List all users who can publish constellations
+
+- List all users who may run reports for their own affiliation
 
 - List all users affiliated with my affilation
 
-- List all users who can enroll new users for any affiliation
-
-- List all users who can only enroll new users only for own-affiliation
-
-- List all users who can publish constellations.
-
-- List all users who may run reports for their own affiliation.
 
 Below is an example. Anyone who can log in can get a dashboard, so there are no specific dashboard permissions
 (yet). The user id "public" and the privilege "research" may not make any sense. Conceptually, everyone has privilege
@@ -156,17 +168,18 @@ Pulling a couple of random details from the table below, and wording them in Eng
 
 - Casey at CDL can approve NACO submissions (NACO approve), modify constellations, change constellation
   status, change owner/lock of constellations, and publish constellations.
+
 - Jessie at NYPL create new users affiliated with NYPL, run reports with NYPL constraints, and can assign
   privileges only for NYPL (privilege-assign-own).
 
 
-| user             | description             | privileges                                                      |
+| User             | Description             | Privileges                                                      |
 |------------------+-------------------------+-----------------------------------------------------------------|
 | Marley Turner    | content expert          | Create + Edit                                                   |
 | Remy Roberts     | power editor            | Create + Edit + Publish + Change Locks                          |
 | Casey Miyazaki   | editor, affiliation CDL | Create + Edit + Publish + NACO approve + report-own-affiliation |
-| Jessie Coughlin  | admin, affiliation NYPL | Enroll + Assign Roles + report-own-affiliation                  |
-| Avery Valenzuela | super admin             | Enroll + Assign Roles + report-any-affiliation                  |
+| Jessie Coughlin  | admin, affiliation NYPL | Add Users + Assign Roles + report-own-affiliation               |
+| Avery Valenzuela | super admin             | Add Users + Assign Roles + report-any-affiliation               |
 
 
 Privileges have a number of traits.
@@ -236,16 +249,22 @@ Discuss: Why are Edit and Create are separate privileges? It seems like a good i
 would clarify our intent.
 
 
-| Privilege         | Privilege Description                             |
-|-------------------+---------------------------------------------------|
-| Simplified Create | Create basic, simplified, constellations          |
-| Suggest Edits     | Suggest constellation edits                       |
-| Edit              | Edit constellations                               |
-| Create            | Create new constellations                         |
-| Publish           | Publish or commit a constellation after reviewing |
-| Change Locks      | Change which user has a constellation locked      |
-| Enroll            | Enroll new SNAC participants, create new users    |
-| Assign Roles      | Assign, modify user roles                         |
+| Privilege                | Privilege Description                                                   |
+|--------------------------+-------------------------------------------------------------------------|
+| Edit                     | Edit constellations                                                     |
+| Create                   | Create new constellations                                               |
+| Publish                  | Publish or commit a constellation after reviewing                       |
+| Send for Review          | Send a constellation to reviewer(s)                                     |
+| Simplified Create        | Create basic, simplified, constellations                                |
+| Suggest Edits            | Suggest constellation edits                                             |
+| Change Locks             | Change which user has a constellation locked                            |
+| Unlock Currently Editing | Unlock constellations stuck in status Currently Editing                 |
+| Add Users                | Enrole new SNAC participants (new users), edit new user info            |
+| Assign Roles             | Assign, modify user roles                                               |
+| Modify Users             | Modify user email, phone numbers, affiliation, etc.                     |
+| Inactivate Users         | Able to inactivate user account                                         |
+| Manage Groups            | Add users to groups, remove users from groups, create and delete groups |
+| Manage My Group          | Administer the membership of groups I belong to                         |
 
 
 
@@ -307,16 +326,17 @@ Question: Should editors also have privileges Simplified Create and Suggest Edit
 can easily be added at any time, and are probably better explicitly stated than being conflated somewhere in
 the code.
 
-| Role                      | Privilege(s)                      | User Description                                |
-|---------------------------+-----------------------------------+-------------------------------------------------|
-| Contributor/Basic Creator | Simplified Create + Suggest Edits | Create simplified constellations, suggest edits |
-| Editor, Training          | Edit                              | Editor, no publish, training to be Editor       |
-| Editor, Full              | Edit + Publish                    | Full editor                                     |
-| Reviewer                  | Editor-role + Change Locks        | Editor and moderator                            |
-| Administrator             | Reviewer-role + Enroll + Assign   | Every admin, only own affiliation               |
+| Role                      | Privilege(s)                                                               | User Description                                |
+|---------------------------+----------------------------------------------------------------------------+-------------------------------------------------|
+| Contributor/Basic Creator | Simplified Create + Suggest Edits                                          | Create simplified constellations, suggest edits |
+| Editor, Training          | Edit                                                                       | Editor, no publish, training to be Editor       |
+| Editor, Full              | Edit + Publish                                                             | Full editor                                     |
+| Reviewer                  | Edit + Publish + Change Locks                                              | Editor and moderator                            |
+| Administrator             | Add Users + Assign Roles + Modify Users + Manage Groups + Inactivate Users | Manage users, roles, groups                     |
+| System Administrator      | All                                                                        | SNAC developers, super users                    |
 
 
-There are certainly additional roles, but the list is evolving. There may be roles related to reporting. Some
+There are certainly additional roles, and the list is evolving. There may be roles related to reporting. Some
 roles will suggest themselves as new features become available.
 
 
