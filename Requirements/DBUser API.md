@@ -245,6 +245,10 @@ Publishing a constellation removes all locks.
 In general, there is no privilege for research, which includes having an account, using the discovery interface
 and dashboard. These are features available to anyone with a login.
 
+The privilege Unlock Currently Editing refers to an internal status "currently editing" which is part of the
+user interface bookkeeping. In certain rare situations someone will have to change that status back to simply
+"locked editing", and we want this privilege to be granular (instead of being conflated with Change Locks).
+
 Discuss: Why are Edit and Create are separate privileges? It seems like a good idea, and particular examples
 would clarify our intent.
 
@@ -262,7 +266,7 @@ would clarify our intent.
 | Add Users                | Enrole new SNAC participants (new users), edit new user info            |
 | Assign Roles             | Assign, modify user roles                                               |
 | Modify Users             | Modify user email, phone numbers, affiliation, etc.                     |
-| Inactivate Users         | Able to inactivate user account                                         |
+| Inactivate Users         | Able to inactivate user accounts                                        |
 | Manage Groups            | Add users to groups, remove users from groups, create and delete groups |
 | Manage My Group          | Administer the membership of groups I belong to                         |
 
