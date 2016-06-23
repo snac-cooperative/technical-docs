@@ -330,14 +330,14 @@ Question: Should editors also have privileges Simplified Create and Suggest Edit
 can easily be added at any time, and are probably better explicitly stated than being conflated somewhere in
 the code.
 
-| Role                      | Privilege(s)                                                               | User Description                                |
-|---------------------------+----------------------------------------------------------------------------+-------------------------------------------------|
-| Contributor/Basic Creator | Simplified Create + Suggest Edits                                          | Create simplified constellations, suggest edits |
-| Editor, Training          | Edit                                                                       | Editor, no publish, training to be Editor       |
-| Editor, Full              | Edit + Publish                                                             | Full editor                                     |
-| Reviewer                  | Edit + Publish + Change Locks                                              | Editor and moderator                            |
-| Administrator             | Add Users + Assign Roles + Modify Users + Manage Groups + Inactivate Users | Manage users, roles, groups                     |
-| System Administrator      | All                                                                        | SNAC developers, super users                    |
+| Role                 | Privilege(s)                                                           | User Description                                |
+|----------------------+------------------------------------------------------------------------+-------------------------------------------------|
+| Contributor          | Simplified Create, Suggest Edits                                       | Create simplified constellations, suggest edits |
+| Editor, Training     | Create, Edit                                                           | Editor in training                              |
+| Editor, Full         | Create, Edit, Publish                                                  | Full editor                                     |
+| Reviewer             | Create, Edit, Publish, Change Locks, Unlock Currently Editing          | Editor and moderator                            |
+| Administrator        | Add Users, Assign Roles, Modify Users, Manage Groups, Inactivate Users | Manage users, roles, groups                     |
+| System Administrator | All? (discuss)                                                         | SNAC developers, super users                    |
 
 
 There are certainly additional roles, and the list is evolving. There may be roles related to reporting. Some
