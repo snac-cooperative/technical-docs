@@ -269,6 +269,7 @@ would clarify our intent.
 | Inactivate Users         | Able to inactivate user accounts                                        |
 | Manage Groups            | Add users to groups, remove users from groups, create and delete groups |
 | Manage My Group          | Administer the membership of groups I belong to                         |
+| Manage Institutions      | Manage the list of SNAC member institutions                             |
 
 
 
