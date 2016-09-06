@@ -12,7 +12,10 @@ We will add fields to table related_resource, and (perhap?) create new table rel
 
 In the case of MODS we need 2 fields.
 
-1) the original WorldCat "institution identifier" which is either an OCLC Symbol or a Marc Organization Identifier.
+1) the original WorldCat "institution identifier" which is either an OCLC Symbol or a Marc Organization
+Identifier. A software pipeline will process this data into additional fields in table related_resource, as
+well as new constellations for each repository. Ideally, the new constellations will have an address and other
+geographic information as part of their place element.
 
 2) the 300 extent data which is human readable information about the size/extent of the archival materials
 
