@@ -8,7 +8,16 @@ institution.
 
 ### Description of new fields and tables
 
-We will add fields to table related_resource, and (perhap?) create new table related_resource_name.
+We will add fields to table related_resource, and (perhap?) create new table related_resource_name. We will have to go back to the originally extracted SNAC CPF files because we need additional fields from both MODS and EAD.
+
+In the case of MODS we need 2 fields.
+
+1) the original WorldCat "institution identifier" which is either an OCLC Symbol or a Marc Organization Identifier.
+
+2) the 300 extent data which is human readable information about the size/extent of the archival materials
+
+In the case of EAD we need the \<prefercite> element where there is no \<repository> element. We will review
+the data since the two elements are not supposed to be interchangable.
 
 Question: Why are we using resource name instead of doing a join to the related constellation via ic_id? Does
 related_resource_name exist for performance reasons?
