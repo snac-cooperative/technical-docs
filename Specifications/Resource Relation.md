@@ -1,8 +1,17 @@
 
+### Overview
+
+Archival resources as described in the CPF resourceRelation should have more data than captured by
+EAC-CPF. SNAC had begun this work by adding an <objectXMLWrap> to the resourceRelation. This XML snippet
+contained some <mods> or a fragment of <ead>. The data includes details about the resource and it's holding
+institution.
+
+### Description of new fields and tables
+
+We will add fields to table related_resource, and (perhap?) create new table related_resource_name.
+
 Question: Why are we using resource name instead of doing a join to the related constellation via ic_id? Does
 related_resource_name exist for performance reasons?
-
-
 
 
 Resource language is a many-to-one. Use a reverse foreign key from the multiple records in the language
