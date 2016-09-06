@@ -2,8 +2,8 @@
 ### Overview
 
 Archival resources as described in the CPF resourceRelation should have more data than captured by
-EAC-CPF. SNAC had begun this work by adding an <objectXMLWrap> to the resourceRelation. This XML snippet
-contained some <mods> or a fragment of <ead>. The data includes details about the resource and it's holding
+EAC-CPF. SNAC had begun this work by adding an \<objectXMLWrap to the resourceRelation. This XML snippet
+contained some mods or a fragment of ead. The data includes details about the resource and it's holding
 institution.
 
 ### Description of new fields and tables
