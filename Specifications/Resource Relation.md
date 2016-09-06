@@ -2,8 +2,8 @@
 ### Overview
 
 Archival resources as described in the CPF resourceRelation should have more data than captured by
-EAC-CPF. SNAC had begun this work by adding an \<objectXMLWrap to the resourceRelation. This XML snippet
-contained some mods or a fragment of ead. The data includes details about the resource and it's holding
+EAC-CPF. SNAC had begun this work by adding an objectXMLWrap element to the resourceRelation. This XML snippet
+contained some MODS or a fragment of EAD. The data includes details about the resource and it's holding
 institution.
 
 ### Description of new fields and tables
@@ -28,7 +28,7 @@ related_resource_name.fk_id=related_resource.id and related_resource_name.fk_tab
 ```
 
 The place and address associated with a repository is handled via a place in the constellation. Address data
-exists inside a place. Using the on-going oclc symbol/marc org code project, we can create a <place> with an
+exists inside a place. Using the on-going oclc symbol/marc org code project, we can create a place element with an
 address in the constellation for each repository. In many cases, we will be creating a CPF stub record for the
 holding repository, using the fairly extensive information provided by WorldCat and the LoC marc org code
 databases.
