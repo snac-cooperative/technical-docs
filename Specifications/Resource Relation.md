@@ -48,6 +48,9 @@ address in the constellation for each repository. In many cases, we will be crea
 holding repository, using the fairly extensive information provided by WorldCat and the LoC marc org code
 databases.
 
+
+### New fields
+
 Several new fields are added to the related_resource table:
 
 - repo_ic_id is the ic_id of the repository (institution) holding the resource item.
@@ -58,7 +61,9 @@ Several new fields are added to the related_resource table:
 
 - res_extent is the resource extent aka size, from MARC or EAD physdesc/extent (multiple!)
 
-Unfortunately we did not capture the MARC 300 extent, so I will have to parse the original WorldCat records for that data.
+As noted above, we did not capture the MARC 300 extent, so I will have to parse the original WorldCat records for that data.
+
+The related_resource_name table is new.
 
 
 ```
