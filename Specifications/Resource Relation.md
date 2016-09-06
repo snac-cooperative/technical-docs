@@ -20,7 +20,10 @@ geographic information as part of their place element.
 2) the 300 extent data which is human readable information about the size/extent of the archival materials
 
 In the case of EAD we need the \<prefercite> element where there is no \<repository> element. We will review
-the data since the two elements are not supposed to be interchangable.
+the data since the two elements are not supposed to be interchangable. Element prefercite contains the
+institution name and often the address as well, often in a single line. There is often a prefercite when
+repository is missing or empty. We there is a good repository, prefercite usually seems to be left out or
+empty.
 
 Question: Why are we using resource name instead of doing a join to the related constellation via ic_id? Does
 related_resource_name exist for performance reasons?
