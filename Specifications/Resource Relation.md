@@ -2,15 +2,22 @@
 ### Overview
 
 Archival resources as described in the CPF resourceRelation should have more data than captured by
-EAC-CPF. SNAC had begun this work by adding an objectXMLWrap element to the resourceRelation. This XML snippet
-contained some MODS or a fragment of EAD. The data includes details about the resource and it's holding
+EAC-CPF. SNAC has begun this work by adding an objectXMLWrap element to the resourceRelation. This XML snippet
+contains some MODS or a fragment of EAD. The data includes details about the resource and it's holding
 institution.
+
+See these files:
+
+https://www.dropbox.com/home/SNACCooperativeProgram/ResourceRelationsExamples/ResourceRelationsExamples.xml
+
+https://www.dropbox.com/home/SNACCooperativeProgram/ResourceRelationsExamples/ResourceRelationstoPostrgres.txt
+
 
 ### Description of new fields and tables
 
-We will add fields to table related_resource, and create new table related_resource_creator (was
-related_resource_name). We will have to go back to the originally extracted SNAC CPF files because we need 2
-additional fields from MODS (datafield 040$a, 300), and 1 field from EAD (prefercite).
+We will add fields to table related_resource, and create new table related_resource_origination_name (was
+related_resource_name). We will have to go back to the original source files because we need 3
+additional fields from WorldCat MARC (datafield 040$a, 041, 300), and 1 field from EAD (prefercite).
 
 From WorldCat MARC we need:
 
@@ -19,7 +26,9 @@ Identifier. We already have this data, and a software pipeline is processing thi
 in table related_resource, as well as new constellations for each repository. Ideally, the new constellations
 will have an address and other geographic information as part of their place element.
 
-2) The 300 extent data which is human readable information about the size/extent of the archival materials
+2) The 041 if it exists may have a subfield with a language code. 
+
+3) The 300 extent data which is human readable information about the size/extent of the archival materials
 
 
 In the case of EAD we need the \<prefercite> element where there is no \<repository> element. We will review
@@ -35,15 +44,11 @@ a foreign key relation. A repository's role is always "repository" or
 http://id.loc.gov/vocabulary/relators/rps
 ```
 
-todo: are there other role types? Answer: There sort of can't be, but we need to do something with them.
-
-Need to scan through the data for non-repo, non-orig.
+The only current role types are creator and repository. Every WorldCat record was checked.
 
 Note: repository is superceded by looking up oclc/marc org code or ead repo.
 
-
-
-related_resource_creator is creator aka origination aka originationName as from ResourceRelationstoPostgres.txt
+related_resource_origination_name is creator aka origination aka originationName as from ResourceRelationstoPostgres.txt
 
 Example: A constellation has resourceRelation to a field book (archival object) written by Clausen, Jens (Jens
 Christian), 1891-1969. The related resource creator is Clausen, Jens (Jens Christian), 1891-1969.
@@ -52,18 +57,17 @@ Resource language is a many-to-one relation related resource. We use a reverse f
 record in the language table, back to the related_resoure.id. This means we have to parse the EAD
 langmaterial/language elements.
 
-We do not have language for MARC derived records. While it is possible to get some language info from the MARC
-546, the values are discursive as opposed to language codes, or even a textual language name.
-
+Daniel wants to use language codes from MARC 041, probably $a, and implicitly, we must parse the 041 subfields
+for a language code. See ResourceRelationstoPostrgres.txt
 
 ```
 language.fk_id=related_resource.id and language.fk_table='related_resource'
 ```
 
-Resource creator name is a many-to-one. Use a reverse foreign key from related_resource_creator.fk_id to related_resource.id.
+Resource creator name is a many-to-one. Use a reverse foreign key from related_resource_origination_name.fk_id to related_resource.id.
 
 ```
-related_resource_creator.fk_id=related_resource.id and related_resource_creator.fk_table='related_resource'
+related_resource_origination_name.fk_id=related_resource.id and related_resource_origination_name.fk_table='related_resource'
 ```
 
 The place and address associated with a repository is handled via a place in the constellation. Address data
@@ -87,7 +91,7 @@ Several new fields are added to the related_resource table:
 
 As noted above, we did not capture the MARC 300 extent, so I will have to parse the original WorldCat records for that data.
 
-The related_resource_creator table is new.
+The related_resource_origination_name table is new.
 
 
 ```
@@ -95,44 +99,61 @@ The related_resource_creator table is new.
 --
 -- The role aka roleTerm of repo_ic_id is always http://id.loc.gov/vocabulary/relators/rps
 -- 
+
 create table related_resource (
     id                  int default nextval('id_seq'),
+    is_deleted          boolean default false,
+
+    -- this constellation information
     version             int not null,
     ic_id               int not null,
-    is_deleted          boolean default false, --
-    role                int,                   -- @xlink:role, fk to vocabulary.id, type document_type, e.g. ArchivalResource
-    arcrole             int,                   -- @xlnk:arcrole, fk to vocabulary.id type document_role, creatorOf, referencedIn, etc
-    type                int,                   -- @xlink:type, fk to vocabulary.id type source_type, always "simple"?
-    href                text,                  -- @xlink:href, link to the resource
-    relation_type       text,                  -- @resourceRelationType, only from AnF, maybe put in a second table
-    relation_entry      text,                  -- relationEntry (name) of the related eac-cpf record (should be unnecessary in db)
-    relation_entry_type text,                  -- relationEntry@localType, AnF, always "archival"?
+
+    -- connection between this constellation and resource
+    arcrole             int,  -- @xlnk:arcrole, fk to vocabulary.id type document_role, creatorOf, referencedIn, etc
+
+    -- information about the resource
+    relation_entry      text, -- relationEntry — “shortcut” description of this resource
+    title               text, -- resource title, from EAD/MODS
+    abstract            text, -- resource abstract, from EAD/MODS
+    extent              text, -- resource extent, from EAD and from original MARC
+    href                text, -- @xlink:href, URL link to the resource
+    repo_ic_id          int,  -- holding repository ic_id, fk to ic_id
+                              -- has name, address, and location information of the holding institution
+    role                int,  -- @xlink:role, fk to vocabulary.id, type document_type, e.g. ArchivalResource
+                              -- to  be deprecated
+    type                int,  -- @xlink:type, fk to vocabulary.id type source_type, always "simple"?
+                              -- to be deprecated
+    relation_type       text, -- @resourceRelationType, only from AnF, maybe put in a second table
+    relation_entry_type text, -- relationEntry@localType, AnF, always "archival"?
+                              -- to be deprecated
+    object_xml_wrap     text, -- contains more information about the resource (title, extent, etc)
+
+    -- other useful information
     descriptive_note    text,
-    object_xml_wrap     text,                  -- from objectXMLWrap, xml
-    repo_ic_id          int,                   -- holding repository ic_id, fk to ic_id
-    res_title           text,                  -- resource title, from EAD?
-    res_abstract        text,                  -- resource abstract, from EAD/
-    res_extent          text,                  -- resource extent, from EAD and from original MARC
     primary key(id, version)
-    );
+);
+
 
 -- 
--- This is origination name aka creator.
--- No need for field role aka roleTerm since all these names are creators.
+-- This is origination name aka originationName aka creator.
+-- No need for field role aka roleTerm since all these names are creators. The term "origination" seems to be from EAD.
 --
 -- http://id.loc.gov/vocabulary/relators/cre
 --
 -- This table can be updated via the web UI, so it needs the id,version,ic_id. Name is simply a string and we
--- will not require them to be SNAC identities at this time. Later we will link these names to constellations
--- via ic_id.
+-- will not require names to be SNAC identities at this time. Later we will link these names to constellations
+-- via field name_ic_id.
 -- 
-create table related_resource_creator (
-    id       int default nextval('id_seq'),
-    version  int not null,
-    ic_id    int,                            -- ic_id of this creator, eventually filled in by humans
-    name     text,                           -- name of creator of the related resource
-    fk_id    int,                            -- fk to related_resource.id
-    fk_table text default 'related_resource' -- related table name
+create table related_resource_origination_name (
+    id         int default nextval('id_seq'),
+    version    int not null,
+    ic_id      int not null,                          
+    name_ic_id int,                            -- ic_id of this creator, eventually filled in by humans
+    name       text,                           -- name of creator of the related resource
+    fk_id      int,                            -- fk to related_resource.id
+    fk_table   text default 'related_resource' -- related table name
 );
+
+
 
 ```
