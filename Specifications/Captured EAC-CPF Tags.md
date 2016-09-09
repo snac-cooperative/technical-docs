@@ -1,3 +1,5 @@
+## Parsed Tags
+
 The following tags and attribute structure is currently being parsed by SNAC's EAC-CPF parser:
 
 <ul>
@@ -345,3 +347,9 @@ The following tags and attribute structure is currently being parsed by SNAC's E
         </ul></li>
     </ul></li>
 </ul>
+
+## Caveats on Parsing
+
+There are a few caveats on parsing to convert the EAC-CPF XML file into an Identity Constellation.  They are:
+
+* The `control` block's `languageDeclaration` tag data is parsed into the biogHist data structure, since that should be one of the only language-dependent portions of the description.
