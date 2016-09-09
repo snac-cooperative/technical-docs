@@ -31,7 +31,7 @@ their place element.
 2) The 041$a, if it exists may have a subfield with a language code. There may be multiple 041$a fields, or
 there may be multiple 3 letter language codes in a single 041$a. Daniel's document is unclear about how many
 language codes to use. He says it is repeatable, but then refers to language as "it" in the singular. He seems
-to intend that we look at a 041 subfields for 3 letter language codes.
+to intend that we look at all 041 subfields for 3 letter language codes.
 
 3) The 300 extent data which is human readable information about the size/extent of the archival materials
 
@@ -41,11 +41,11 @@ EAD:
 In the case of EAD we need the \<prefercite> element where there is no \<repository> element. We don't have
 prefercite in the objectXMLWrap, so we must re-parse the original EAD. When parsing the original files, it
 might be best to gather both prefercite and repository. We will review the data since the two elements are not
-supposed to be interchangable. Element prefercite contains the institution name and often the address as well,
+supposed to be interchangeable. Element prefercite contains the institution name and often the address as well,
 often in a single line. There is often a prefercite when repository is missing or empty. We there is a good
 repository, prefercite usually seems to be left out or empty.
 
-Repository name/info is saved in a constellation, and any resources that need it will link to it via ic_ic as
+Repository name/info is saved in a constellation, and any resources that need it will link to it via ic_id as
 a foreign key relation. A repository's role is always "repository" or
 
 ```
@@ -54,7 +54,7 @@ http://id.loc.gov/vocabulary/relators/rps
 
 The only current role types are creator and repository. Every WorldCat record was checked.
 
-Note: repository is superceded by looking up oclc/marc org code or ead repo.
+Note: The objectXMLWrap/mods repository is superseded by looking up OCLC/marc org code or EAD repo.
 
 related_resource_origination_name is creator aka origination aka originationName as from ResourceRelationstoPostgres.txt
 
@@ -62,7 +62,7 @@ Example: A constellation has resourceRelation to a field book (archival object) 
 Christian), 1891-1969. The related resource creator is Clausen, Jens (Jens Christian), 1891-1969.
 
 Resource language is a many-to-one relation related resource. We use a reverse foreign key from each related
-record in the language table, back to the related_resoure.id. This means we have to parse the EAD
+record in the language table, back to the related_resource.id. This means we have to parse the EAD
 langmaterial/language elements.
 
 Daniel wants to use language codes from MARC 041, probably $a, and implicitly, we must parse the 041 subfields
@@ -78,11 +78,40 @@ Resource creator name is a many-to-one. Use a reverse foreign key from related_r
 related_resource_origination_name.fk_id=related_resource.id and related_resource_origination_name.fk_table='related_resource'
 ```
 
-The place and address associated with a repository is handled via a place in the constellation. Address data
-exists inside a place. Using the on-going oclc symbol/marc org code project, we can create a place element with an
-address in the constellation for each repository. In many cases, we will be creating a CPF stub record for the
-holding repository, using the fairly extensive information provided by WorldCat and the LoC marc org code
-databases.
+Conceptually, places hold addresses, and the constellation as well as parts of the constellation have
+places. For a holding institution (aka repository) the address is conceptually part of a place associated with
+"the" constellation, either table nrd or table version_history.
+
+Using the on-going OCLC symbol/marc org code project, we can create a place_link record with related
+address_line records in the constellation that corresponds to a repository. In many cases, we will be creating
+a CPF stub record for the holding repository, using the fairly extensive information provided by WorldCat and
+the LoC marc org code databases.
+
+A constellation, or a part of the constellation that has place data uses table place_link.
+A place_link relates to zero or more address_line records via reverse foreign key
+A place_link relates to zero or one geo_place records (many-to-one linking from place_link to geo_place)
+
+From ResourceRelationstoPostrgres.txt:
+
+Summary of data fields and their database storage location
+
+= RepositoryCode: (1:1)  entityId.text
+= RepositoryName: (1:1) name.original
+= RepositoryAddress: (M:1) place_link.id == address_line.place_id
+= RepositoryLatitude: (1:1) geo_place.latitude
+= RespositoryLongitude: (1:1) geo_place.longitude
+= Title: (1:1) related_resource.title
+= Abstract: (1:1) related_resource.abstract
+= Extent (1:1) related_resource.extent
+
+
+Repeatable set (M:1) becomes a related language record
+=LanguageName: 
+=LanguageCode: 
+=ScriptCode: 
+
+= OriginationName: (M:1) becomes a related_resource_origination_name.name
+
 
 
 ### New fields
@@ -91,11 +120,11 @@ Several new fields are added to the related_resource table:
 
 - repo_ic_id is the ic_id of the repository (institution) holding the resource item.
 
-- res_title is the resource title, from MARC mods/title or EAD unittitle
+- title is the resource title, from MARC mods/title or EAD unittitle
 
-- res_abstract is the resource abstract, from MARC mods/abstract or EAD abstract
+- abstract is the resource abstract, from MARC mods/abstract or EAD abstract
 
-- res_extent is the resource extent aka size, from MARC or EAD physdesc/extent (multiple!)
+- extent is the resource extent aka size, from MARC or EAD physdesc/extent (multiple!)
 
 As noted above, we did not capture the MARC 300 extent, so I will have to parse the original WorldCat records for that data.
 
