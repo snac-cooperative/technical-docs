@@ -121,6 +121,7 @@ From ResourceRelationstoPostrgres.txt:
 
 Summary of data fields and their database storage location
 
+```
 = RepositoryCode: (1:1)  entityId.text
 = RepositoryName: (1:1) name.original
 = RepositoryAddress: (M:1) place_link.id == address_line.place_id
@@ -137,7 +138,7 @@ Repeatable set (M:1) becomes a related language record
 =ScriptCode: 
 
 = OriginationName: (M:1) becomes a related_resource_origination_name.name
-
+```
 
 
 ### New fields
