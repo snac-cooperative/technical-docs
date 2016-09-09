@@ -22,7 +22,7 @@ additional fields from WorldCat MARC (datafield 040$a, 041, 300), and 1 field fr
 WorldCat MARC:
 
 1) (Institutional data gathering is already underway.) The original WorldCat 040$a "institution identifier" is
-either an OCLC Symbol or a Marc Organization Identifier. We already have this code, and a software pipeline is
+either an OCLC Symbol or a MARC Organization Identifier. We already have this code, and a software pipeline is
 being developed to process this data and gather additional fields. The data will be used to populate fields in
 related_resource, as well as creating new constellation stubs as necessary for each repository. When complete
 data is available, the new constellations will have an address and other geographic information as part of
@@ -80,7 +80,7 @@ http://id.loc.gov/vocabulary/relators/rps
 
 The only current role types are creator and repository. Every WorldCat record was checked.
 
-Note: The objectXMLWrap/mods repository is superseded by looking up OCLC/marc org code or EAD repo.
+Note: The objectXMLWrap/mods repository is superseded by looking up OCLC/MARC org code or EAD repository
 
 related_resource_origination_name is creator aka origination aka originationName as from ResourceRelationstoPostgres.txt
 
@@ -108,10 +108,10 @@ Conceptually, places hold addresses, and the constellation as well as parts of t
 places. For a holding institution (aka repository) the address is conceptually part of a place associated with
 "the" constellation, either table nrd or table version_history.
 
-Using the on-going OCLC symbol/marc org code project, we can create a place_link record with related
+Using the on-going OCLC symbol/MARC org code project, we can create a place_link record with related
 address_line records in the constellation that corresponds to a repository. In many cases, we will be creating
 a CPF stub record for the holding repository, using the fairly extensive information provided by WorldCat and
-the LoC marc org code databases.
+the LoC MARC org code databases.
 
 A constellation, or a part of the constellation that has place data uses table place_link.
 A place_link relates to zero or more address_line records via reverse foreign key
