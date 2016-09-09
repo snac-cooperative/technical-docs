@@ -33,6 +33,30 @@ there may be multiple 3 letter language codes in a single 041$a. Daniel's docume
 language codes to use. He says it is repeatable, but then refers to language as "it" in the singular. He seems
 to intend that we look at all 041 subfields for 3 letter language codes.
 
+/data/source/WorldCat/wc_xml_files/wc_232826328.xml
+    <datafield tag="041" ind1=" " ind2=" ">
+      <subfield code="a">ara</subfield>
+      <subfield code="a">heb</subfield>
+    </datafield>
+
+/data/source/WorldCat/wc_xml_files/wc_625954442.xml
+    <datafield tag="041" ind1="0" ind2=" ">
+      <subfield code="a">freeng</subfield>
+    </datafield>
+
+
+/data/source/WorldCat/wc_xml_files/wc_651392673.xml
+    <datafield tag="041" ind1="0" ind2=" ">
+      <subfield code="a">spalat</subfield>
+    </datafield>
+
+/data/source/WorldCat/wc_xml_files/wc_711880498.xml
+    <datafield tag="041" ind1="0" ind2=" ">
+      <subfield code="a">eng</subfield>
+      <subfield code="a">ger</subfield>
+      <subfield code="h">ger</subfield>
+    </datafield>
+
 3) The 300 extent data which is human readable information about the size/extent of the archival materials
 
 
@@ -164,7 +188,7 @@ create table related_resource (
     relation_entry_type text, -- relationEntry@localType, AnF, always "archival"?
                               -- to be deprecated
     object_xml_wrap     text, -- contains more information about the resource (title, extent, etc)
-
+                              -- to be deprecated
     -- other useful information
     descriptive_note    text,
     primary key(id, version)
