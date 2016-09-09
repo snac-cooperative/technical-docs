@@ -213,6 +213,7 @@ create table related_resource_origination_name (
     version    int not null,
     ic_id      int not null,                          
     name_ic_id int,                            -- ic_id of this creator, eventually filled in by humans
+                                               -- reserved for future use
     name       text,                           -- name of creator of the related resource
     fk_id      int,                            -- fk to related_resource.id
     fk_table   text default 'related_resource' -- related table name
