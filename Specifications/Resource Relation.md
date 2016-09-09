@@ -19,23 +19,31 @@ We will add fields to table related_resource, and create new table related_resou
 related_resource_name). We will have to go back to the original source files because we need 3
 additional fields from WorldCat MARC (datafield 040$a, 041, 300), and 1 field from EAD (prefercite).
 
-From WorldCat MARC we need:
+WorldCat MARC:
 
-1) The original WorldCat 040$a "institution identifier" which is either an OCLC Symbol or a Marc Organization
-Identifier. We already have this data, and a software pipeline is processing this data into additional fields
-in table related_resource, as well as new constellations for each repository. Ideally, the new constellations
-will have an address and other geographic information as part of their place element.
+1) (Institutional data gathering is already underway.) The original WorldCat 040$a "institution identifier" is
+either an OCLC Symbol or a Marc Organization Identifier. We already have this code, and a software pipeline is
+being developed to process this data and gather additional fields. The data will be used to populate fields in
+related_resource, as well as creating new constellation stubs as necessary for each repository. When complete
+data is available, the new constellations will have an address and other geographic information as part of
+their place element.
 
-2) The 041 if it exists may have a subfield with a language code. 
+2) The 041$a, if it exists may have a subfield with a language code. There may be multiple 041$a fields, or
+there may be multiple 3 letter language codes in a single 041$a. Daniel's document is unclear about how many
+language codes to use. He says it is repeatable, but then refers to language as "it" in the singular. He seems
+to intend that we look at a 041 subfields for 3 letter language codes.
 
 3) The 300 extent data which is human readable information about the size/extent of the archival materials
 
 
-In the case of EAD we need the \<prefercite> element where there is no \<repository> element. We will review
-the data since the two elements are not supposed to be interchangable. Element prefercite contains the
-institution name and often the address as well, often in a single line. There is often a prefercite when
-repository is missing or empty. We there is a good repository, prefercite usually seems to be left out or
-empty.
+EAD:
+
+In the case of EAD we need the \<prefercite> element where there is no \<repository> element. We don't have
+prefercite in the objectXMLWrap, so we must re-parse the original EAD. When parsing the original files, it
+might be best to gather both prefercite and repository. We will review the data since the two elements are not
+supposed to be interchangable. Element prefercite contains the institution name and often the address as well,
+often in a single line. There is often a prefercite when repository is missing or empty. We there is a good
+repository, prefercite usually seems to be left out or empty.
 
 Repository name/info is saved in a constellation, and any resources that need it will link to it via ic_ic as
 a foreign key relation. A repository's role is always "repository" or
