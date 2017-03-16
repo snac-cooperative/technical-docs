@@ -9,14 +9,24 @@ In the first case, the identities for arks A and B are merged together and assig
 
 These simplistic examples are only the building blocks of the more complex ark resolution structure we must consider.  In fact, the full merge-split history would result in a directed acyclic graph (DAG), as partly evidenced below.
 
-![Merge-Split Simple Diagram](http://gitlab.iath.virginia.edu/snac/Documentation/raw/master/Specifications/Originals/merge-split-diagram2.png)
+![Merge-Split Complicated Diagram](http://gitlab.iath.virginia.edu/snac/Documentation/raw/master/Specifications/Originals/merge-split-diagram2.png)
 
 Here we see three original identities assigned arks A, B, and C.  They undergo many splits and merges to result in two updated identities, those assigned arks H and K, while many other persistent identifiers are created for the intermediary identities.  When the user requests arks C, E, G, or J, they should only be given the identity for ark K; however, requesting A, B, D, or F should result in the identities (or choice thereof) for arks H and K.
 
+To handle this resolution process, we have chosen to use a lookup table instead of tracing the entire DAG.  Specifically we maintain a lookup table with shortcuts directly to the "bottom" of the DAG.  For the example above, we would store this simpler DAG, shown below.
 
+![Merge-Split Augmented Diagram](http://gitlab.iath.virginia.edu/snac/Documentation/raw/master/Specifications/Originals/merge-split-diagram3.png)
+
+We extrapolate this diagram into a 4-column table, mapping the original numeric identifier and ark to the current numeric identifier and ark.  This table is updated at each publish, merge, and split to keep the lookup up-to-date.
 
 | IC Numeric Identifier | IC Ark Identifier | Current Numeric Identifier | Current Ark Identifier |
 |:---------------------:|:-----------------:|:--------------------------:|:----------------------:|
 | 1                     | A                 | 3                          | C                      |
 | 2                     | B                 | 3                          | C                      |
 | 3                     | C                 | 3                          | C                      |
+
+## Challenges
+
+We note that there are still some important challenges to overcome within the larger system.  Specifically,
+
+- Intra-SNAC ID lookups must be able to handle the case when multiple current ICs are found for the id stored within Constellation relations, Resource repository links, and SNAC affiliation links
