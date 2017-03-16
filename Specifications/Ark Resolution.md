@@ -11,7 +11,7 @@ These simplistic examples are only the building blocks of the more complex ark r
 
 ![Merge-Split Simple Diagram](http://gitlab.iath.virginia.edu/snac/Documentation/raw/master/Specifications/Originals/merge-split-diagram2.png)
 
-Here we see three original identities assigned arks A, B, and C.  They undergo many splits and merges to result in two updated identities, those assigned arks H and K, while many other persistent identifiers are created for the intermediary identities.  When the user requests arks C, E, G, or H, they should only be given the identity for ark K; however, requesting A, B, D, or F should result in the identities (or choice thereof) for arks H and K.
+Here we see three original identities assigned arks A, B, and C.  They undergo many splits and merges to result in two updated identities, those assigned arks H and K, while many other persistent identifiers are created for the intermediary identities.  When the user requests arks C, E, G, or J, they should only be given the identity for ark K; however, requesting A, B, D, or F should result in the identities (or choice thereof) for arks H and K.
 
 
 
