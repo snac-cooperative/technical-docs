@@ -30,3 +30,13 @@ We extrapolate this diagram into a 4-column table, mapping the original numeric 
 We note that there are still some important challenges to overcome within the larger system.  Specifically,
 
 - Intra-SNAC ID lookups must be able to handle the case when multiple current ICs are found for the id stored within Constellation relations, Resource repository links, and SNAC affiliation links
+    - Currently in that code, if multiple are returned, the system will just ignore that particular link.  This is a temporary (and improper) solution
+    - **If this was a split, the user doing the split would have to separate out with relations/repositories are pointing to which new Constellation**
+        - We would need to prompt the user on a split to "fix" all other Constellations and Resources that point to the original Constellation
+    - A few options:
+        - Update as many Constellations and Resources that point to the merge/split immediately and put the rest in a cron job to handle whenever they are published.
+            - This would *still* require a fall-back method while the updates are pending
+        - Require that the user be able to check out ALL referencing Constellations to do a split
+            - This would require coordination between users, likely through system messaging
+        - Completely manual option: prompt the user on a split, "Which new constellation should ALL relations point?"  Provide an interface for the user to see all Constellations/Resources pointing to their split, so that they can go through and hand-edit all references.
+            - This would *still* require a fall-back method while the updates are pending
