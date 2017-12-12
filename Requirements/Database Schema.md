@@ -20,7 +20,7 @@ indexes. The data files are for static data such as controlled vocabulary and pl
 
 
 | File                                         | Type   | Description                                      |
-|----------------------------------------------+--------+--------------------------------------------------|
+|----------------------------------------------|--------|--------------------------------------------------|
 | install/sql_files/initialize_users.sql       | data   | init default system users and roles (privileges) |
 | install/sql_files/languages.sql              | data   | language codes and descriptive labels            |
 | install/sql_files/places_vocabulary.sql      | data   | place entries, gatherd from the CPF files        |
